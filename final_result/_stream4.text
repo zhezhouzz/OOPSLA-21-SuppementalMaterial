@@ -1,0 +1,30 @@
+program:
+
+let rec reverse' acc s =
+  lazy (
+    match s with
+    | lazy Nil -> force acc
+    | lazy (Cons (hd, tl)) -> force (reverse' (lazy (Cons (hd, acc))) tl))
+
+F:
+Nil,Lazy,Force,Cons
+
+P:
+list_member,list_order
+
+assertion:
+fun int list:l1,int list:l2,int list:l3 -> forall int:u int:v,(
+ (
+  (
+   list_order(l1,u,v) ||
+   list_order(l2,v,u) ||
+   (list_member(l2,u) && list_member(l1,v))
+  ) ==> 
+  list_order(l3,u,v)
+ ) &&
+ (list_member(l3,u) <==> 
+  list_member(l2,u))
+)
+
+result:
+cex: s -> [],nu -> [2],acc -> [2]

@@ -1,0 +1,21 @@
+program:
+
+let rec concat l1 l2 =
+  if is_empty l1 then l2
+  else push (top l1) (concat (tail l1) l2)
+
+F:
+is_empty,top,tail,push
+
+P:
+list_member
+
+assertion:
+fun int list:l1,int list:l2,int list:l3 -> forall int:u int:v,(
+ list_member(l3,u) ==> 
+ (list_member(l1,u) && list_member(l2,u))
+)
+
+result:
+cex: l2 -> [0;0],l1 -> [],nu -> [0;0]
+cex: l2 -> [0],l1 -> [],nu -> [0]

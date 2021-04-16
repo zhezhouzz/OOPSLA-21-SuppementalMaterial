@@ -1,0 +1,35 @@
+program:
+
+let rec ins default i a m =
+  match m with
+  | e ->
+    (match i with
+     | nil -> triet(e, a, e)
+     | cons z i' ->
+       if z > 0
+       then triet(ins default i' a e, default, e)
+       else triet(e, default, ins default i' a e)
+    )
+  | triet(l, y, r) ->
+    (match i with
+     | nil -> triet(l, a, r)
+     | cons z i' ->
+       if z > 0
+       then triet(ins default i' a l, y, r)
+       else triet(l, y, ins default i' a r)
+    )
+
+F:
+nil,cons,e,triet
+
+P:
+list_member,tree_member
+
+assertion:
+fun int:default,int list:i,int:a,int tree:m,int tree:nu -> forall int:u,(
+ (tree_member(m,u) || (u==default) || (u==a)) ==> 
+ tree_member(nu,u)
+)
+
+result:
+cex: nu -> 2,m -> Leaf,i -> [],default -> 0,a -> 2

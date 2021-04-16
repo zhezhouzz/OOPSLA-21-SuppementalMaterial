@@ -1,0 +1,172 @@
+program:
+
+let rec set_add a x =
+  match x with
+  | nil -> cons a nil
+  | cons a1 x1 =>
+    if a == a1 then cons a1 x1 else cons a1 (set_add a x1)
+
+F:
+nil,cons
+
+P:
+list_member,list_head,list_once
+
+assertion:
+fun int:x,int list:l1,int list:l2 -> forall int:u,(
+ (list_once(l1,u) ==> list_once(l2,u)) &&
+ (list_member(l2,u) <==> 
+  ((u==x) || list_member(l1,u)))
+)
+
+result:
+cons(int:i_0,int list:il_0,int list:il_1):=
+forall int:u_0 int:u_1,(
+ (ite list_member(il_0,u_0)
+     (
+      list_member(il_1,u_0) &&
+      (ite list_once(il_1,u_0)
+          (
+           !(u_0==i_0) &&
+           (
+            list_once(il_0,u_0) &&
+            !list_head(il_1,u_0)
+           )
+          )
+          (ite list_once(il_0,u_0)
+              (u_0==i_0)
+              (ite (u_0==i_0)
+                  list_head(il_1,i_0)
+                  !list_head(il_1,u_0))))
+     )
+     (
+      !list_head(il_0,u_0) &&
+      (
+       !list_once(il_0,u_0) &&
+       (ite list_member(il_1,u_0)
+           (
+            list_head(il_1,u_0) &&
+            ((u_0==i_0) && list_once(il_1,i_0))
+           )
+           (
+            !list_once(il_1,u_0) &&
+            !(u_0==i_0)
+           ))
+      )
+     )) ||
+ (ite (u_1==u_0)
+     (ite (u_0==i_0)
+         (
+          !(i_0==i_0) ||
+          (ite list_head(il_0,i_0)
+              (ite list_head(il_1,i_0)
+                  (
+                   list_member(il_0,i_0) &&
+                   (
+                    list_member(il_1,i_0) &&
+                    !list_once(il_1,i_0)
+                   )
+                  )
+                  (
+                   list_member(il_1,i_0) &&
+                   (
+                    !list_once(il_1,i_0) &&
+                    (list_member(il_0,i_0) && list_once(il_0,i_0))
+                   )
+                  ))
+              (ite list_once(il_1,i_0)
+                  (
+                   list_head(il_1,i_0) &&
+                   (
+                    list_member(il_1,i_0) &&
+                    (
+                     !list_once(il_0,i_0) &&
+                     !list_member(il_0,i_0)
+                    )
+                   )
+                  )
+                  (list_member(il_1,i_0) && list_member(il_0,i_0))))
+         )
+         (ite list_once(il_0,u_0)
+             (
+              list_once(il_1,u_0) &&
+              (ite list_member(il_0,u_0)
+                  list_member(il_1,u_0)
+                  !list_member(il_1,u_0))
+             )
+             (
+              !list_once(il_1,u_0) &&
+              (ite list_member(il_0,u_0)
+                  list_member(il_1,u_0)
+                  (
+                   !list_member(il_1,u_0) ||
+                   !list_head(il_0,u_0)
+                  ))
+             )))
+     (
+      !list_member(il_1,u_0) ||
+      (
+       list_head(il_0,u_0) ||
+       (
+        !list_member(il_1,u_1) ||
+        (
+         list_once(il_0,u_0) ||
+         (
+          list_once(il_1,u_0) ||
+          (ite (u_1==i_0)
+              (
+               list_member(il_0,u_0) ||
+               (
+                (u_0==i_0) ||
+                (ite list_once(il_0,i_0)
+                    (
+                     !list_member(il_0,i_0) ||
+                     list_once(il_1,i_0)
+                    )
+                    (
+                     !list_head(il_1,i_0) ||
+                     (ite list_member(il_0,i_0)
+                         list_once(il_1,i_0)
+                         (
+                          list_head(il_0,i_0) ||
+                          !list_once(il_1,i_0)
+                         ))
+                    ))
+               )
+              )
+              (
+               !(u_0==i_0) ||
+               (
+                list_head(il_1,i_0) ||
+                (
+                 !list_member(il_0,i_0) ||
+                 (
+                  list_once(il_0,u_1) ||
+                  (
+                   list_member(il_0,u_1) ||
+                   (list_head(il_0,u_1) || list_once(il_1,u_1))
+                  )
+                 )
+                )
+               )
+              ))
+         )
+        )
+       )
+      )
+     ))
+)
+nil(int list:il_0):=
+forall int:u_0 int:u_1,(
+ (
+  !list_head(il_0,u_0) &&
+  !list_once(il_0,u_0)
+ ) ||
+ (
+  !(u_1==u_0) ||
+  (
+   !list_once(il_0,u_0) ||
+   !list_member(il_0,u_0)
+  )
+ )
+)

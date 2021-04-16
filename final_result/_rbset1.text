@@ -1,0 +1,67 @@
+program:
+
+  let balance = function
+    | B, T (R, T (R, a, x, b), y, c), z, d
+    | B, T (R, a, x, T (R, b, y, c)), z, d
+    | B, a, x, T (R, T (R, b, y, c), z, d)
+    | B, a, x, T (R, b, y, T (R, c, z, d)) ->
+        T (R, T (B, a, x, b), y, T (B, c, z, d))
+    | a, b, c, d -> T (a, b, c, d)
+
+F:
+t
+
+P:
+treeb_member
+
+assertion:
+fun bool:r1,int treeb:tree1,int:x,int treeb:tree2,int treeb:tree3 -> True
+=>
+fun bool:r1,int treeb:tree1,int:x,int treeb:tree2,int treeb:tree3 -> forall int:u,(treeb_member(tree3,u) <==> 
+ (treeb_member(tree1,u) || treeb_member(tree2,u) || (u==x)))
+
+result:
+t(bool:b_0,int treeb:itb_0,int:i_0,int treeb:itb_1,int treeb:itb_2):=
+forall int:u_0 int:u_1,(
+ (ite treeb_member(itb_2,u_0)
+     (
+      (u_0==i_0) ||
+      (treeb_member(itb_0,u_0) || treeb_member(itb_1,u_0))
+     )
+     (
+      !treeb_member(itb_0,u_0) &&
+      (
+       !(u_0==i_0) &&
+       !treeb_member(itb_1,u_0)
+      )
+     )) ||
+ (
+  !(u_1==u_0) ||
+  (ite treeb_member(itb_2,u_0)
+      (
+       treeb_member(itb_1,u_0) ||
+       (treeb_member(itb_0,u_0) || (u_0==i_0))
+      )
+      (ite b_0
+          (ite (u_0==i_0)
+              !(i_0==i_0)
+              (
+               !treeb_member(itb_0,u_0) &&
+               !treeb_member(itb_1,u_0)
+              ))
+          (ite treeb_member(itb_1,u_0)
+              (
+               (u_0==i_0) &&
+               !(i_0==i_0)
+              )
+              (ite treeb_member(itb_0,u_0)
+                  (
+                   (u_0==i_0) &&
+                   !(i_0==i_0)
+                  )
+                  (
+                   !(u_0==i_0) ||
+                   treeb_member(itb_0,i_0)
+                  )))))
+ )
+)

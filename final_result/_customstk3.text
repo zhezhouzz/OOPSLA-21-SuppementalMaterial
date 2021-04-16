@@ -1,0 +1,1711 @@
+program:
+
+let rec concat l1 l2 =
+  if is_empty l1 then l2
+  else push (top l1) (concat (tail l1) l2)
+
+F:
+is_empty,top,tail,push
+
+P:
+list_member,list_head,list_order
+
+assertion:
+fun int list:l1,int list:l2,int list:l3 -> forall int:u int:v,(
+ (list_member(l3,u) <==> 
+  (list_member(l1,u) || list_member(l2,u))) &&
+ (
+  (list_order(l1,u,v) || list_order(l2,u,v)) ==> 
+  list_order(l3,u,v)
+ )
+)
+
+result:
+is_empty(int list:il_0,bool:b_0):=
+forall int:u_0 int:u_1,(
+ (ite b_0
+     (
+      !list_member(il_0,u_1) &&
+      (
+       !list_order(il_0,u_1,u_0) &&
+       !list_member(il_0,u_0)
+      )
+     )
+     (ite list_member(il_0,u_1)
+         (
+          (u_1==u_0) ||
+          (ite list_head(il_0,u_1)
+              (
+               !list_head(il_0,u_0) &&
+               (ite list_member(il_0,u_0)
+                   list_order(il_0,u_1,u_0)
+                   (
+                    !list_order(il_0,u_1,u_0) &&
+                    !list_order(il_0,u_0,u_1)
+                   ))
+              )
+              (
+               list_order(il_0,u_0,u_1) ||
+               (
+                !list_member(il_0,u_0) ||
+                (
+                 !list_head(il_0,u_0) &&
+                 list_order(il_0,u_1,u_0)
+                )
+               )
+              ))
+         )
+         (
+          !list_order(il_0,u_1,u_0) &&
+          (
+           !list_head(il_0,u_1) &&
+           (
+            !list_head(il_0,u_0) ||
+            (
+             list_member(il_0,u_0) &&
+             !list_order(il_0,u_0,u_1)
+            )
+           )
+          )
+         ))) ||
+ (
+  !b_0 ||
+  (ite list_head(il_0,u_0)
+      (ite list_member(il_0,u_1)
+          (
+           !list_member(il_0,u_0) ||
+           !(u_1==u_0)
+          )
+          (
+           list_member(il_0,u_0) ||
+           (
+            !list_order(il_0,u_1,u_0) ||
+            (ite (u_1==u_0)
+                !list_order(il_0,u_0,u_0)
+                (
+                 !list_head(il_0,u_1) &&
+                 list_order(il_0,u_0,u_1)
+                ))
+           )
+          ))
+      (ite list_head(il_0,u_1)
+          (
+           list_member(il_0,u_1) ||
+           ((u_1==u_0) || list_member(il_0,u_0))
+          )
+          (ite list_member(il_0,u_1)
+              (
+               !list_member(il_0,u_0) ||
+               !(u_1==u_0)
+              )
+              (
+               list_member(il_0,u_0) ||
+               (
+                !list_order(il_0,u_1,u_0) ||
+                (
+                 (u_1==u_0) &&
+                 !list_order(il_0,u_0,u_0)
+                )
+               )
+              ))))
+ )
+)
+push(int:i_0,int list:il_0,int list:il_1):=
+forall int:u_0 int:u_1,(
+ (ite list_member(il_1,u_1)
+     (ite list_order(il_1,u_1,u_0)
+         (
+          list_member(il_1,u_0) &&
+          (
+           list_member(il_0,u_0) &&
+           (
+            list_head(il_1,u_0) ||
+            (
+             !(u_0==i_0) &&
+             (ite list_order(il_1,u_0,u_1)
+                 (
+                  list_head(il_1,u_1) ||
+                  (
+                   !(u_1==i_0) &&
+                   (
+                    list_order(il_0,u_1,u_0) &&
+                    (
+                     !list_head(il_0,u_1) ||
+                     (
+                      (u_1==u_0) ||
+                      !list_head(il_0,u_0)
+                     )
+                    )
+                   )
+                  )
+                 )
+                 (ite list_head(il_0,u_0)
+                     !list_member(il_0,u_1)
+                     (
+                      !(u_1==i_0) ||
+                      (
+                       list_head(il_0,i_0) ||
+                       (
+                        !(i_0==u_0) &&
+                        (ite list_member(il_0,i_0)
+                            list_order(il_0,i_0,u_0)
+                            !list_order(il_0,i_0,u_0))
+                       )
+                      )
+                     )))
+            )
+           )
+          )
+         )
+         (
+          !list_order(il_0,u_1,u_0) &&
+          (ite list_member(il_0,u_1)
+              (ite (u_1==i_0)
+                  (
+                   !list_member(il_1,u_0) &&
+                   (
+                    list_head(il_1,i_0) &&
+                    !list_head(il_0,u_0)
+                   )
+                  )
+                  (
+                   !list_head(il_1,u_1) &&
+                   (
+                    (u_1==u_0) ||
+                    (ite list_order(il_1,u_0,u_1)
+                        (ite list_head(il_0,u_1)
+                            !list_member(il_0,u_0)
+                            (
+                             !(u_0==i_0) ||
+                             (
+                              list_head(il_0,i_0) ||
+                              (ite list_member(il_0,i_0)
+                                  list_order(il_0,i_0,u_1)
+                                  !list_order(il_0,i_0,u_1))
+                             )
+                            ))
+                        (
+                         !(u_0==i_0) &&
+                         (
+                          list_head(il_0,u_1) ||
+                          (
+                           !list_member(il_0,u_0) &&
+                           !list_order(il_0,u_0,u_1)
+                          )
+                         )
+                        ))
+                   )
+                  ))
+              (
+               (u_1==i_0) &&
+               (
+                !list_member(il_0,u_0) &&
+                (
+                 list_head(il_1,i_0) &&
+                 !list_head(il_0,i_0)
+                )
+               )
+              ))
+         ))
+     (
+      !list_order(il_0,u_1,u_0) &&
+      (
+       !list_head(il_1,u_1) &&
+       (
+        !list_order(il_0,u_0,u_1) &&
+        (
+         !list_member(il_0,u_1) &&
+         (
+          !list_order(il_1,u_1,u_0) &&
+          (
+           !(u_1==i_0) &&
+           (
+            !list_head(il_0,u_1) &&
+            (
+             (u_1==u_0) ||
+             (ite list_member(il_0,u_0)
+                 (
+                  list_head(il_1,u_0) ||
+                  (
+                   !(u_0==i_0) &&
+                   list_member(il_1,u_0)
+                  )
+                 )
+                 (ite (u_0==i_0)
+                     (list_member(il_1,i_0) && list_head(il_1,i_0))
+                     (
+                      !list_member(il_1,u_0) &&
+                      !list_head(il_1,u_0)
+                     )))
+            )
+           )
+          )
+         )
+        )
+       )
+      )
+     )) ||
+ (ite list_member(il_1,u_0)
+     (ite list_order(il_1,u_1,u_0)
+         (ite list_head(il_0,u_1)
+             (ite (u_1==i_0)
+                 (
+                  !list_member(il_1,i_0) ||
+                  (ite list_member(il_0,u_0)
+                      (
+                       list_head(il_1,u_0) ||
+                       (
+                        !(i_0==u_0) &&
+                        (
+                         !list_member(il_0,i_0) ||
+                         (ite list_order(il_1,u_0,i_0)
+                             list_head(il_1,i_0)
+                             (
+                              !list_head(il_0,u_0) ||
+                              (
+                               !list_order(il_0,i_0,u_0) &&
+                               !list_order(il_0,u_0,i_0)
+                              )
+                             ))
+                        )
+                       )
+                      )
+                      (
+                       !(u_0==i_0) ||
+                       (
+                        !list_head(il_0,i_0) ||
+                        !list_order(il_1,i_0,i_0)
+                       )
+                      ))
+                 )
+                 (ite list_member(il_1,u_1)
+                     (ite (u_1==u_0)
+                         (
+                          !list_order(il_1,u_0,u_0) ||
+                          (
+                           !list_head(il_0,u_0) ||
+                           (
+                            (u_0==i_0) ||
+                            (
+                             list_member(il_0,u_0) &&
+                             (list_order(il_0,u_0,u_0) || list_head(il_1,u_0))
+                            )
+                           )
+                          )
+                         )
+                         (
+                          !list_member(il_0,u_1) ||
+                          (ite (u_0==i_0)
+                              (ite list_head(il_1,i_0)
+                                  (
+                                   list_member(il_0,i_0) ||
+                                   (
+                                    !list_head(il_1,u_1) &&
+                                    !list_order(il_0,i_0,u_1)
+                                   )
+                                  )
+                                  (
+                                   !list_member(il_0,i_0) ||
+                                   list_order(il_1,i_0,u_1)
+                                  ))
+                              (
+                               !list_order(il_0,u_0,u_1) ||
+                               (
+                                list_head(il_1,u_0) ||
+                                (
+                                 !list_member(il_0,u_0) ||
+                                 (ite list_head(il_0,u_0)
+                                     (
+                                      list_order(il_1,u_0,u_1) &&
+                                      !list_order(il_0,u_1,u_0)
+                                     )
+                                     (
+                                      !list_order(il_1,u_0,u_1) ||
+                                      list_order(il_0,u_1,u_0)
+                                     ))
+                                )
+                               )
+                              ))
+                         ))
+                     (
+                      !(u_0==i_0) ||
+                      (
+                       list_member(il_0,u_1) ||
+                       (
+                        list_head(il_1,u_1) ||
+                        (
+                         !list_head(il_1,i_0) ||
+                         (ite list_head(il_0,i_0)
+                             (
+                              !list_member(il_0,i_0) ||
+                              (
+                               list_order(il_0,i_0,u_1) &&
+                               (
+                                list_order(il_0,u_1,i_0) ||
+                                !list_order(il_1,i_0,u_1)
+                               )
+                              )
+                             )
+                             (ite list_member(il_0,i_0)
+                                 (ite list_order(il_0,u_1,i_0)
+                                     (
+                                      !list_order(il_0,i_0,u_1) &&
+                                      list_order(il_1,i_0,u_1)
+                                     )
+                                     (ite list_order(il_0,i_0,u_1)
+                                         list_order(il_1,i_0,u_1)
+                                         !list_order(il_1,i_0,u_1)))
+                                 (
+                                  list_order(il_0,i_0,u_1) &&
+                                  !list_order(il_1,i_0,u_1)
+                                 )))
+                        )
+                       )
+                      )
+                     )))
+             (ite list_order(il_0,u_0,u_1)
+                 (ite (u_1==i_0)
+                     (
+                      list_head(il_1,u_0) ||
+                      (
+                       !list_member(il_1,i_0) ||
+                       (ite list_member(il_0,i_0)
+                           (
+                            !list_member(il_0,u_0) ||
+                            (
+                             !(i_0==u_0) &&
+                             (
+                              list_order(il_0,i_0,u_0) ||
+                              (
+                               list_order(il_1,u_0,i_0) ||
+                               !list_head(il_1,i_0)
+                              )
+                             )
+                            )
+                           )
+                           (
+                            !(i_0==u_0) ||
+                            (
+                             !(u_0==u_0) ||
+                             !list_order(il_1,u_0,u_0)
+                            )
+                           ))
+                      )
+                     )
+                     (ite list_head(il_0,u_0)
+                         (
+                          !list_member(il_0,u_0) ||
+                          (
+                           (u_1==u_0) ||
+                           (ite list_head(il_1,u_0)
+                               (
+                                list_member(il_0,u_1) ||
+                                (list_order(il_1,u_0,u_1) || list_head(il_1,u_1))
+                               )
+                               (ite list_head(il_1,u_1)
+                                   !list_member(il_1,u_1)
+                                   (
+                                    !list_order(il_0,u_1,u_0) ||
+                                    (ite list_member(il_0,u_1)
+                                        (
+                                         !list_member(il_1,u_1) ||
+                                         (
+                                          !(u_0==i_0) &&
+                                          list_order(il_1,u_0,u_1)
+                                         )
+                                        )
+                                        list_order(il_1,u_0,u_1))
+                                   )))
+                          )
+                         )
+                         (ite list_head(il_1,u_0)
+                             (ite (u_1==u_0)
+                                 (
+                                  list_member(il_0,u_0) ||
+                                  (
+                                   !list_order(il_0,u_0,u_0) ||
+                                   !list_order(il_1,u_0,u_0)
+                                  )
+                                 )
+                                 (ite list_member(il_1,u_1)
+                                     (
+                                      list_member(il_0,u_0) ||
+                                      (
+                                       !list_member(il_0,u_1) ||
+                                       (
+                                        !(u_0==i_0) ||
+                                        (
+                                         list_order(il_0,u_1,i_0) &&
+                                         !list_order(il_1,i_0,u_1)
+                                        )
+                                       )
+                                      )
+                                     )
+                                     (
+                                      list_order(il_1,u_0,u_1) ||
+                                      (
+                                       list_member(il_0,u_1) ||
+                                       (
+                                        list_head(il_1,u_1) ||
+                                        (ite list_member(il_0,u_0)
+                                            (
+                                             (u_0==i_0) &&
+                                             !list_order(il_0,u_1,i_0)
+                                            )
+                                            (
+                                             !(u_0==i_0) ||
+                                             list_order(il_0,u_1,i_0)
+                                            ))
+                                       )
+                                      )
+                                     )))
+                             (
+                              !(u_1==u_0) ||
+                              (
+                               !list_order(il_0,u_0,u_0) ||
+                               (
+                                list_member(il_0,u_0) ||
+                                !list_order(il_1,u_0,u_0)
+                               )
+                              )
+                             ))))
+                 (ite (u_0==i_0)
+                     (ite list_order(il_1,i_0,u_1)
+                         (
+                          !(u_1==i_0) ||
+                          (
+                           list_head(il_1,i_0) ||
+                           (
+                            !(i_0==i_0) ||
+                            (
+                             list_head(il_0,i_0) ||
+                             (
+                              list_order(il_0,i_0,i_0) ||
+                              !list_member(il_1,i_0)
+                             )
+                            )
+                           )
+                          )
+                         )
+                         (
+                          !list_head(il_1,i_0) ||
+                          (
+                           (u_1==i_0) ||
+                           (ite list_head(il_0,i_0)
+                               (
+                                list_member(il_0,u_1) ||
+                                (
+                                 !list_member(il_0,i_0) ||
+                                 !list_order(il_0,u_1,i_0)
+                                )
+                               )
+                               (ite list_member(il_0,i_0)
+                                   (
+                                    list_member(il_0,u_1) ||
+                                    (
+                                     !list_order(il_0,u_1,i_0) ||
+                                     list_head(il_1,u_1)
+                                    )
+                                   )
+                                   (ite list_head(il_1,u_1)
+                                       (
+                                        !list_member(il_0,u_1) ||
+                                        !list_member(il_1,u_1)
+                                       )
+                                       (ite list_member(il_0,u_1)
+                                           !list_member(il_1,u_1)
+                                           (
+                                            !list_order(il_0,u_1,i_0) ||
+                                            list_member(il_1,u_1)
+                                           )))))
+                          )
+                         ))
+                     (
+                      list_order(il_0,u_1,u_0) ||
+                      (
+                       !list_member(il_1,u_1) ||
+                       (ite (u_1==u_0)
+                           (
+                            list_member(il_0,u_0) ||
+                            (
+                             !list_order(il_1,u_0,u_0) ||
+                             list_head(il_0,u_0)
+                            )
+                           )
+                           (
+                            !list_head(il_0,u_0) ||
+                            (
+                             !list_member(il_0,u_1) ||
+                             (
+                              !(u_1==i_0) ||
+                              (
+                               list_head(il_1,u_0) ||
+                               (
+                                !list_head(il_1,i_0) ||
+                                list_order(il_1,u_0,i_0)
+                               )
+                              )
+                             )
+                            )
+                           ))
+                      )
+                     ))))
+         (ite (u_1==i_0)
+             (
+              !list_member(il_1,i_0) ||
+              (ite list_order(il_1,u_0,i_0)
+                  (
+                   !list_head(il_1,i_0) ||
+                   (
+                    !list_member(il_0,u_0) ||
+                    (ite list_member(il_0,i_0)
+                        ((i_0==u_0) || (u_0==i_0))
+                        (
+                         (i_0==u_0) ||
+                         (
+                          (u_0==i_0) ||
+                          (ite list_head(il_0,u_0)
+                              (ite list_order(il_0,i_0,u_0)
+                                  !list_head(il_1,u_0)
+                                  list_head(il_1,u_0))
+                              (
+                               !list_order(il_0,i_0,u_0) ||
+                               !list_order(il_0,u_0,i_0)
+                              ))
+                         )
+                        ))
+                   )
+                  )
+                  (ite list_member(il_0,u_0)
+                      (ite list_order(il_0,u_0,i_0)
+                          (ite list_order(il_0,i_0,u_0)
+                              (ite (u_0==i_0)
+                                  !list_member(il_0,i_0)
+                                  (
+                                   !list_head(il_1,i_0) ||
+                                   (
+                                    (i_0==u_0) ||
+                                    (ite list_member(il_0,i_0)
+                                        (
+                                         !list_head(il_1,u_0) &&
+                                         (ite list_head(il_0,i_0)
+                                             list_head(il_0,u_0)
+                                             !list_head(il_0,u_0))
+                                        )
+                                        list_head(il_1,u_0))
+                                   )
+                                  ))
+                              (
+                               !list_head(il_1,i_0) ||
+                               (
+                                (i_0==u_0) ||
+                                (ite list_member(il_0,i_0)
+                                    (ite list_head(il_0,i_0)
+                                        (
+                                         list_head(il_0,u_0) &&
+                                         !list_head(il_1,u_0)
+                                        )
+                                        !list_head(il_0,u_0))
+                                    (list_head(il_0,u_0) || list_head(il_0,i_0)))
+                               )
+                              ))
+                          (ite list_head(il_0,u_0)
+                              (ite list_head(il_1,u_0)
+                                  (
+                                   !list_member(il_0,i_0) ||
+                                   list_order(il_0,i_0,u_0)
+                                  )
+                                  (ite (i_0==u_0)
+                                      !(u_0==u_0)
+                                      (list_member(il_0,i_0) || list_head(il_0,i_0))))
+                              (ite list_head(il_0,i_0)
+                                  (
+                                   !list_member(il_0,i_0) ||
+                                   (
+                                    list_order(il_0,i_0,u_0) ||
+                                    !list_head(il_1,i_0)
+                                   )
+                                  )
+                                  (ite list_order(il_0,i_0,u_0)
+                                      (
+                                       !list_head(il_1,u_0) ||
+                                       (
+                                        (i_0==u_0) ||
+                                        (
+                                         list_member(il_0,i_0) ||
+                                         !list_head(il_1,i_0)
+                                        )
+                                       )
+                                      )
+                                      (ite (i_0==u_0)
+                                          !(u_0==u_0)
+                                          (
+                                           !list_head(il_1,i_0) ||
+                                           (
+                                            (u_0==i_0) ||
+                                            (ite list_member(il_0,i_0)
+                                                list_head(il_1,u_0)
+                                                !list_head(il_1,u_0))
+                                           )
+                                          ))))))
+                      (
+                       !(i_0==u_0) ||
+                       (
+                        !(u_0==u_0) ||
+                        (
+                         !list_order(il_0,u_0,u_0) &&
+                         (
+                          !list_head(il_0,u_0) &&
+                          list_head(il_1,u_0)
+                         )
+                        )
+                       )
+                      )))
+             )
+             (ite list_head(il_1,u_1)
+                 (
+                  !list_member(il_1,u_1) ||
+                  (ite list_order(il_0,u_0,u_1)
+                      (ite list_head(il_0,u_0)
+                          (ite list_member(il_0,u_1)
+                              (
+                               !list_head(il_0,u_1) &&
+                               (
+                                !(u_0==i_0) &&
+                                (
+                                 list_order(il_0,u_1,u_0) &&
+                                 !list_order(il_1,u_0,u_1)
+                                )
+                               )
+                              )
+                              !list_head(il_1,u_0))
+                          (ite (u_0==i_0)
+                              (
+                               !list_head(il_0,u_1) &&
+                               (
+                                !list_member(il_0,u_1) ||
+                                (
+                                 !list_head(il_1,i_0) ||
+                                 (ite list_member(il_0,i_0)
+                                     (
+                                      list_order(il_0,u_1,i_0) &&
+                                      !list_order(il_1,i_0,u_1)
+                                     )
+                                     !list_order(il_0,u_1,i_0))
+                                )
+                               )
+                              )
+                              (ite list_head(il_0,u_1)
+                                  (
+                                   !list_member(il_0,u_1) ||
+                                   (
+                                    !list_head(il_1,u_0) &&
+                                    (
+                                     !list_order(il_0,u_1,u_0) ||
+                                     !list_order(il_1,u_0,u_1)
+                                    )
+                                   )
+                                  )
+                                  (ite list_order(il_1,u_0,u_1)
+                                      (
+                                       !list_order(il_0,u_1,u_0) ||
+                                       (u_1==u_0)
+                                      )
+                                      (ite list_member(il_0,u_1)
+                                          (
+                                           !list_member(il_0,u_0) ||
+                                           (ite (u_1==u_0)
+                                               (
+                                                !list_order(il_0,u_0,u_0) ||
+                                                !list_head(il_1,u_0)
+                                               )
+                                               (
+                                                !list_order(il_0,u_1,u_0) &&
+                                                list_head(il_1,u_0)
+                                               ))
+                                          )
+                                          (
+                                           !(u_1==u_0) ||
+                                           (
+                                            list_member(il_0,u_0) ||
+                                            (
+                                             !list_order(il_0,u_0,u_0) ||
+                                             !list_head(il_1,u_0)
+                                            )
+                                           )
+                                          ))))))
+                      (ite (u_0==i_0)
+                          (
+                           !list_member(il_0,u_1) ||
+                           (
+                            !list_head(il_1,i_0) ||
+                            (ite list_order(il_0,u_1,i_0)
+                                (
+                                 !list_member(il_0,i_0) &&
+                                 (
+                                  !list_head(il_0,u_1) &&
+                                  !list_order(il_1,i_0,u_1)
+                                 )
+                                )
+                                (ite list_head(il_0,u_1)
+                                    (
+                                     list_member(il_0,i_0) &&
+                                     (
+                                      list_head(il_0,i_0) ||
+                                      !list_order(il_1,i_0,u_1)
+                                     )
+                                    )
+                                    (
+                                     !list_member(il_0,i_0) ||
+                                     list_order(il_1,i_0,u_1)
+                                    )))
+                           )
+                          )
+                          (ite (u_1==u_0)
+                              (
+                               list_order(il_0,u_0,u_0) ||
+                               (
+                                !list_head(il_1,u_0) ||
+                                (
+                                 list_order(il_1,u_0,u_0) ||
+                                 (
+                                  list_member(il_0,u_0) &&
+                                  !list_head(il_0,u_0)
+                                 )
+                                )
+                               )
+                              )
+                              (
+                               !list_order(il_0,u_1,u_0) ||
+                               (
+                                !list_member(il_0,u_1) ||
+                                (
+                                 !list_member(il_0,u_0) ||
+                                 (
+                                  !list_order(il_1,u_0,u_1) &&
+                                  (ite list_head(il_1,u_0)
+                                      (list_head(il_0,u_1) || list_head(il_0,u_0))
+                                      (
+                                       !list_head(il_0,u_1) &&
+                                       !list_head(il_0,u_0)
+                                      ))
+                                 )
+                                )
+                               )
+                              ))))
+                 )
+                 (ite (u_1==u_0)
+                     (
+                      (u_0==i_0) ||
+                      (
+                       list_head(il_1,u_0) ||
+                       (
+                        list_order(il_1,u_0,u_0) ||
+                        (ite list_head(il_0,u_0)
+                            (
+                             list_member(il_0,u_0) &&
+                             !list_order(il_0,u_0,u_0)
+                            )
+                            (
+                             list_member(il_0,u_0) &&
+                             !list_order(il_0,u_0,u_0)
+                            ))
+                       )
+                      )
+                     )
+                     (ite list_head(il_0,u_0)
+                         (ite list_head(il_0,u_1)
+                             (ite list_order(il_0,u_0,u_1)
+                                 (
+                                  !list_member(il_0,u_0) ||
+                                  (ite list_member(il_0,u_1)
+                                      (
+                                       !list_order(il_0,u_1,u_0) &&
+                                       (
+                                        !(u_0==i_0) ||
+                                        !list_member(il_1,u_1)
+                                       )
+                                      )
+                                      (
+                                       !list_order(il_1,u_0,u_1) ||
+                                       (
+                                        !(u_0==i_0) ||
+                                        list_member(il_1,u_1)
+                                       )
+                                      ))
+                                 )
+                                 (ite list_order(il_1,u_0,u_1)
+                                     (
+                                      !list_member(il_0,u_1) ||
+                                      !list_head(il_1,u_0)
+                                     )
+                                     (
+                                      !list_member(il_0,u_0) ||
+                                      (ite list_order(il_0,u_1,u_0)
+                                          (
+                                           !list_member(il_0,u_1) &&
+                                           (
+                                            !(u_0==i_0) ||
+                                            !list_head(il_1,i_0)
+                                           )
+                                          )
+                                          (
+                                           !(u_0==i_0) ||
+                                           (
+                                            !list_head(il_1,i_0) ||
+                                            (
+                                             !list_member(il_0,u_1) &&
+                                             list_member(il_1,u_1)
+                                            )
+                                           )
+                                          ))
+                                     )))
+                             (
+                              !list_member(il_0,u_0) ||
+                              (ite list_member(il_0,u_1)
+                                  (
+                                   !list_member(il_1,u_1) ||
+                                   (ite list_order(il_0,u_1,u_0)
+                                       (
+                                        !list_order(il_1,u_0,u_1) &&
+                                        (ite (u_0==i_0)
+                                            !list_order(il_0,i_0,u_1)
+                                            (
+                                             list_order(il_0,u_0,u_1) &&
+                                             !list_head(il_1,u_0)
+                                            ))
+                                       )
+                                       (
+                                        !list_order(il_0,u_0,u_1) ||
+                                        (
+                                         list_order(il_1,u_0,u_1) ||
+                                         (
+                                          !(u_0==i_0) &&
+                                          list_head(il_1,u_0)
+                                         )
+                                        )
+                                       ))
+                                  )
+                                  (
+                                   list_member(il_1,u_1) ||
+                                   (ite (u_0==i_0)
+                                       (
+                                        list_order(il_1,i_0,u_1) ||
+                                        (
+                                         !list_head(il_1,i_0) ||
+                                         (
+                                          !list_order(il_0,u_1,i_0) &&
+                                          !list_order(il_0,i_0,u_1)
+                                         )
+                                        )
+                                       )
+                                       (
+                                        !list_order(il_0,u_1,u_0) ||
+                                        (ite list_order(il_0,u_0,u_1)
+                                            (
+                                             !list_head(il_1,u_0) ||
+                                             list_order(il_1,u_0,u_1)
+                                            )
+                                            (
+                                             !list_head(il_1,u_0) &&
+                                             list_order(il_1,u_0,u_1)
+                                            ))
+                                       ))
+                                  ))
+                             ))
+                         (ite (u_0==i_0)
+                             (
+                              !list_head(il_1,i_0) ||
+                              (ite list_order(il_0,u_1,i_0)
+                                  (ite list_order(il_1,i_0,u_1)
+                                      (ite list_member(il_0,u_1)
+                                          (
+                                           !list_member(il_1,u_1) ||
+                                           (
+                                            list_member(il_0,i_0) &&
+                                            (
+                                             !list_head(il_0,u_1) &&
+                                             !list_order(il_0,i_0,u_1)
+                                            )
+                                           )
+                                          )
+                                          (
+                                           list_member(il_1,u_1) ||
+                                           (ite list_member(il_0,i_0)
+                                               (
+                                                !list_head(il_0,u_1) ||
+                                                list_order(il_0,i_0,u_1)
+                                               )
+                                               (
+                                                !list_head(il_0,u_1) &&
+                                                list_order(il_0,i_0,u_1)
+                                               ))
+                                          ))
+                                      (ite list_member(il_0,u_1)
+                                          (
+                                           !list_member(il_1,u_1) ||
+                                           (ite list_member(il_0,i_0)
+                                               list_head(il_0,u_1)
+                                               (
+                                                !list_head(il_0,u_1) ||
+                                                list_order(il_0,i_0,u_1)
+                                               ))
+                                          )
+                                          (
+                                           list_member(il_1,u_1) ||
+                                           (
+                                            !list_member(il_0,i_0) &&
+                                            (list_head(il_0,u_1) && list_order(il_0,i_0,u_1))
+                                           )
+                                          )))
+                                  (ite list_member(il_0,u_1)
+                                      (
+                                       !list_member(il_1,u_1) ||
+                                       (ite list_member(il_0,i_0)
+                                           (
+                                            !list_head(il_0,u_1) &&
+                                            (
+                                             !list_order(il_0,i_0,u_1) ||
+                                             list_order(il_1,i_0,u_1)
+                                            )
+                                           )
+                                           (list_head(il_0,u_1) || list_order(il_1,i_0,u_1)))
+                                      )
+                                      (
+                                       list_member(il_1,u_1) ||
+                                       (ite list_member(il_0,i_0)
+                                           (ite list_head(il_0,u_1)
+                                               (ite list_order(il_0,i_0,u_1)
+                                                   list_order(il_1,i_0,u_1)
+                                                   !list_order(il_1,i_0,u_1))
+                                               (
+                                                !list_order(il_0,i_0,u_1) ||
+                                                list_order(il_1,i_0,u_1)
+                                               ))
+                                           (
+                                            !list_head(il_0,u_1) ||
+                                            list_order(il_0,i_0,u_1)
+                                           ))
+                                      )))
+                             )
+                             (
+                              !list_member(il_0,u_0) ||
+                              (ite list_order(il_1,u_0,u_1)
+                                  (
+                                   !list_order(il_0,u_1,u_0) ||
+                                   (ite list_member(il_0,u_1)
+                                       !list_member(il_1,u_1)
+                                       (
+                                        list_member(il_1,u_1) ||
+                                        (
+                                         list_head(il_0,u_1) ||
+                                         (
+                                          list_order(il_0,u_0,u_1) &&
+                                          !list_head(il_1,u_0)
+                                         )
+                                        )
+                                       ))
+                                  )
+                                  (ite list_head(il_1,u_0)
+                                      (ite list_member(il_0,u_1)
+                                          (
+                                           !list_order(il_0,u_0,u_1) ||
+                                           (
+                                            !list_member(il_1,u_1) ||
+                                            (
+                                             !list_head(il_0,u_1) &&
+                                             list_order(il_0,u_1,u_0)
+                                            )
+                                           )
+                                          )
+                                          (
+                                           !list_order(il_0,u_1,u_0) ||
+                                           (list_order(il_0,u_0,u_1) || list_member(il_1,u_1))
+                                          ))
+                                      (ite list_member(il_0,u_1)
+                                          (
+                                           !list_order(il_0,u_0,u_1) ||
+                                           (
+                                            !list_member(il_1,u_1) ||
+                                            (
+                                             list_head(il_0,u_1) &&
+                                             !list_order(il_0,u_1,u_0)
+                                            )
+                                           )
+                                          )
+                                          (
+                                           !list_order(il_0,u_1,u_0) ||
+                                           (list_head(il_0,u_1) || list_member(il_1,u_1))
+                                          ))))
+                             )))))))
+     (ite (u_1==u_0)
+         (ite (u_0==i_0)
+             !(i_0==i_0)
+             (
+              !list_member(il_0,u_0) &&
+              (
+               !list_head(il_1,u_0) &&
+               (
+                !list_order(il_0,u_0,u_0) ||
+                (list_head(il_0,u_0) || list_order(il_1,u_0,u_0))
+               )
+              )
+             ))
+         (
+          list_member(il_0,u_0) ||
+          (
+           list_head(il_1,u_0) ||
+           (
+            (u_0==i_0) ||
+            (ite list_order(il_0,u_1,u_0)
+                (ite list_member(il_1,u_1)
+                    (ite list_order(il_0,u_0,u_1)
+                        (ite list_head(il_0,u_1)
+                            (
+                             !list_member(il_0,u_1) ||
+                             (ite list_order(il_1,u_0,u_1)
+                                 (
+                                  !(u_1==i_0) ||
+                                  (
+                                   !list_head(il_0,u_0) ||
+                                   !list_head(il_1,i_0)
+                                  )
+                                 )
+                                 (ite (u_1==i_0)
+                                     (
+                                      !list_head(il_1,i_0) ||
+                                      (ite list_head(il_0,u_0)
+                                          list_order(il_1,i_0,u_0)
+                                          !list_order(il_1,i_0,u_0))
+                                     )
+                                     (
+                                      list_head(il_0,u_0) ||
+                                      (
+                                       list_head(il_1,u_1) &&
+                                       !list_order(il_1,u_1,u_0)
+                                      )
+                                     )))
+                            )
+                            (ite list_head(il_0,u_0)
+                                (
+                                 !(u_1==i_0) ||
+                                 (
+                                  !list_head(il_1,i_0) ||
+                                  (ite list_member(il_0,i_0)
+                                      (
+                                       !list_order(il_1,i_0,u_0) ||
+                                       list_order(il_1,u_0,i_0)
+                                      )
+                                      list_order(il_1,i_0,u_0))
+                                 )
+                                )
+                                (ite (u_1==i_0)
+                                    (
+                                     !list_head(il_1,i_0) ||
+                                     (ite list_member(il_0,i_0)
+                                         (
+                                          !list_order(il_1,i_0,u_0) ||
+                                          list_order(il_1,u_0,i_0)
+                                         )
+                                         (ite list_order(il_1,i_0,u_0)
+                                             list_order(il_1,u_0,i_0)
+                                             !list_order(il_1,u_0,i_0)))
+                                    )
+                                    (
+                                     !list_member(il_0,u_1) ||
+                                     (ite list_head(il_1,u_1)
+                                         (list_order(il_1,u_1,u_0) || list_order(il_1,u_0,u_1))
+                                         (ite list_order(il_1,u_1,u_0)
+                                             list_order(il_1,u_0,u_1)
+                                             !list_order(il_1,u_0,u_1)))
+                                    ))))
+                        (ite list_head(il_0,u_0)
+                            (
+                             !(u_1==i_0) ||
+                             (
+                              !list_head(il_1,i_0) ||
+                              (ite list_head(il_0,i_0)
+                                  (
+                                   !list_member(il_0,i_0) ||
+                                   list_order(il_1,i_0,u_0)
+                                  )
+                                  (ite list_member(il_0,i_0)
+                                      !list_order(il_1,i_0,u_0)
+                                      (list_order(il_1,i_0,u_0) && list_order(il_1,u_0,i_0))))
+                             )
+                            )
+                            (
+                             list_order(il_1,u_1,u_0) ||
+                             (ite list_head(il_0,u_1)
+                                 (
+                                  (u_1==i_0) ||
+                                  (
+                                   !list_member(il_0,u_1) ||
+                                   (list_head(il_1,u_1) && list_order(il_1,u_0,u_1))
+                                  )
+                                 )
+                                 (ite (u_1==i_0)
+                                     (
+                                      !list_head(il_1,i_0) ||
+                                      (ite list_member(il_0,i_0)
+                                          !list_order(il_1,u_0,i_0)
+                                          list_order(il_1,u_0,i_0))
+                                     )
+                                     (
+                                      !list_member(il_0,u_1) ||
+                                      (list_head(il_1,u_1) && list_order(il_1,u_0,u_1))
+                                     )))
+                            )))
+                    (
+                     list_head(il_0,u_0) ||
+                     (
+                      list_member(il_0,u_1) ||
+                      (
+                       list_order(il_1,u_1,u_0) ||
+                       (
+                        list_head(il_0,u_1) ||
+                        (
+                         (u_1==i_0) ||
+                         (
+                          list_head(il_1,u_1) ||
+                          (
+                           !list_order(il_0,u_0,u_1) &&
+                           list_order(il_1,u_0,u_1)
+                          )
+                         )
+                        )
+                       )
+                      )
+                     )
+                    ))
+                (ite list_order(il_1,u_1,u_0)
+                    (ite list_order(il_0,u_0,u_1)
+                        (ite list_member(il_0,u_1)
+                            (
+                             !list_member(il_1,u_1) ||
+                             (ite list_head(il_0,u_1)
+                                 (
+                                  list_order(il_1,u_0,u_1) ||
+                                  (ite (u_1==i_0)
+                                      !list_head(il_1,i_0)
+                                      (list_head(il_0,u_0) || list_head(il_1,u_1)))
+                                 )
+                                 (
+                                  !(u_1==i_0) ||
+                                  (
+                                   !list_head(il_1,i_0) ||
+                                   (ite list_head(il_0,u_0)
+                                       !list_order(il_1,u_0,i_0)
+                                       list_order(il_1,u_0,i_0))
+                                  )
+                                 ))
+                            )
+                            (
+                             list_member(il_1,u_1) ||
+                             (
+                              (u_1==i_0) ||
+                              (
+                               list_head(il_0,u_1) ||
+                               (
+                                list_head(il_0,u_0) ||
+                                (list_head(il_1,u_1) || list_order(il_1,u_0,u_1))
+                               )
+                              )
+                             )
+                            ))
+                        (
+                         !list_head(il_0,u_0) ||
+                         (
+                          !list_head(il_1,u_1) ||
+                          (
+                           !list_member(il_0,u_1) ||
+                           (
+                            !(u_1==i_0) ||
+                            (
+                             !list_head(il_0,i_0) ||
+                             (
+                              !list_member(il_1,i_0) ||
+                              list_order(il_1,u_0,i_0)
+                             )
+                            )
+                           )
+                          )
+                         )
+                        ))
+                    (
+                     !list_head(il_0,u_0) ||
+                     (
+                      !list_member(il_1,u_1) ||
+                      (
+                       !list_member(il_0,u_1) ||
+                       (
+                        list_order(il_0,u_0,u_1) ||
+                        (
+                         !(u_1==i_0) ||
+                         (
+                          list_head(il_0,i_0) ||
+                          !list_head(il_1,i_0)
+                         )
+                        )
+                       )
+                      )
+                     )
+                    )))
+           )
+          )
+         )))
+)
+tail(int list:il_0,int list:il_1):=
+forall int:u_0 int:u_1,(
+ (ite list_member(il_1,u_1)
+     (
+      list_member(il_0,u_1) &&
+      (ite list_order(il_0,u_1,u_0)
+          (
+           !list_order(il_0,u_0,u_1) ||
+           (ite list_order(il_1,u_1,u_0)
+               (
+                list_head(il_0,u_0) ||
+                (
+                 list_head(il_1,u_0) ||
+                 (
+                  list_order(il_1,u_0,u_1) &&
+                  ((u_1==u_0) || list_head(il_1,u_1))
+                 )
+                )
+               )
+               (list_head(il_0,u_1) && list_member(il_1,u_0)))
+          )
+          (
+           !list_order(il_1,u_1,u_0) &&
+           (
+            list_order(il_1,u_0,u_1) ||
+            (ite list_head(il_0,u_1)
+                (
+                 !list_member(il_0,u_0) &&
+                 !list_order(il_0,u_0,u_1)
+                )
+                (
+                 !list_member(il_1,u_0) ||
+                 (u_1==u_0)
+                ))
+           )
+          ))
+     )
+     (
+      !list_order(il_1,u_1,u_0) &&
+      (
+       !list_order(il_0,u_0,u_1) &&
+       (
+        !list_head(il_1,u_1) &&
+        (ite list_member(il_0,u_0)
+            (
+             list_head(il_0,u_1) ||
+             (
+              !(u_1==u_0) &&
+              (
+               !list_order(il_0,u_1,u_0) &&
+               (list_member(il_1,u_0) || list_head(il_0,u_0))
+              )
+             )
+            )
+            (
+             !list_head(il_0,u_0) &&
+             (
+              (u_1==u_0) ||
+              (
+               !list_order(il_0,u_1,u_0) &&
+               (ite list_member(il_0,u_1)
+                   list_head(il_0,u_1)
+                   !list_head(il_0,u_1))
+              )
+             )
+            ))
+       )
+      )
+     )) ||
+ (ite list_order(il_0,u_0,u_1)
+     (ite list_member(il_1,u_1)
+         (ite list_order(il_1,u_0,u_1)
+             (
+              !list_order(il_0,u_1,u_0) ||
+              (ite list_head(il_0,u_1)
+                  (
+                   list_member(il_0,u_1) ||
+                   (
+                    !list_member(il_1,u_0) ||
+                    (
+                     !list_order(il_1,u_1,u_0) ||
+                     (
+                      !(u_1==u_0) ||
+                      (
+                       list_member(il_0,u_0) ||
+                       !list_head(il_0,u_0)
+                      )
+                     )
+                    )
+                   )
+                  )
+                  (ite list_member(il_0,u_1)
+                      (
+                       list_order(il_1,u_1,u_0) ||
+                       (
+                        (u_1==u_0) ||
+                        (ite list_member(il_1,u_0)
+                            (
+                             !list_member(il_0,u_0) ||
+                             (
+                              !list_head(il_0,u_0) &&
+                              !list_head(il_1,u_1)
+                             )
+                            )
+                            (
+                             list_head(il_1,u_0) ||
+                             (ite list_member(il_0,u_0)
+                                 (
+                                  !list_head(il_0,u_0) ||
+                                  list_head(il_1,u_1)
+                                 )
+                                 list_head(il_0,u_0))
+                            ))
+                       )
+                      )
+                      (
+                       !(u_1==u_0) ||
+                       (
+                        list_head(il_0,u_0) ||
+                        (
+                         !list_member(il_1,u_0) ||
+                         (
+                          !list_order(il_1,u_0,u_0) ||
+                          list_member(il_0,u_0)
+                         )
+                        )
+                       )
+                      )))
+             )
+             (ite list_order(il_0,u_1,u_0)
+                 (ite list_order(il_1,u_1,u_0)
+                     (
+                      !list_member(il_0,u_1) ||
+                      (
+                       list_head(il_1,u_0) ||
+                       (
+                        (u_1==u_0) ||
+                        (ite list_member(il_1,u_0)
+                            (
+                             !list_member(il_0,u_0) ||
+                             (list_head(il_0,u_1) || list_head(il_0,u_0))
+                            )
+                            list_member(il_0,u_0))
+                       )
+                      )
+                     )
+                     (ite list_head(il_0,u_1)
+                         (
+                          list_member(il_0,u_0) ||
+                          (ite (u_1==u_0)
+                              (
+                               !list_head(il_0,u_0) ||
+                               !list_member(il_1,u_0)
+                              )
+                              (
+                               list_head(il_0,u_0) ||
+                               (
+                                list_head(il_1,u_0) ||
+                                !list_member(il_0,u_1)
+                               )
+                              ))
+                         )
+                         (ite list_head(il_0,u_0)
+                             (
+                              !list_member(il_0,u_1) ||
+                              (
+                               !list_member(il_0,u_0) ||
+                               (
+                                (u_1==u_0) ||
+                                (
+                                 !list_member(il_1,u_0) &&
+                                 (list_head(il_1,u_1) || list_head(il_1,u_0))
+                                )
+                               )
+                              )
+                             )
+                             (ite (u_1==u_0)
+                                 !list_member(il_1,u_0)
+                                 (
+                                  !list_member(il_0,u_1) ||
+                                  (ite list_member(il_0,u_0)
+                                      (
+                                       !list_member(il_1,u_0) ||
+                                       (
+                                        !list_head(il_1,u_1) &&
+                                        list_head(il_1,u_0)
+                                       )
+                                      )
+                                      (list_member(il_1,u_0) || list_head(il_1,u_0)))
+                                 )))))
+                 (
+                  !list_member(il_0,u_1) ||
+                  (
+                   list_head(il_0,u_0) ||
+                   (
+                    (u_1==u_0) ||
+                    (ite list_member(il_1,u_0)
+                        !list_member(il_0,u_0)
+                        (
+                         list_member(il_0,u_0) ||
+                         (
+                          !list_order(il_1,u_1,u_0) ||
+                          list_head(il_1,u_0)
+                         )
+                        ))
+                   )
+                  )
+                 )))
+         (ite list_head(il_1,u_1)
+             (
+              !(u_1==u_0) ||
+              (
+               !list_order(il_0,u_0,u_0) ||
+               (
+                !list_head(il_1,u_0) ||
+                list_member(il_1,u_0)
+               )
+              )
+             )
+             (ite list_order(il_1,u_0,u_1)
+                 (
+                  !(u_1==u_0) ||
+                  (
+                   !list_order(il_1,u_0,u_0) ||
+                   (
+                    list_member(il_1,u_0) ||
+                    (
+                     list_head(il_1,u_0) ||
+                     (
+                      !list_order(il_0,u_0,u_0) ||
+                      (list_member(il_0,u_0) && list_head(il_0,u_0))
+                     )
+                    )
+                   )
+                  )
+                 )
+                 (ite list_member(il_0,u_0)
+                     (ite (u_1==u_0)
+                         (
+                          list_head(il_1,u_0) ||
+                          (
+                           !list_order(il_0,u_0,u_0) ||
+                           (list_member(il_1,u_0) || list_order(il_1,u_0,u_0))
+                          )
+                         )
+                         (ite list_head(il_0,u_0)
+                             (
+                              list_member(il_0,u_1) ||
+                              (
+                               list_order(il_1,u_1,u_0) ||
+                               (
+                                list_head(il_0,u_1) ||
+                                (ite list_order(il_0,u_1,u_0)
+                                    (list_member(il_1,u_0) || list_head(il_1,u_0))
+                                    !list_member(il_1,u_0))
+                               )
+                              )
+                             )
+                             (
+                              !list_member(il_1,u_0) ||
+                              (ite list_head(il_0,u_1)
+                                  (
+                                   !list_member(il_0,u_1) ||
+                                   (
+                                    list_order(il_0,u_1,u_0) &&
+                                    !list_head(il_1,u_0)
+                                   )
+                                  )
+                                  (list_member(il_0,u_1) || list_order(il_0,u_1,u_0)))
+                             )))
+                     (
+                      list_head(il_1,u_0) ||
+                      (
+                       list_member(il_1,u_0) ||
+                       (ite list_member(il_0,u_1)
+                           (
+                            !list_order(il_1,u_1,u_0) ||
+                            (
+                             (u_1==u_0) ||
+                             (
+                              !list_head(il_0,u_1) ||
+                              list_head(il_0,u_0)
+                             )
+                            )
+                           )
+                           (ite list_order(il_0,u_1,u_0)
+                               (ite (u_1==u_0)
+                                   list_order(il_1,u_0,u_0)
+                                   (list_head(il_0,u_1) || list_head(il_0,u_0)))
+                               (
+                                list_head(il_0,u_1) ||
+                                (
+                                 (u_1==u_0) ||
+                                 (
+                                  list_head(il_0,u_0) ||
+                                  !list_order(il_1,u_1,u_0)
+                                 )
+                                )
+                               )))
+                      )
+                     )))))
+     (ite (u_1==u_0)
+         (
+          list_order(il_0,u_0,u_0) ||
+          (ite list_member(il_0,u_0)
+              (
+               list_member(il_1,u_0) ||
+               (
+                list_head(il_0,u_0) &&
+                !list_head(il_1,u_0)
+               )
+              )
+              (
+               !list_head(il_0,u_0) &&
+               (
+                !list_head(il_1,u_0) &&
+                !list_member(il_1,u_0)
+               )
+              ))
+         )
+         (
+          !list_order(il_0,u_1,u_0) ||
+          (
+           list_head(il_1,u_1) ||
+           (
+            list_order(il_1,u_0,u_1) ||
+            (
+             list_member(il_1,u_1) ||
+             (
+              list_order(il_1,u_1,u_0) ||
+              (ite list_head(il_0,u_0)
+                  (
+                   !list_member(il_0,u_0) ||
+                   (
+                    list_member(il_0,u_1) ||
+                    (
+                     !list_member(il_1,u_0) &&
+                     list_head(il_1,u_0)
+                    )
+                   )
+                  )
+                  (ite list_member(il_0,u_0)
+                      (
+                       list_member(il_0,u_1) ||
+                       !list_member(il_1,u_0)
+                      )
+                      (
+                       list_member(il_1,u_0) ||
+                       (
+                        list_head(il_1,u_0) ||
+                        (ite list_member(il_0,u_1)
+                            !list_head(il_0,u_1)
+                            list_head(il_0,u_1))
+                       )
+                      )))
+             )
+            )
+           )
+          )
+         )))
+)
+top(int list:il_0,int:i_0):=
+forall int:u_0 int:u_1,(
+ (ite list_member(il_0,u_1)
+     (ite (u_1==u_0)
+         (ite (u_0==i_0)
+             list_head(il_0,i_0)
+             !list_head(il_0,u_0))
+         (ite (u_1==i_0)
+             (
+              list_head(il_0,i_0) &&
+              (
+               !list_head(il_0,u_0) &&
+               (ite list_member(il_0,u_0)
+                   list_order(il_0,i_0,u_0)
+                   (
+                    !list_order(il_0,i_0,u_0) &&
+                    !list_order(il_0,u_0,i_0)
+                   ))
+              )
+             )
+             (
+              !list_head(il_0,u_1) &&
+              (
+               !list_member(il_0,u_0) ||
+               (ite (u_0==i_0)
+                   (list_head(il_0,i_0) && list_order(il_0,i_0,u_1))
+                   !list_head(il_0,u_0))
+              )
+             )))
+     (
+      !(u_1==i_0) &&
+      (
+       !list_order(il_0,u_1,u_0) &&
+       (
+        !(u_0==i_0) ||
+        (
+         list_member(il_0,i_0) &&
+         (
+          list_head(il_0,i_0) &&
+          !list_order(il_0,i_0,u_1)
+         )
+        )
+       )
+      )
+     )) ||
+ (ite (u_0==i_0)
+     (ite list_head(il_0,u_1)
+         (
+          (u_1==i_0) ||
+          (
+           !list_member(il_0,u_1) ||
+           (
+            !list_member(il_0,i_0) ||
+            (
+             !list_head(il_0,i_0) &&
+             !list_order(il_0,i_0,u_1)
+            )
+           )
+          )
+         )
+         (
+          !(u_1==i_0) ||
+          (
+           list_member(il_0,i_0) ||
+           (
+            list_order(il_0,i_0,i_0) ||
+            (
+             !(i_0==i_0) ||
+             list_head(il_0,i_0)
+            )
+           )
+          )
+         ))
+     (
+      !list_head(il_0,u_0) ||
+      (
+       !(u_1==i_0) ||
+       (
+        !list_member(il_0,u_0) ||
+        (
+         list_head(il_0,i_0) ||
+         (
+          list_order(il_0,i_0,u_0) ||
+          (
+           (i_0==u_0) ||
+           !list_member(il_0,i_0)
+          )
+         )
+        )
+       )
+      )
+     ))
+)

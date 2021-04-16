@@ -1,0 +1,84 @@
+program:
+
+let rec partition pivot = function
+  | e -> e, e
+  | t (a, x, b) as tr ->
+    if elem.leq x pivot then
+      match b with
+      | e -> tr, e
+      | t (b1, y, b2) ->
+        if elem.leq y pivot then
+          let small, big = partition pivot b2 in
+          t (t (a, x, b1), y, small), big
+        else
+          let small, big = partition pivot b1 in
+          t (a, x, small), t (big, y, b2)
+    else
+      match a with
+      | e -> e, tr
+      | t (a1, y, a2) ->
+        if elem.leq y pivot then
+          let small, big = partition pivot a2 in
+          t (a1, y, small), t (big, x, b)
+        else
+          let small, big = partition pivot a1 in
+          small, t (big, y, t (a2, x, b))
+
+F:
+e,t
+
+P:
+tree_member
+
+assertion:
+fun int:x,int tree:tr1,int tree:tr2,int tree:tr3 -> forall int:u int:v,true
+=>
+fun int:x,int tree:tree1,int tree:tree2,int tree:tree3 -> forall int:u,(tree_member(tree1,u) <==> 
+ (tree_member(tree2,u) || tree_member(tree3,u)))
+
+result:
+e(int tree:it_0):=
+forall int:u_0 int:u_1,(
+ !tree_member(it_0,u_0) ||
+true
+)
+t(int tree:it_0,int:i_0,int tree:it_1,int tree:it_2):=
+forall int:u_0 int:u_1,(
+ (ite tree_member(it_2,u_0)
+     (
+      (u_0==i_0) ||
+      (tree_member(it_0,u_0) || tree_member(it_1,u_0))
+     )
+     (
+      !(u_0==i_0) &&
+      (
+       !tree_member(it_0,u_0) &&
+       !tree_member(it_1,u_0)
+      )
+     )) ||
+ (ite (u_1==i_0)
+     (
+      tree_member(it_2,u_0) ||
+      (ite (i_0==u_0)
+          !(u_0==u_0)
+          (
+           !tree_member(it_2,i_0) ||
+           (
+            !tree_member(it_1,u_0) ||
+            (u_0==i_0)
+           )
+          ))
+     )
+     (
+      !(u_1==u_0) ||
+      (
+       tree_member(it_1,u_0) ||
+       (
+        (u_0==i_0) ||
+        (ite tree_member(it_0,u_0)
+            tree_member(it_2,u_0)
+            !tree_member(it_2,u_0))
+       )
+      )
+     ))
+)

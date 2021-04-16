@@ -1,0 +1,95 @@
+program:
+
+let rec insert x tree3 =
+  match tree3 with
+  | e -> t (e, x, e)
+  | t (tree1, y, tree2) ->
+    if element.lt x y then t (insert x tree1, y, tree2)
+    else if element.lt y x then t (tree1, y, insert x tree2)
+    else t (tree1, y, tree2)
+
+F:
+e,t
+
+P:
+tree_member
+
+assertion:
+fun int:x,int tree:tree1,int tree:tree2 -> True
+=>
+fun int:x,int tree:tree1,int tree:tree2 -> forall int:u,(tree_member(tree2,u) <==> 
+ (tree_member(tree1,u) || (u==x)))
+
+result:
+e(int tree:it_0):=
+forall int:u_0 int:u_1,(
+ !tree_member(it_0,u_0) ||
+true
+)
+t(int tree:it_0,int:i_0,int tree:it_1,int tree:it_2):=
+forall int:u_0 int:u_1,(
+ (ite tree_member(it_2,u_0)
+     (
+      (u_0==i_0) ||
+      (tree_member(it_0,u_0) || tree_member(it_1,u_0))
+     )
+     (
+      !(u_0==i_0) &&
+      (
+       !tree_member(it_0,u_0) &&
+       !tree_member(it_1,u_0)
+      )
+     )) ||
+ (ite (u_1==i_0)
+     (ite tree_member(it_2,u_0)
+         (
+          tree_member(it_0,u_0) ||
+          (
+           tree_member(it_1,u_0) ||
+           (
+            (i_0==u_0) ||
+            !tree_member(it_2,i_0)
+           )
+          )
+         )
+         (ite tree_member(it_1,u_0)
+             (ite (i_0==u_0)
+                 !(u_0==u_0)
+                 (
+                  !tree_member(it_0,u_0) ||
+                  (
+                   (u_0==i_0) ||
+                   !tree_member(it_2,i_0)
+                  )
+                 ))
+             (ite tree_member(it_1,i_0)
+                 (
+                  (u_0==i_0) ||
+                  (
+                   !tree_member(it_0,u_0) ||
+                   (
+                    (i_0==u_0) ||
+                    !tree_member(it_2,i_0)
+                   )
+                  )
+                 )
+                 (ite (i_0==u_0)
+                     !(u_0==u_0)
+                     (
+                      !tree_member(it_0,u_0) ||
+                      (
+                       (u_0==i_0) ||
+                       !tree_member(it_2,i_0)
+                      )
+                     )))))
+     (
+      !(u_1==u_0) ||
+      (
+       !tree_member(it_1,u_0) ||
+       (
+        tree_member(it_0,u_0) ||
+        (tree_member(it_2,u_0) || (u_0==i_0))
+       )
+      )
+     ))
+)

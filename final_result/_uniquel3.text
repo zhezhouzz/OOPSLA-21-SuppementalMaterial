@@ -1,0 +1,23 @@
+program:
+
+let rec set_add a x =
+  match x with
+  | nil -> cons a nil
+  | cons a1 x1 =>
+    if a == a1 then cons a1 x1 else cons a1 (set_add a x1)
+
+F:
+nil,cons
+
+P:
+list_member,list_head,list_once
+
+assertion:
+fun int:x,int list:l1,int list:l2 -> forall int:u,(
+ (list_member(l1,u) ==> list_once(l2,u)) &&
+ (list_member(l2,u) <==> 
+  ((u==x) || list_member(l1,u)))
+)
+
+result:
+cex: x -> [0;0],nu -> [0;0],a -> 0

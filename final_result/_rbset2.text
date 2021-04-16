@@ -1,0 +1,3009 @@
+program:
+
+  let balance = function
+    | B, T (R, T (R, a, x, b), y, c), z, d
+    | B, T (R, a, x, T (R, b, y, c)), z, d
+    | B, a, x, T (R, T (R, b, y, c), z, d)
+    | B, a, x, T (R, b, y, T (R, c, z, d)) ->
+        T (R, T (B, a, x, b), y, T (B, c, z, d))
+    | a, b, c, d -> T (a, b, c, d)
+
+F:
+t
+
+P:
+treeb_member,treeb_left,treeb_right,treeb_parallel
+
+assertion:
+fun bool:r1,int treeb:tree1,int:x,int treeb:tree2,int treeb:tree3 -> forall int:u int:v,(
+ (
+  (treeb_left(tree1,u,v) || treeb_right(tree1,u,v) || treeb_parallel(tree1,u,v)) ==> 
+  !(u==v)
+ ) &&
+ (
+  (treeb_left(tree2,u,v) || treeb_right(tree2,u,v) || treeb_parallel(tree2,u,v)) ==> 
+  !(u==v)
+ ) &&
+ (
+  (treeb_member(tree1,u) && treeb_member(tree1,v)) ==> 
+  !(u==v)
+ ) &&
+ (
+  (treeb_member(tree1,u) || treeb_member(tree2,u)) ==> 
+  !(u==x)
+ )
+)
+=>
+fun bool:r1,int treeb:tree1,int:x,int treeb:tree2,int treeb:tree3 -> forall int:u int:v,(
+ (
+  (treeb_left(tree3,u,v) || treeb_right(tree3,u,v) || treeb_parallel(tree3,u,v)) ==> 
+  !(u==v)
+ ) &&
+ (treeb_member(tree3,u) <==> 
+  (treeb_member(tree1,u) || treeb_member(tree2,u) || (u==x)))
+)
+
+result:
+t(bool:b_0,int treeb:itb_0,int:i_0,int treeb:itb_1,int treeb:itb_2):=
+forall int:u_0 int:u_1,(
+ (ite treeb_member(itb_2,u_1)
+     (ite treeb_parallel(itb_2,u_1,u_0)
+         (
+          treeb_member(itb_2,u_0) &&
+          (ite (u_1==u_0)
+              (ite treeb_member(itb_1,u_0)
+                  (
+                   treeb_right(itb_1,u_0,u_0) ||
+                   (
+                    treeb_right(itb_0,u_0,u_0) ||
+                    (ite treeb_member(itb_0,u_0)
+                        (
+                         !(u_0==i_0) ||
+                         treeb_left(itb_2,i_0,i_0)
+                        )
+                        (
+                         treeb_parallel(itb_1,u_0,u_0) &&
+                         (
+                          !treeb_parallel(itb_0,u_0,u_0) &&
+                          (
+                           (u_0==i_0) ||
+                           (
+                            treeb_left(itb_2,u_0,u_0) ||
+                            (
+                             !treeb_left(itb_1,u_0,u_0) &&
+                             !treeb_right(itb_2,u_0,u_0)
+                            )
+                           )
+                          )
+                         )
+                        ))
+                   )
+                  )
+                  (
+                   treeb_parallel(itb_0,u_0,u_0) &&
+                   (
+                    treeb_right(itb_0,u_0,u_0) ||
+                    (
+                     !treeb_parallel(itb_1,u_0,u_0) &&
+                     (
+                      !(u_0==i_0) ||
+                      (treeb_member(itb_0,i_0) && treeb_left(itb_2,i_0,i_0))
+                     )
+                    )
+                   )
+                  ))
+              (ite (u_1==i_0)
+                  (ite treeb_parallel(itb_1,i_0,u_0)
+                      treeb_right(itb_2,i_0,u_0)
+                      (
+                       treeb_parallel(itb_2,u_0,i_0) ||
+                       (
+                        treeb_member(itb_0,i_0) &&
+                        (treeb_right(itb_2,i_0,u_0) || treeb_parallel(itb_0,i_0,u_0))
+                       )
+                      ))
+                  (
+                   treeb_left(itb_1,u_0,u_1) ||
+                   (
+                    treeb_left(itb_1,u_1,u_0) ||
+                    (ite treeb_parallel(itb_1,u_1,u_0)
+                        (
+                         treeb_member(itb_1,u_0) &&
+                         (
+                          treeb_right(itb_2,u_0,u_1) ||
+                          !treeb_parallel(itb_1,u_0,u_1)
+                         )
+                        )
+                        (
+                         treeb_right(itb_0,u_0,u_1) ||
+                         (
+                          treeb_member(itb_0,u_1) &&
+                          (
+                           treeb_parallel(itb_2,u_0,u_1) ||
+                           (
+                            treeb_right(itb_0,u_1,u_0) ||
+                            (
+                             !treeb_parallel(itb_1,u_0,u_1) &&
+                             (
+                              treeb_parallel(itb_0,u_1,u_0) ||
+                              (
+                               treeb_member(itb_1,u_0) &&
+                               (
+                                !b_0 ||
+                                (
+                                 treeb_left(itb_0,u_1,u_0) ||
+                                 (
+                                  treeb_left(itb_0,u_0,u_1) ||
+                                  (
+                                   treeb_member(itb_1,u_1) ||
+                                   (ite (u_0==i_0)
+                                       treeb_left(itb_2,i_0,u_1)
+                                       (
+                                        !treeb_left(itb_2,u_0,u_1) &&
+                                        (
+                                         !treeb_member(itb_0,u_0) &&
+                                         (
+                                          !treeb_parallel(itb_0,u_0,u_1) &&
+                                          !treeb_right(itb_2,u_1,u_0)
+                                         )
+                                        )
+                                       ))
+                                  )
+                                 )
+                                )
+                               )
+                              )
+                             )
+                            )
+                           )
+                          )
+                         )
+                        ))
+                   )
+                  )))
+         )
+         (
+          !treeb_parallel(itb_1,u_1,u_0) &&
+          (ite treeb_parallel(itb_2,u_0,u_1)
+              (
+               treeb_member(itb_2,u_0) &&
+               (ite treeb_member(itb_0,u_0)
+                   (
+                    treeb_parallel(itb_0,u_0,u_1) ||
+                    (
+                     treeb_member(itb_1,u_1) &&
+                     (
+                      !b_0 ||
+                      (
+                       (u_0==i_0) ||
+                       (
+                        treeb_left(itb_0,u_1,u_0) ||
+                        (
+                         treeb_right(itb_0,u_0,u_1) ||
+                         (
+                          treeb_left(itb_0,u_0,u_1) ||
+                          (
+                           treeb_member(itb_1,u_0) ||
+                           (ite (u_1==i_0)
+                               treeb_left(itb_2,i_0,u_0)
+                               (
+                                !treeb_left(itb_2,u_1,u_0) &&
+                                (
+                                 !treeb_member(itb_0,u_1) &&
+                                 (
+                                  !treeb_parallel(itb_0,u_1,u_0) &&
+                                  !treeb_right(itb_2,u_0,u_1)
+                                 )
+                                )
+                               ))
+                          )
+                         )
+                        )
+                       )
+                      )
+                     )
+                    )
+                   )
+                   (
+                    treeb_member(itb_1,u_0) &&
+                    (
+                     treeb_right(itb_2,u_0,u_1) ||
+                     (
+                      treeb_left(itb_1,u_1,u_0) ||
+                      (
+                       treeb_member(itb_1,u_1) &&
+                       !(u_0==i_0)
+                      )
+                     )
+                    )
+                   ))
+              )
+              (
+               !treeb_parallel(itb_0,u_1,u_0) &&
+               (
+                !treeb_parallel(itb_1,u_0,u_1) &&
+                (
+                 !treeb_parallel(itb_0,u_0,u_1) &&
+                 (ite treeb_member(itb_0,u_1)
+                     (
+                      !treeb_member(itb_1,u_0) &&
+                      (ite b_0
+                          (ite treeb_left(itb_2,u_0,u_1)
+                              (
+                               treeb_left(itb_0,u_0,u_1) ||
+                               (
+                                (u_0==i_0) &&
+                                (
+                                 treeb_member(itb_0,i_0) ||
+                                 (
+                                  treeb_member(itb_1,u_1) ||
+                                  !treeb_right(itb_2,i_0,u_1)
+                                 )
+                                )
+                               )
+                              )
+                              (
+                               !(u_0==i_0) &&
+                               (
+                                (u_1==i_0) ||
+                                (
+                                 treeb_member(itb_1,u_1) ||
+                                 (
+                                  !treeb_left(itb_0,u_0,u_1) &&
+                                  (
+                                   !treeb_right(itb_1,u_1,u_0) &&
+                                   (ite treeb_member(itb_0,u_0)
+                                       (
+                                        treeb_left(itb_0,u_1,u_0) ||
+                                        (ite treeb_right(itb_2,u_1,u_0)
+                                            treeb_right(itb_0,u_1,u_0)
+                                            (
+                                             treeb_right(itb_2,u_0,u_1) ||
+                                             (
+                                              (u_1==u_0) &&
+                                              (
+                                               !treeb_right(itb_0,u_0,u_0) &&
+                                               !treeb_left(itb_1,u_0,u_0)
+                                              )
+                                             )
+                                            ))
+                                       )
+                                       (
+                                        !treeb_member(itb_2,u_0) &&
+                                        (
+                                         !treeb_left(itb_0,u_1,u_0) &&
+                                         (
+                                          !treeb_right(itb_0,u_0,u_1) &&
+                                          !treeb_left(itb_2,u_1,u_0)
+                                         )
+                                        )
+                                       ))
+                                  )
+                                 )
+                                )
+                               )
+                              ))
+                          (
+                           treeb_right(itb_0,u_1,u_0) ||
+                           (
+                            !treeb_left(itb_1,u_1,u_0) &&
+                            (
+                             treeb_left(itb_0,u_0,u_1) ||
+                             (
+                              treeb_right(itb_0,u_0,u_1) ||
+                              (
+                               treeb_member(itb_1,u_1) ||
+                               (
+                                treeb_left(itb_0,u_1,u_0) ||
+                                (
+                                 !treeb_right(itb_2,u_1,u_0) &&
+                                 (ite treeb_left(itb_2,u_1,u_0)
+                                     (u_1==i_0)
+                                     (
+                                      (u_1==u_0) ||
+                                      (
+                                       !treeb_member(itb_0,u_0) &&
+                                       (
+                                        !treeb_left(itb_2,u_0,u_1) ||
+                                        (u_0==i_0)
+                                       )
+                                      )
+                                     ))
+                                )
+                               )
+                              )
+                             )
+                            )
+                           )
+                          ))
+                     )
+                     (ite treeb_member(itb_1,u_0)
+                         (ite treeb_member(itb_1,u_1)
+                             (
+                              !treeb_right(itb_0,u_1,u_0) &&
+                              (
+                               !treeb_member(itb_0,u_0) &&
+                               (
+                                !treeb_left(itb_0,u_1,u_0) &&
+                                (ite (u_1==i_0)
+                                    treeb_right(itb_2,i_0,u_0)
+                                    (
+                                     (u_0==i_0) ||
+                                     (ite treeb_right(itb_1,u_1,u_0)
+                                         treeb_right(itb_2,u_1,u_0)
+                                         (
+                                          !treeb_right(itb_2,u_1,u_0) &&
+                                          (
+                                           treeb_right(itb_1,u_0,u_1) ||
+                                           (ite (u_1==u_0)
+                                               (ite b_0
+                                                   (
+                                                    !treeb_left(itb_0,u_0,u_0) &&
+                                                    (
+                                                     !treeb_right(itb_0,u_0,u_0) &&
+                                                     (ite treeb_left(itb_1,u_0,u_0)
+                                                         treeb_left(itb_2,u_0,u_0)
+                                                         !treeb_left(itb_2,u_0,u_0))
+                                                    )
+                                                   )
+                                                   (
+                                                    treeb_left(itb_1,u_0,u_0) ||
+                                                    !treeb_left(itb_2,u_0,u_0)
+                                                   ))
+                                               (treeb_left(itb_1,u_1,u_0) || treeb_left(itb_1,u_0,u_1)))
+                                          )
+                                         ))
+                                    ))
+                               )
+                              )
+                             )
+                             (
+                              treeb_member(itb_0,u_0) ||
+                              (
+                               treeb_right(itb_2,u_1,u_0) &&
+                               (
+                                !treeb_right(itb_1,u_0,u_1) &&
+                                (
+                                 !treeb_left(itb_2,u_0,u_1) &&
+                                 (
+                                  !treeb_left(itb_0,u_1,u_0) &&
+                                  !treeb_left(itb_2,u_1,u_0)
+                                 )
+                                )
+                               )
+                              )
+                             ))
+                         (
+                          !treeb_left(itb_2,u_0,u_1) &&
+                          (
+                           !treeb_right(itb_2,u_1,u_0) &&
+                           (ite (u_1==i_0)
+                               (
+                                !treeb_right(itb_0,u_0,i_0) &&
+                                (
+                                 !treeb_left(itb_0,u_0,i_0) &&
+                                 (
+                                  (i_0==u_0) ||
+                                  (
+                                   !treeb_left(itb_1,u_0,i_0) &&
+                                   (
+                                    !treeb_right(itb_2,u_0,i_0) &&
+                                    (ite b_0
+                                        (
+                                         !treeb_right(itb_0,i_0,u_0) &&
+                                         (ite treeb_member(itb_0,u_0)
+                                             (
+                                              !treeb_member(itb_1,i_0) &&
+                                              treeb_member(itb_2,u_0)
+                                             )
+                                             (
+                                              treeb_member(itb_1,i_0) ||
+                                              (
+                                               !treeb_member(itb_2,u_0) &&
+                                               !treeb_left(itb_2,i_0,u_0)
+                                              )
+                                             ))
+                                        )
+                                        (
+                                         !treeb_left(itb_2,i_0,u_0) ||
+                                         treeb_member(itb_0,u_0)
+                                        ))
+                                   )
+                                  )
+                                 )
+                                )
+                               )
+                               (
+                                treeb_member(itb_1,u_1) &&
+                                (
+                                 !treeb_left(itb_2,u_1,u_0) &&
+                                 (
+                                  !treeb_member(itb_0,u_0) &&
+                                  (
+                                   !treeb_right(itb_1,u_0,u_1) &&
+                                   (
+                                    !treeb_left(itb_1,u_0,u_1) &&
+                                    (
+                                     !treeb_left(itb_1,u_1,u_0) &&
+                                     (
+                                      !(u_0==i_0) ||
+                                      (
+                                       !treeb_right(itb_1,u_1,i_0) &&
+                                       treeb_right(itb_2,i_0,u_1)
+                                      )
+                                     )
+                                    )
+                                   )
+                                  )
+                                 )
+                                )
+                               ))
+                          )
+                         )))
+                )
+               )
+              ))
+         ))
+     (
+      !treeb_right(itb_1,u_1,u_0) &&
+      (ite treeb_member(itb_2,u_0)
+          (
+           !treeb_left(itb_2,u_0,u_1) &&
+           (
+            !treeb_parallel(itb_2,u_0,u_1) &&
+            (
+             !treeb_member(itb_0,u_1) &&
+             (
+              !treeb_left(itb_2,u_1,u_0) &&
+              (
+               !treeb_parallel(itb_1,u_1,u_0) &&
+               (ite treeb_member(itb_0,u_0)
+                   (
+                    (u_0==i_0) ||
+                    (
+                     !b_0 ||
+                     (
+                      treeb_member(itb_1,u_0) ||
+                      (
+                       !treeb_left(itb_0,u_0,u_1) &&
+                       (
+                        !treeb_right(itb_0,u_1,u_0) &&
+                        (
+                         !treeb_parallel(itb_0,u_1,u_0) &&
+                         !treeb_right(itb_1,u_0,u_1)
+                        )
+                       )
+                      )
+                     )
+                    )
+                   )
+                   (ite treeb_member(itb_1,u_0)
+                       (
+                        (u_0==i_0) ||
+                        (
+                         !treeb_left(itb_1,u_1,u_0) &&
+                         (
+                          !treeb_left(itb_1,u_0,u_1) &&
+                          (
+                           !treeb_right(itb_2,u_1,u_0) &&
+                           !treeb_right(itb_2,u_0,u_1)
+                          )
+                         )
+                        )
+                       )
+                       (
+                        !treeb_left(itb_0,u_0,u_1) &&
+                        (
+                         !treeb_parallel(itb_2,u_1,u_0) &&
+                         (ite b_0
+                             (
+                              (u_0==i_0) &&
+                              !treeb_right(itb_0,i_0,u_1)
+                             )
+                             (
+                              !treeb_parallel(itb_0,u_0,u_1) &&
+                              (
+                               !treeb_member(itb_1,u_1) &&
+                               (
+                                !treeb_left(itb_1,u_1,u_0) &&
+                                (
+                                 !treeb_parallel(itb_1,u_0,u_1) &&
+                                 (
+                                  !treeb_right(itb_2,u_1,u_0) &&
+                                  !treeb_right(itb_2,u_0,u_1)
+                                 )
+                                )
+                               )
+                              )
+                             ))
+                        )
+                       )))
+              )
+             )
+            )
+           )
+          )
+          (
+           !treeb_left(itb_1,u_1,u_0) &&
+           (
+            !treeb_member(itb_0,u_1) &&
+            (
+             !(u_0==i_0) &&
+             (
+              !treeb_parallel(itb_2,u_1,u_0) &&
+              (
+               !treeb_member(itb_1,u_0) &&
+               (
+                !(u_1==i_0) &&
+                (
+                 !treeb_left(itb_0,u_1,u_0) &&
+                 (
+                  !treeb_parallel(itb_1,u_1,u_0) &&
+                  (
+                   !treeb_right(itb_2,u_1,u_0) &&
+                   (
+                    !treeb_right(itb_1,u_0,u_1) &&
+                    (
+                     !treeb_left(itb_2,u_1,u_0) &&
+                     (
+                      !treeb_member(itb_0,u_0) &&
+                      (
+                       !treeb_right(itb_0,u_1,u_0) &&
+                       (
+                        !treeb_parallel(itb_0,u_1,u_0) &&
+                        !treeb_member(itb_1,u_1)
+                       )
+                      )
+                     )
+                    )
+                   )
+                  )
+                 )
+                )
+               )
+              )
+             )
+            )
+           )
+          ))
+     )) ||
+ (ite treeb_member(itb_2,u_0)
+     (ite treeb_parallel(itb_2,u_1,u_0)
+         (ite treeb_member(itb_2,u_1)
+             (ite (u_1==u_0)
+                 (ite treeb_member(itb_1,u_0)
+                     (
+                      treeb_right(itb_1,u_0,u_0) ||
+                      (
+                       treeb_right(itb_0,u_0,u_0) ||
+                       (ite treeb_parallel(itb_1,u_0,u_0)
+                           (
+                            treeb_left(itb_2,u_0,u_0) ||
+                            (
+                             !treeb_left(itb_1,u_0,u_0) &&
+                             (ite treeb_parallel(itb_0,u_0,u_0)
+                                 treeb_member(itb_0,u_0)
+                                 (
+                                  !treeb_left(itb_0,u_0,u_0) &&
+                                  (
+                                   treeb_parallel(itb_2,u_0,u_0) &&
+                                   (ite (u_0==i_0)
+                                       !treeb_member(itb_0,i_0)
+                                       !treeb_right(itb_2,u_0,u_0))
+                                  )
+                                 ))
+                            )
+                           )
+                           (
+                            treeb_member(itb_0,u_0) &&
+                            (
+                             !b_0 ||
+                             (
+                              treeb_parallel(itb_0,u_0,u_0) ||
+                              !(u_0==i_0)
+                             )
+                            )
+                           ))
+                      )
+                     )
+                     (ite treeb_parallel(itb_0,u_0,u_0)
+                         (
+                          treeb_right(itb_0,u_0,u_0) ||
+                          (
+                           !treeb_parallel(itb_1,u_0,u_0) &&
+                           (
+                            !(u_0==i_0) ||
+                            (treeb_left(itb_2,i_0,i_0) && treeb_member(itb_0,i_0))
+                           )
+                          )
+                         )
+                         (
+                          !treeb_parallel(itb_2,u_0,u_0) ||
+                          (
+                           (u_0==i_0) &&
+                           !(i_0==i_0)
+                          )
+                         )))
+                 (ite treeb_parallel(itb_1,u_0,u_1)
+                     (
+                      treeb_left(itb_2,u_1,u_0) ||
+                      (
+                       treeb_left(itb_1,u_0,u_1) ||
+                       (ite treeb_right(itb_2,u_0,u_1)
+                           (
+                            (u_0==i_0) ||
+                            (treeb_member(itb_0,u_1) || treeb_right(itb_2,u_1,u_0))
+                           )
+                           (ite treeb_parallel(itb_0,u_1,u_0)
+                               treeb_right(itb_0,u_1,u_0)
+                               (
+                                !b_0 ||
+                                ((u_1==i_0) && treeb_parallel(itb_2,u_0,i_0))
+                               )))
+                      )
+                     )
+                     (ite treeb_right(itb_1,u_0,u_1)
+                         (
+                          treeb_parallel(itb_2,u_0,u_1) ||
+                          (
+                           treeb_left(itb_1,u_1,u_0) ||
+                           (
+                            treeb_member(itb_1,u_0) &&
+                            (
+                             treeb_right(itb_2,u_1,u_0) ||
+                             !(u_1==i_0)
+                            )
+                           )
+                          )
+                         )
+                         (ite treeb_left(itb_1,u_1,u_0)
+                             (
+                              !(u_1==i_0) ||
+                              (treeb_member(itb_0,i_0) || treeb_right(itb_0,i_0,u_0))
+                             )
+                             (ite treeb_parallel(itb_1,u_1,u_0)
+                                 (
+                                  treeb_left(itb_2,u_0,u_1) ||
+                                  (
+                                   treeb_right(itb_1,u_1,u_0) ||
+                                   (
+                                    treeb_right(itb_2,u_0,u_1) ||
+                                    (
+                                     !treeb_left(itb_0,u_1,u_0) &&
+                                     (
+                                      treeb_right(itb_2,u_1,u_0) ||
+                                      (
+                                       !b_0 &&
+                                       !treeb_member(itb_0,u_1)
+                                      )
+                                     )
+                                    )
+                                   )
+                                  )
+                                 )
+                                 (ite treeb_right(itb_1,u_1,u_0)
+                                     (
+                                      !(u_1==i_0) ||
+                                      treeb_member(itb_0,i_0)
+                                     )
+                                     (
+                                      treeb_left(itb_1,u_0,u_1) ||
+                                      (ite treeb_member(itb_1,u_1)
+                                          (
+                                           treeb_parallel(itb_2,u_0,u_1) ||
+                                           ((u_1==i_0) && treeb_member(itb_0,i_0))
+                                          )
+                                          (ite (u_0==i_0)
+                                              (
+                                               treeb_left(itb_2,i_0,u_1) ||
+                                               (
+                                                !treeb_left(itb_0,u_1,i_0) &&
+                                                (
+                                                 !treeb_left(itb_2,u_1,i_0) &&
+                                                 (
+                                                  treeb_parallel(itb_0,u_1,i_0) ||
+                                                  (
+                                                   !b_0 ||
+                                                   treeb_parallel(itb_2,i_0,u_1)
+                                                  )
+                                                 )
+                                                )
+                                               )
+                                              )
+                                              (ite treeb_member(itb_1,u_0)
+                                                  (
+                                                   treeb_left(itb_0,u_0,u_1) ||
+                                                   (ite treeb_left(itb_2,u_0,u_1)
+                                                       !b_0
+                                                       (
+                                                        treeb_left(itb_2,u_1,u_0) ||
+                                                        (
+                                                         !treeb_left(itb_0,u_1,u_0) &&
+                                                         (
+                                                          treeb_right(itb_0,u_0,u_1) ||
+                                                          (ite treeb_member(itb_0,u_1)
+                                                              (
+                                                               !b_0 ||
+                                                               (
+                                                                treeb_right(itb_0,u_1,u_0) ||
+                                                                (
+                                                                 (u_1==i_0) ||
+                                                                 (
+                                                                  treeb_parallel(itb_0,u_1,u_0) ||
+                                                                  (
+                                                                   treeb_parallel(itb_2,u_0,u_1) ||
+                                                                   (
+                                                                    !treeb_member(itb_0,u_0) &&
+                                                                    (
+                                                                     !treeb_parallel(itb_0,u_0,u_1) &&
+                                                                     !treeb_right(itb_2,u_1,u_0)
+                                                                    )
+                                                                   )
+                                                                  )
+                                                                 )
+                                                                )
+                                                               )
+                                                              )
+                                                              (
+                                                               !b_0 &&
+                                                               !treeb_right(itb_0,u_1,u_0)
+                                                              ))
+                                                         )
+                                                        )
+                                                       ))
+                                                  )
+                                                  (
+                                                   treeb_left(itb_0,u_1,u_0) ||
+                                                   (ite treeb_parallel(itb_0,u_1,u_0)
+                                                       treeb_member(itb_0,u_1)
+                                                       (
+                                                        !b_0 ||
+                                                        (
+                                                         treeb_right(itb_0,u_0,u_1) ||
+                                                         (
+                                                          treeb_left(itb_2,u_1,u_0) ||
+                                                          (
+                                                           !(u_1==i_0) &&
+                                                           (
+                                                            !treeb_member(itb_0,u_1) &&
+                                                            !treeb_parallel(itb_2,u_0,u_1)
+                                                           )
+                                                          )
+                                                         )
+                                                        )
+                                                       ))
+                                                  ))))
+                                     )))))))
+             (ite treeb_parallel(itb_0,u_1,u_0)
+                 (
+                  !treeb_parallel(itb_1,u_1,u_0) &&
+                  (
+                   !treeb_member(itb_0,u_0) &&
+                   (
+                    treeb_parallel(itb_0,u_0,u_1) ||
+                    (
+                     treeb_member(itb_1,u_0) &&
+                     !treeb_left(itb_0,u_0,u_1)
+                    )
+                   )
+                  )
+                 )
+                 (ite treeb_left(itb_1,u_0,u_1)
+                     (
+                      !(u_0==i_0) &&
+                      !treeb_left(itb_1,u_1,u_0)
+                     )
+                     (ite treeb_right(itb_0,u_1,u_0)
+                         treeb_left(itb_0,u_1,u_0)
+                         (ite b_0
+                             (
+                              !treeb_right(itb_2,u_0,u_1) &&
+                              (
+                               !treeb_left(itb_0,u_0,u_1) &&
+                               (
+                                !treeb_parallel(itb_0,u_0,u_1) &&
+                                (ite (u_0==i_0)
+                                    (
+                                     treeb_member(itb_1,i_0) ||
+                                     (
+                                      treeb_right(itb_1,u_1,i_0) &&
+                                      !treeb_right(itb_1,i_0,u_1)
+                                     )
+                                    )
+                                    (
+                                     !treeb_left(itb_2,u_0,u_1) &&
+                                     (
+                                      !treeb_parallel(itb_1,u_1,u_0) &&
+                                      (
+                                       !treeb_parallel(itb_2,u_0,u_1) &&
+                                       (ite treeb_right(itb_1,u_0,u_1)
+                                           !treeb_member(itb_0,u_0)
+                                           (
+                                            (u_1==i_0) ||
+                                            (
+                                             treeb_member(itb_0,u_1) ||
+                                             (
+                                              treeb_left(itb_1,u_1,u_0) ||
+                                              (
+                                               !treeb_member(itb_1,u_0) &&
+                                               (
+                                                !treeb_right(itb_1,u_1,u_0) ||
+                                                !treeb_member(itb_0,u_0)
+                                               )
+                                              )
+                                             )
+                                            )
+                                           ))
+                                      )
+                                     )
+                                    ))
+                               )
+                              )
+                             )
+                             (ite treeb_left(itb_1,u_1,u_0)
+                                 (u_1==i_0)
+                                 (
+                                  treeb_member(itb_1,u_0) ||
+                                  (
+                                   !treeb_left(itb_2,u_1,u_0) &&
+                                   (
+                                    treeb_right(itb_1,u_1,u_0) ||
+                                    (
+                                     !treeb_right(itb_2,u_0,u_1) &&
+                                     (
+                                      !(u_0==i_0) ||
+                                      (
+                                       !treeb_right(itb_0,i_0,u_1) &&
+                                       (
+                                        treeb_left(itb_2,i_0,u_1) ||
+                                        (
+                                         !treeb_right(itb_2,u_1,i_0) &&
+                                         !treeb_parallel(itb_2,i_0,u_1)
+                                        )
+                                       )
+                                      )
+                                     )
+                                    )
+                                   )
+                                  )
+                                 )))))))
+         (ite treeb_parallel(itb_1,u_1,u_0)
+             (
+              !treeb_member(itb_0,u_0) &&
+              (
+               !b_0 &&
+               (
+                !treeb_left(itb_2,u_1,u_0) &&
+                (
+                 !treeb_member(itb_1,u_1) &&
+                 (
+                  treeb_right(itb_0,u_0,u_1) ||
+                  (
+                   treeb_parallel(itb_0,u_0,u_1) ||
+                   (
+                    !treeb_left(itb_0,u_0,u_1) &&
+                    !treeb_left(itb_2,u_0,u_1)
+                   )
+                  )
+                 )
+                )
+               )
+              )
+             )
+             (ite b_0
+                 (ite (u_1==u_0)
+                     (
+                      !treeb_parallel(itb_0,u_0,u_0) &&
+                      (ite treeb_left(itb_2,u_0,u_0)
+                          (ite treeb_member(itb_0,u_0)
+                              (
+                               treeb_left(itb_0,u_0,u_0) ||
+                               (
+                                (u_0==i_0) &&
+                                !treeb_member(itb_1,i_0)
+                               )
+                              )
+                              (
+                               treeb_member(itb_1,u_0) &&
+                               (ite treeb_right(itb_2,u_0,u_0)
+                                   (treeb_left(itb_1,u_0,u_0) || treeb_right(itb_1,u_0,u_0))
+                                   (
+                                    !(u_0==i_0) &&
+                                    (
+                                     treeb_left(itb_1,u_0,u_0) &&
+                                     !treeb_right(itb_1,u_0,u_0)
+                                    )
+                                   ))
+                              ))
+                          (ite treeb_member(itb_0,u_0)
+                              (
+                               !treeb_member(itb_1,u_0) &&
+                               (
+                                !(u_0==i_0) &&
+                                (
+                                 !treeb_left(itb_0,u_0,u_0) &&
+                                 (
+                                  !treeb_right(itb_1,u_0,u_0) &&
+                                  (
+                                   !treeb_left(itb_1,u_0,u_0) &&
+                                   (ite treeb_right(itb_0,u_0,u_0)
+                                       treeb_right(itb_2,u_0,u_0)
+                                       !treeb_right(itb_2,u_0,u_0))
+                                  )
+                                 )
+                                )
+                               )
+                              )
+                              (
+                               !treeb_right(itb_0,u_0,u_0) &&
+                               (
+                                !treeb_left(itb_0,u_0,u_0) &&
+                                (ite (u_0==i_0)
+                                    (ite treeb_member(itb_1,i_0)
+                                        treeb_right(itb_2,i_0,i_0)
+                                        !treeb_right(itb_2,i_0,i_0))
+                                    (
+                                     treeb_member(itb_1,u_0) &&
+                                     (
+                                      !treeb_left(itb_1,u_0,u_0) &&
+                                      (ite treeb_right(itb_1,u_0,u_0)
+                                          treeb_right(itb_2,u_0,u_0)
+                                          !treeb_right(itb_2,u_0,u_0))
+                                     )
+                                    ))
+                               )
+                              )))
+                     )
+                     (ite treeb_right(itb_1,u_1,u_0)
+                         (
+                          !treeb_right(itb_0,u_1,u_0) &&
+                          (ite (u_0==i_0)
+                              (
+                               treeb_left(itb_2,i_0,u_1) ||
+                               (ite treeb_right(itb_2,i_0,u_1)
+                                   (
+                                    !treeb_member(itb_1,u_1) ||
+                                    treeb_member(itb_1,i_0)
+                                   )
+                                   (
+                                    !treeb_member(itb_1,i_0) &&
+                                    (
+                                     !treeb_right(itb_1,i_0,u_1) &&
+                                     (
+                                      !treeb_left(itb_2,u_1,i_0) &&
+                                      (
+                                       !treeb_right(itb_0,i_0,u_1) &&
+                                       (
+                                        !treeb_parallel(itb_0,u_1,i_0) &&
+                                        (
+                                         !treeb_member(itb_0,u_1) &&
+                                         (
+                                          !treeb_left(itb_0,i_0,u_1) &&
+                                          (
+                                           !treeb_parallel(itb_0,i_0,u_1) &&
+                                           (
+                                            !treeb_member(itb_1,u_1) &&
+                                            !treeb_left(itb_1,u_1,i_0)
+                                           )
+                                          )
+                                         )
+                                        )
+                                       )
+                                      )
+                                     )
+                                    )
+                                   ))
+                              )
+                              (
+                               !treeb_left(itb_0,u_0,u_1) &&
+                               (
+                                !treeb_right(itb_2,u_0,u_1) &&
+                                (
+                                 treeb_parallel(itb_1,u_0,u_1) ||
+                                 (ite treeb_member(itb_0,u_1)
+                                     (
+                                      !treeb_member(itb_1,u_0) &&
+                                      (
+                                       !(u_1==i_0) &&
+                                       !treeb_parallel(itb_2,u_0,u_1)
+                                      )
+                                     )
+                                     (ite (u_1==i_0)
+                                         (
+                                          !treeb_member(itb_1,i_0) &&
+                                          (ite treeb_member(itb_0,u_0)
+                                              !treeb_parallel(itb_2,u_0,i_0)
+                                              treeb_left(itb_1,i_0,u_0))
+                                         )
+                                         (
+                                          treeb_member(itb_2,u_1) ||
+                                          (
+                                           !treeb_member(itb_0,u_0) &&
+                                           !treeb_right(itb_1,u_0,u_1)
+                                          )
+                                         )))
+                                )
+                               )
+                              ))
+                         )
+                         (ite treeb_parallel(itb_0,u_1,u_0)
+                             (ite treeb_member(itb_1,u_0)
+                                 (
+                                  !treeb_member(itb_1,u_1) &&
+                                  (
+                                   treeb_parallel(itb_2,u_0,u_1) ||
+                                   (
+                                    treeb_member(itb_0,u_0) ||
+                                    (
+                                     !treeb_member(itb_2,u_1) &&
+                                     !treeb_left(itb_1,u_1,u_0)
+                                    )
+                                   )
+                                  )
+                                 )
+                                 (
+                                  !treeb_right(itb_0,u_0,u_1) &&
+                                  (ite treeb_parallel(itb_1,u_0,u_1)
+                                      !treeb_left(itb_0,u_0,u_1)
+                                      (
+                                       (u_0==i_0) &&
+                                       (
+                                        !treeb_member(itb_2,u_1) &&
+                                        (
+                                         treeb_member(itb_0,i_0) ||
+                                         (
+                                          treeb_left(itb_1,i_0,u_1) ||
+                                          (
+                                           !treeb_left(itb_0,i_0,u_1) &&
+                                           (
+                                            !treeb_right(itb_1,i_0,u_1) &&
+                                            !treeb_parallel(itb_2,i_0,u_1)
+                                           )
+                                          )
+                                         )
+                                        )
+                                       )
+                                      ))
+                                 ))
+                             (ite treeb_member(itb_2,u_1)
+                                 (ite treeb_parallel(itb_2,u_0,u_1)
+                                     (ite treeb_member(itb_0,u_0)
+                                         (
+                                          treeb_parallel(itb_0,u_0,u_1) ||
+                                          (
+                                           treeb_member(itb_1,u_1) &&
+                                           (
+                                            treeb_left(itb_0,u_1,u_0) ||
+                                            (
+                                             treeb_right(itb_0,u_0,u_1) ||
+                                             (
+                                              treeb_right(itb_1,u_0,u_1) ||
+                                              (
+                                               treeb_parallel(itb_1,u_0,u_1) ||
+                                               (
+                                                !treeb_right(itb_2,u_0,u_1) &&
+                                                (
+                                                 treeb_left(itb_0,u_0,u_1) ||
+                                                 (
+                                                  treeb_left(itb_1,u_0,u_1) ||
+                                                  (
+                                                   !treeb_member(itb_0,u_1) &&
+                                                   (
+                                                    !treeb_left(itb_2,u_0,u_1) &&
+                                                    (ite (u_1==i_0)
+                                                        treeb_left(itb_2,i_0,u_0)
+                                                        !treeb_left(itb_2,u_1,u_0))
+                                                   )
+                                                  )
+                                                 )
+                                                )
+                                               )
+                                              )
+                                             )
+                                            )
+                                           )
+                                          )
+                                         )
+                                         (
+                                          treeb_member(itb_1,u_0) &&
+                                          (
+                                           treeb_right(itb_2,u_0,u_1) ||
+                                           (treeb_left(itb_1,u_1,u_0) || treeb_member(itb_1,u_1))
+                                          )
+                                         ))
+                                     (ite treeb_left(itb_2,u_0,u_1)
+                                         (ite treeb_member(itb_0,u_1)
+                                             (
+                                              !treeb_member(itb_1,u_0) &&
+                                              (
+                                               treeb_left(itb_0,u_0,u_1) ||
+                                               (
+                                                !treeb_right(itb_0,u_0,u_1) &&
+                                                (
+                                                 treeb_left(itb_0,u_1,u_0) ||
+                                                 (
+                                                  treeb_member(itb_1,u_1) ||
+                                                  (
+                                                   (u_0==i_0) &&
+                                                   (
+                                                    treeb_member(itb_0,i_0) ||
+                                                    (
+                                                     treeb_right(itb_0,u_1,i_0) ||
+                                                     (
+                                                      treeb_left(itb_1,u_1,i_0) ||
+                                                      (
+                                                       !treeb_parallel(itb_0,i_0,u_1) &&
+                                                       !treeb_right(itb_2,i_0,u_1)
+                                                      )
+                                                     )
+                                                    )
+                                                   )
+                                                  )
+                                                 )
+                                                )
+                                               )
+                                              )
+                                             )
+                                             (
+                                              !treeb_member(itb_0,u_0) &&
+                                              (ite treeb_member(itb_1,u_1)
+                                                  (
+                                                   treeb_member(itb_1,u_0) ||
+                                                   !(u_0==i_0)
+                                                  )
+                                                  treeb_parallel(itb_1,u_0,u_1))
+                                             ))
+                                         (ite (u_0==i_0)
+                                             (
+                                              treeb_member(itb_1,u_1) &&
+                                              (
+                                               treeb_left(itb_0,u_1,i_0) ||
+                                               (
+                                                treeb_left(itb_1,u_1,i_0) ||
+                                                (ite treeb_right(itb_0,i_0,u_1)
+                                                    !treeb_left(itb_0,i_0,u_1)
+                                                    (
+                                                     !treeb_left(itb_1,i_0,u_1) &&
+                                                     (
+                                                      !treeb_member(itb_0,u_1) &&
+                                                      (
+                                                       !treeb_left(itb_0,i_0,u_1) &&
+                                                       (
+                                                        !treeb_parallel(itb_0,i_0,u_1) &&
+                                                        (
+                                                         !treeb_parallel(itb_1,i_0,u_1) &&
+                                                         (
+                                                          !treeb_left(itb_2,u_1,i_0) &&
+                                                          treeb_right(itb_2,i_0,u_1)
+                                                         )
+                                                        )
+                                                       )
+                                                      )
+                                                     )
+                                                    ))
+                                               )
+                                              )
+                                             )
+                                             (ite treeb_member(itb_1,u_1)
+                                                 (ite treeb_member(itb_0,u_0)
+                                                     (treeb_right(itb_0,u_0,u_1) && treeb_member(itb_0,u_1))
+                                                     (treeb_left(itb_1,u_1,u_0) || treeb_right(itb_1,u_0,u_1)))
+                                                 (ite treeb_right(itb_0,u_1,u_0)
+                                                     (
+                                                      !treeb_left(itb_0,u_1,u_0) &&
+                                                      (
+                                                       !treeb_member(itb_0,u_0) ||
+                                                       (
+                                                        treeb_member(itb_0,u_1) &&
+                                                        (treeb_right(itb_2,u_1,u_0) || treeb_right(itb_2,u_0,u_1))
+                                                       )
+                                                      )
+                                                     )
+                                                     (ite treeb_right(itb_2,u_1,u_0)
+                                                         (
+                                                          (u_1==i_0) &&
+                                                          (
+                                                           treeb_member(itb_1,u_0) &&
+                                                           (
+                                                            treeb_member(itb_0,u_0) ||
+                                                            (
+                                                             !treeb_right(itb_1,u_0,i_0) &&
+                                                             (
+                                                              !treeb_left(itb_0,i_0,u_0) &&
+                                                              !treeb_left(itb_2,i_0,u_0)
+                                                             )
+                                                            )
+                                                           )
+                                                          )
+                                                         )
+                                                         (
+                                                          treeb_left(itb_0,u_1,u_0) ||
+                                                          (
+                                                           treeb_right(itb_1,u_0,u_1) ||
+                                                           (ite (u_1==i_0)
+                                                               (
+                                                                treeb_left(itb_2,i_0,u_0) &&
+                                                                (
+                                                                 treeb_member(itb_0,i_0) ||
+                                                                 (
+                                                                  treeb_member(itb_0,u_0) &&
+                                                                  (
+                                                                   treeb_member(itb_1,u_0) ||
+                                                                   (
+                                                                    !treeb_right(itb_0,u_0,i_0) &&
+                                                                    !treeb_left(itb_1,u_0,i_0)
+                                                                   )
+                                                                  )
+                                                                 )
+                                                                )
+                                                               )
+                                                               (
+                                                                !treeb_left(itb_2,u_1,u_0) &&
+                                                                (
+                                                                 treeb_parallel(itb_1,u_0,u_1) ||
+                                                                 (
+                                                                  !treeb_member(itb_1,u_0) &&
+                                                                  (
+                                                                   treeb_left(itb_1,u_0,u_1) ||
+                                                                   (ite treeb_right(itb_0,u_0,u_1)
+                                                                       (
+                                                                        treeb_left(itb_1,u_1,u_0) ||
+                                                                        (ite treeb_member(itb_0,u_1)
+                                                                            (treeb_member(itb_0,u_0) && treeb_right(itb_2,u_0,u_1))
+                                                                            !treeb_member(itb_0,u_0))
+                                                                       )
+                                                                       (
+                                                                        !treeb_member(itb_0,u_0) ||
+                                                                        treeb_right(itb_2,u_0,u_1)
+                                                                       ))
+                                                                  )
+                                                                 )
+                                                                )
+                                                               ))
+                                                          )
+                                                         )))))))
+                                 (ite treeb_left(itb_2,u_1,u_0)
+                                     (
+                                      !(u_0==i_0) &&
+                                      (ite treeb_parallel(itb_2,u_0,u_1)
+                                          !treeb_member(itb_0,u_0)
+                                          (
+                                           !treeb_left(itb_1,u_1,u_0) &&
+                                           (
+                                            !(u_1==i_0) &&
+                                            (
+                                             !treeb_right(itb_0,u_1,u_0) &&
+                                             (
+                                              treeb_member(itb_0,u_0) &&
+                                              (
+                                               !treeb_right(itb_1,u_0,u_1) &&
+                                               (
+                                                !treeb_parallel(itb_1,u_0,u_1) &&
+                                                !treeb_right(itb_2,u_0,u_1)
+                                               )
+                                              )
+                                             )
+                                            )
+                                           )
+                                          ))
+                                     )
+                                     (ite treeb_left(itb_2,u_0,u_1)
+                                         (
+                                          !treeb_member(itb_0,u_0) &&
+                                          (
+                                           !treeb_member(itb_1,u_0) &&
+                                           (
+                                            treeb_parallel(itb_1,u_0,u_1) ||
+                                            (
+                                             !(u_0==i_0) &&
+                                             !treeb_left(itb_0,u_1,u_0)
+                                            )
+                                           )
+                                          )
+                                         )
+                                         (ite treeb_parallel(itb_2,u_0,u_1)
+                                             (
+                                              !treeb_member(itb_0,u_0) &&
+                                              (
+                                               !(u_0==i_0) &&
+                                               (
+                                                treeb_parallel(itb_0,u_0,u_1) ||
+                                                (
+                                                 treeb_parallel(itb_1,u_0,u_1) ||
+                                                 (
+                                                  !treeb_left(itb_0,u_0,u_1) &&
+                                                  !treeb_right(itb_2,u_0,u_1)
+                                                 )
+                                                )
+                                               )
+                                              )
+                                             )
+                                             (ite treeb_left(itb_0,u_0,u_1)
+                                                 (
+                                                  !treeb_right(itb_2,u_0,u_1) &&
+                                                  (ite treeb_member(itb_1,u_0)
+                                                      !(u_1==i_0)
+                                                      (ite (u_0==i_0)
+                                                          treeb_member(itb_0,i_0)
+                                                          !treeb_member(itb_0,u_0)))
+                                                 )
+                                                 (
+                                                  treeb_parallel(itb_0,u_0,u_1) ||
+                                                  (
+                                                   treeb_member(itb_1,u_1) ||
+                                                   (ite treeb_member(itb_0,u_1)
+                                                       (
+                                                        !(u_0==i_0) &&
+                                                        !treeb_member(itb_0,u_0)
+                                                       )
+                                                       (
+                                                        (u_1==i_0) ||
+                                                        (ite treeb_left(itb_0,u_1,u_0)
+                                                            (
+                                                             !treeb_right(itb_0,u_1,u_0) ||
+                                                             treeb_member(itb_1,u_0)
+                                                            )
+                                                            (ite treeb_right(itb_0,u_1,u_0)
+                                                                (
+                                                                 !treeb_member(itb_0,u_0) ||
+                                                                 treeb_member(itb_1,u_0)
+                                                                )
+                                                                (ite treeb_parallel(itb_1,u_0,u_1)
+                                                                    (
+                                                                     treeb_member(itb_0,u_0) ||
+                                                                     ((u_0==i_0) || treeb_member(itb_1,u_0))
+                                                                    )
+                                                                    (ite treeb_left(itb_1,u_1,u_0)
+                                                                        (
+                                                                         (u_0==i_0) ||
+                                                                         (
+                                                                          treeb_member(itb_0,u_0) &&
+                                                                          !treeb_right(itb_1,u_0,u_1)
+                                                                         )
+                                                                        )
+                                                                        (ite treeb_right(itb_2,u_0,u_1)
+                                                                            (
+                                                                             (u_0==i_0) ||
+                                                                             (
+                                                                              treeb_left(itb_1,u_0,u_1) ||
+                                                                              (
+                                                                               treeb_member(itb_0,u_0) &&
+                                                                               !treeb_right(itb_1,u_0,u_1)
+                                                                              )
+                                                                             )
+                                                                            )
+                                                                            (ite treeb_left(itb_1,u_0,u_1)
+                                                                                !treeb_right(itb_0,u_0,u_1)
+                                                                                (ite treeb_member(itb_0,u_0)
+                                                                                    (
+                                                                                     !treeb_right(itb_1,u_0,u_1) ||
+                                                                                     (u_0==i_0)
+                                                                                    )
+                                                                                    (ite treeb_right(itb_1,u_0,u_1)
+                                                                                        !treeb_right(itb_0,u_0,u_1)
+                                                                                        (ite treeb_right(itb_0,u_0,u_1)
+                                                                                            treeb_member(itb_1,u_0)
+                                                                                            (
+                                                                                             (u_0==i_0) ||
+                                                                                             !treeb_right(itb_2,u_1,u_0)
+                                                                                            ))))))))))
+                                                       ))
+                                                  )
+                                                 )))))))))
+                 (ite treeb_left(itb_1,u_1,u_0)
+                     (
+                      !treeb_left(itb_0,u_0,u_1) &&
+                      (
+                       !treeb_right(itb_0,u_1,u_0) &&
+                       (ite treeb_member(itb_1,u_1)
+                           (
+                            treeb_right(itb_1,u_1,u_0) ||
+                            (ite (u_1==i_0)
+                                treeb_right(itb_2,i_0,u_0)
+                                (
+                                 treeb_left(itb_2,u_1,u_0) ||
+                                 (
+                                  treeb_left(itb_2,u_0,u_1) ||
+                                  (
+                                   (u_1==u_0) &&
+                                   !treeb_right(itb_2,u_0,u_0)
+                                  )
+                                 )
+                                ))
+                           )
+                           (
+                            !treeb_right(itb_2,u_1,u_0) &&
+                            (ite (u_0==i_0)
+                                (
+                                 treeb_member(itb_0,u_1) ||
+                                 (
+                                  (u_1==i_0) &&
+                                  !treeb_left(itb_2,i_0,i_0)
+                                 )
+                                )
+                                (
+                                 (u_1==i_0) ||
+                                 (
+                                  treeb_right(itb_1,u_1,u_0) ||
+                                  (
+                                   treeb_parallel(itb_2,u_0,u_1) ||
+                                   (
+                                    !treeb_member(itb_2,u_1) &&
+                                    (
+                                     treeb_member(itb_0,u_1) ||
+                                     (
+                                      treeb_left(itb_2,u_0,u_1) ||
+                                      (
+                                       treeb_member(itb_0,u_0) &&
+                                       !treeb_right(itb_1,u_0,u_1)
+                                      )
+                                     )
+                                    )
+                                   )
+                                  )
+                                 )
+                                ))
+                           ))
+                      )
+                     )
+                     (ite treeb_member(itb_0,u_1)
+                         (ite treeb_member(itb_2,u_1)
+                             (
+                              treeb_right(itb_1,u_1,u_0) ||
+                              (
+                               treeb_left(itb_1,u_0,u_1) ||
+                               (
+                                !treeb_parallel(itb_0,u_1,u_0) &&
+                                (
+                                 treeb_parallel(itb_0,u_0,u_1) ||
+                                 (
+                                  treeb_left(itb_0,u_0,u_1) ||
+                                  (
+                                   !treeb_parallel(itb_1,u_0,u_1) &&
+                                   (
+                                    treeb_left(itb_0,u_1,u_0) ||
+                                    (
+                                     treeb_parallel(itb_2,u_0,u_1) ||
+                                     (ite treeb_member(itb_0,u_0)
+                                         (
+                                          treeb_right(itb_0,u_1,u_0) ||
+                                          (
+                                           treeb_right(itb_0,u_0,u_1) ||
+                                           (
+                                            (u_1==u_0) &&
+                                            (
+                                             (u_0==i_0) ||
+                                             (
+                                              !treeb_member(itb_1,u_0) &&
+                                              (
+                                               !treeb_left(itb_2,u_0,u_0) &&
+                                               !treeb_right(itb_2,u_0,u_0)
+                                              )
+                                             )
+                                            )
+                                           )
+                                          )
+                                         )
+                                         (
+                                          treeb_member(itb_1,u_1) ||
+                                          !treeb_member(itb_1,u_0)
+                                         ))
+                                    )
+                                   )
+                                  )
+                                 )
+                                )
+                               )
+                              )
+                             )
+                             (
+                              !treeb_member(itb_0,u_0) &&
+                              !treeb_right(itb_0,u_1,u_0)
+                             ))
+                         (ite treeb_left(itb_0,u_1,u_0)
+                             (
+                              !treeb_left(itb_0,u_0,u_1) &&
+                              (
+                               !treeb_member(itb_1,u_1) &&
+                               (
+                                !treeb_left(itb_2,u_1,u_0) &&
+                                (
+                                 !treeb_left(itb_2,u_0,u_1) &&
+                                 (
+                                  !treeb_right(itb_1,u_1,u_0) ||
+                                  (
+                                   !treeb_member(itb_0,u_0) &&
+                                   !treeb_member(itb_1,u_0)
+                                  )
+                                 )
+                                )
+                               )
+                              )
+                             )
+                             (ite (u_0==i_0)
+                                 (ite treeb_parallel(itb_0,i_0,u_1)
+                                     (
+                                      !treeb_right(itb_1,u_1,i_0) &&
+                                      (
+                                       !treeb_member(itb_2,u_1) &&
+                                       (
+                                        !treeb_left(itb_0,i_0,u_1) &&
+                                        (
+                                         !treeb_left(itb_1,i_0,u_1) &&
+                                         (
+                                          !treeb_left(itb_2,u_1,i_0) &&
+                                          (
+                                           !treeb_left(itb_2,i_0,u_1) &&
+                                           !treeb_parallel(itb_2,i_0,u_1)
+                                          )
+                                         )
+                                        )
+                                       )
+                                      )
+                                     )
+                                     (ite treeb_left(itb_2,u_1,i_0)
+                                         (
+                                          !treeb_member(itb_2,u_1) &&
+                                          (
+                                           !treeb_member(itb_0,i_0) &&
+                                           (
+                                            !treeb_right(itb_0,u_1,i_0) &&
+                                            (
+                                             !treeb_left(itb_0,i_0,u_1) &&
+                                             (
+                                              !treeb_right(itb_0,i_0,u_1) &&
+                                              (
+                                               (u_1==i_0) ||
+                                               (
+                                                treeb_parallel(itb_1,i_0,u_1) ||
+                                                (
+                                                 !treeb_parallel(itb_0,u_1,i_0) &&
+                                                 !treeb_right(itb_2,u_1,i_0)
+                                                )
+                                               )
+                                              )
+                                             )
+                                            )
+                                           )
+                                          )
+                                         )
+                                         (ite treeb_right(itb_1,u_1,i_0)
+                                             (ite treeb_parallel(itb_2,i_0,u_1)
+                                                 (
+                                                  !treeb_right(itb_2,u_1,i_0) ||
+                                                  treeb_member(itb_1,i_0)
+                                                 )
+                                                 (
+                                                  !treeb_left(itb_0,i_0,u_1) &&
+                                                  (
+                                                   !treeb_right(itb_0,u_1,i_0) &&
+                                                   (
+                                                    !treeb_right(itb_2,i_0,u_1) &&
+                                                    (
+                                                     !treeb_member(itb_1,i_0) &&
+                                                     !treeb_left(itb_1,i_0,u_1)
+                                                    )
+                                                   )
+                                                  )
+                                                 ))
+                                             (ite treeb_left(itb_2,i_0,u_1)
+                                                 (ite treeb_member(itb_1,i_0)
+                                                     treeb_member(itb_1,u_1)
+                                                     (
+                                                      !treeb_right(itb_1,i_0,u_1) &&
+                                                      (
+                                                       !treeb_member(itb_1,u_1) &&
+                                                       (
+                                                        !treeb_member(itb_0,i_0) &&
+                                                        !treeb_left(itb_0,i_0,u_1)
+                                                       )
+                                                      )
+                                                     ))
+                                                 (
+                                                  treeb_member(itb_0,i_0) ||
+                                                  (ite treeb_left(itb_0,i_0,u_1)
+                                                      (
+                                                       treeb_right(itb_0,i_0,u_1) ||
+                                                       (
+                                                        treeb_member(itb_1,i_0) ||
+                                                        (
+                                                         !treeb_parallel(itb_0,u_1,i_0) &&
+                                                         (
+                                                          !treeb_member(itb_1,u_1) &&
+                                                          (
+                                                           !treeb_right(itb_1,i_0,u_1) &&
+                                                           (
+                                                            !treeb_right(itb_2,i_0,u_1) &&
+                                                            !treeb_parallel(itb_2,i_0,u_1)
+                                                           )
+                                                          )
+                                                         )
+                                                        )
+                                                       )
+                                                      )
+                                                      (ite treeb_member(itb_2,u_1)
+                                                          (
+                                                           treeb_parallel(itb_1,i_0,u_1) ||
+                                                           (
+                                                            !treeb_right(itb_0,i_0,u_1) &&
+                                                            (
+                                                             !treeb_left(itb_1,i_0,u_1) &&
+                                                             (
+                                                              !treeb_parallel(itb_2,i_0,u_1) &&
+                                                              (ite (u_1==i_0)
+                                                                  (
+                                                                   (i_0==i_0) &&
+                                                                   (
+                                                                    !treeb_right(itb_0,i_0,i_0) &&
+                                                                    (
+                                                                     !treeb_parallel(itb_0,i_0,i_0) &&
+                                                                     (ite treeb_member(itb_1,i_0)
+                                                                         treeb_right(itb_2,i_0,i_0)
+                                                                         !treeb_right(itb_2,i_0,i_0))
+                                                                    )
+                                                                   )
+                                                                  )
+                                                                  (
+                                                                   treeb_member(itb_1,i_0) ||
+                                                                   (
+                                                                    !treeb_right(itb_0,u_1,i_0) &&
+                                                                    (
+                                                                     !treeb_member(itb_1,u_1) ||
+                                                                     (
+                                                                      !treeb_parallel(itb_0,u_1,i_0) &&
+                                                                      !treeb_right(itb_1,i_0,u_1)
+                                                                     )
+                                                                    )
+                                                                   )
+                                                                  ))
+                                                             )
+                                                            )
+                                                           )
+                                                          )
+                                                          (
+                                                           treeb_right(itb_1,i_0,u_1) ||
+                                                           (
+                                                            treeb_member(itb_1,u_1) ||
+                                                            (
+                                                             treeb_member(itb_1,i_0) ||
+                                                             (
+                                                              treeb_parallel(itb_0,u_1,i_0) ||
+                                                              (ite treeb_right(itb_2,u_1,i_0)
+                                                                  (
+                                                                   treeb_right(itb_2,i_0,u_1) &&
+                                                                   !treeb_parallel(itb_2,i_0,u_1)
+                                                                  )
+                                                                  (
+                                                                   !treeb_right(itb_2,i_0,u_1) &&
+                                                                   (
+                                                                    treeb_right(itb_0,i_0,u_1) ||
+                                                                    (
+                                                                     !(u_1==i_0) &&
+                                                                     (ite treeb_right(itb_0,u_1,i_0)
+                                                                         !treeb_parallel(itb_2,i_0,u_1)
+                                                                         (
+                                                                          !treeb_left(itb_1,i_0,u_1) ||
+                                                                          !treeb_parallel(itb_1,i_0,u_1)
+                                                                         ))
+                                                                    )
+                                                                   )
+                                                                  ))
+                                                             )
+                                                            )
+                                                           )
+                                                          )))
+                                                 )))))
+                                 (ite treeb_member(itb_2,u_1)
+                                     (ite treeb_right(itb_0,u_0,u_1)
+                                         (
+                                          !treeb_right(itb_0,u_1,u_0) &&
+                                          (
+                                           !treeb_member(itb_1,u_1) &&
+                                           !(u_1==i_0)
+                                          )
+                                         )
+                                         (ite treeb_left(itb_0,u_0,u_1)
+                                             (
+                                              !treeb_member(itb_1,u_0) ||
+                                              (
+                                               treeb_right(itb_2,u_0,u_1) &&
+                                               !treeb_parallel(itb_1,u_0,u_1)
+                                              )
+                                             )
+                                             (ite (u_1==u_0)
+                                                 (
+                                                  !treeb_left(itb_2,u_0,u_0) &&
+                                                  (
+                                                   treeb_member(itb_1,u_0) &&
+                                                   (
+                                                    !treeb_member(itb_0,u_0) &&
+                                                    (
+                                                     !treeb_right(itb_0,u_0,u_0) &&
+                                                     (
+                                                      !treeb_parallel(itb_0,u_0,u_0) &&
+                                                      (
+                                                       !treeb_left(itb_1,u_0,u_0) &&
+                                                       (ite treeb_right(itb_1,u_0,u_0)
+                                                           treeb_right(itb_2,u_0,u_0)
+                                                           !treeb_right(itb_2,u_0,u_0))
+                                                      )
+                                                     )
+                                                    )
+                                                   )
+                                                  )
+                                                 )
+                                                 (
+                                                  !treeb_parallel(itb_0,u_0,u_1) &&
+                                                  (
+                                                   treeb_parallel(itb_1,u_0,u_1) ||
+                                                   (ite treeb_member(itb_1,u_0)
+                                                       (
+                                                        treeb_left(itb_1,u_0,u_1) ||
+                                                        (
+                                                         !treeb_left(itb_2,u_0,u_1) &&
+                                                         (
+                                                          treeb_member(itb_0,u_0) ||
+                                                          (
+                                                           treeb_right(itb_2,u_0,u_1) ||
+                                                           (
+                                                            treeb_parallel(itb_2,u_0,u_1) ||
+                                                            (ite (u_1==i_0)
+                                                                (
+                                                                 treeb_right(itb_2,i_0,u_0) &&
+                                                                 !treeb_right(itb_1,u_0,i_0)
+                                                                )
+                                                                (treeb_right(itb_1,u_1,u_0) || treeb_right(itb_1,u_0,u_1)))
+                                                           )
+                                                          )
+                                                         )
+                                                        )
+                                                       )
+                                                       (
+                                                        treeb_right(itb_1,u_0,u_1) ||
+                                                        (
+                                                         !treeb_right(itb_2,u_1,u_0) &&
+                                                         (
+                                                          !treeb_left(itb_1,u_0,u_1) ||
+                                                          !(u_1==i_0)
+                                                         )
+                                                        )
+                                                       ))
+                                                  )
+                                                 ))))
+                                     (
+                                      treeb_parallel(itb_0,u_0,u_1) ||
+                                      (ite treeb_right(itb_1,u_1,u_0)
+                                          (ite treeb_right(itb_1,u_0,u_1)
+                                              (u_1==i_0)
+                                              (
+                                               treeb_left(itb_1,u_0,u_1) ||
+                                               (
+                                                treeb_left(itb_0,u_0,u_1) ||
+                                                (
+                                                 treeb_member(itb_1,u_1) ||
+                                                 (
+                                                  treeb_left(itb_2,u_1,u_0) ||
+                                                  (
+                                                   treeb_left(itb_2,u_0,u_1) ||
+                                                   (
+                                                    !treeb_member(itb_0,u_0) &&
+                                                    !treeb_right(itb_0,u_1,u_0)
+                                                   )
+                                                  )
+                                                 )
+                                                )
+                                               )
+                                              ))
+                                          (
+                                           (u_1==u_0) ||
+                                           (
+                                            treeb_member(itb_1,u_1) ||
+                                            (ite treeb_right(itb_1,u_0,u_1)
+                                                (
+                                                 !treeb_right(itb_2,u_1,u_0) &&
+                                                 (
+                                                  !treeb_right(itb_2,u_0,u_1) ||
+                                                  (
+                                                   treeb_member(itb_0,u_0) &&
+                                                   !treeb_left(itb_2,u_0,u_1)
+                                                  )
+                                                 )
+                                                )
+                                                (ite treeb_left(itb_1,u_0,u_1)
+                                                    (
+                                                     treeb_member(itb_0,u_0) ||
+                                                     (
+                                                      treeb_right(itb_0,u_0,u_1) ||
+                                                      (
+                                                       treeb_parallel(itb_1,u_0,u_1) ||
+                                                       (ite treeb_member(itb_1,u_0)
+                                                           treeb_parallel(itb_2,u_0,u_1)
+                                                           !treeb_parallel(itb_2,u_0,u_1))
+                                                      )
+                                                     )
+                                                    )
+                                                    (ite treeb_parallel(itb_0,u_1,u_0)
+                                                        !treeb_member(itb_0,u_0)
+                                                        (ite treeb_member(itb_1,u_0)
+                                                            (
+                                                             treeb_right(itb_0,u_0,u_1) ||
+                                                             (
+                                                              treeb_right(itb_2,u_1,u_0) ||
+                                                              (
+                                                               treeb_parallel(itb_1,u_0,u_1) ||
+                                                               (
+                                                                treeb_right(itb_2,u_0,u_1) ||
+                                                                (ite treeb_parallel(itb_2,u_0,u_1)
+                                                                    (
+                                                                     !(u_1==i_0) &&
+                                                                     (
+                                                                      !treeb_left(itb_0,u_0,u_1) &&
+                                                                      !treeb_left(itb_2,u_0,u_1)
+                                                                     )
+                                                                    )
+                                                                    (
+                                                                     !treeb_left(itb_2,u_1,u_0) ||
+                                                                     (
+                                                                      (u_1==i_0) ||
+                                                                      (
+                                                                       !treeb_member(itb_0,u_0) &&
+                                                                       !treeb_right(itb_0,u_1,u_0)
+                                                                      )
+                                                                     )
+                                                                    ))
+                                                               )
+                                                              )
+                                                             )
+                                                            )
+                                                            (ite treeb_member(itb_0,u_0)
+                                                                (
+                                                                 !treeb_right(itb_2,u_0,u_1) &&
+                                                                 (
+                                                                  treeb_right(itb_0,u_1,u_0) ||
+                                                                  (
+                                                                   treeb_left(itb_0,u_0,u_1) ||
+                                                                   (
+                                                                    !treeb_left(itb_2,u_1,u_0) &&
+                                                                    !treeb_parallel(itb_2,u_0,u_1)
+                                                                   )
+                                                                  )
+                                                                 )
+                                                                )
+                                                                (
+                                                                 !treeb_right(itb_0,u_0,u_1) ||
+                                                                 (
+                                                                  !treeb_left(itb_2,u_0,u_1) ||
+                                                                  treeb_right(itb_2,u_1,u_0)
+                                                                 )
+                                                                ))))))
+                                           )
+                                          ))
+                                     )))))))))
+     (ite treeb_member(itb_2,u_1)
+         (ite (u_1==i_0)
+             (
+              !treeb_parallel(itb_1,i_0,u_0) &&
+              (ite treeb_parallel(itb_0,u_0,i_0)
+                  (treeb_parallel(itb_2,i_0,u_0) && treeb_left(itb_0,i_0,u_0))
+                  (ite treeb_member(itb_0,i_0)
+                      (
+                       !treeb_parallel(itb_2,u_0,i_0) &&
+                       (
+                        treeb_member(itb_1,i_0) ||
+                        (
+                         !treeb_parallel(itb_0,i_0,u_0) &&
+                         (
+                          treeb_left(itb_0,i_0,u_0) ||
+                          (
+                           !treeb_right(itb_2,u_0,i_0) &&
+                           (
+                            treeb_right(itb_0,i_0,u_0) ||
+                            (
+                             !treeb_parallel(itb_1,u_0,i_0) &&
+                             (
+                              !treeb_left(itb_2,u_0,i_0) ||
+                              b_0
+                             )
+                            )
+                           )
+                          )
+                         )
+                        )
+                       )
+                      )
+                      (ite treeb_member(itb_1,u_0)
+                          (
+                           treeb_left(itb_2,u_0,i_0) ||
+                           (
+                            treeb_parallel(itb_2,i_0,u_0) ||
+                            (
+                             treeb_left(itb_0,u_0,i_0) ||
+                             (
+                              treeb_left(itb_1,u_0,i_0) ||
+                              (
+                               !treeb_left(itb_0,i_0,u_0) &&
+                               (
+                                !treeb_right(itb_1,u_0,i_0) ||
+                                (
+                                 !treeb_left(itb_1,i_0,u_0) &&
+                                 treeb_parallel(itb_2,u_0,i_0)
+                                )
+                               )
+                              )
+                             )
+                            )
+                           )
+                          )
+                          (ite treeb_left(itb_2,u_0,i_0)
+                              (
+                               treeb_parallel(itb_2,i_0,u_0) &&
+                               (
+                                !b_0 &&
+                                (
+                                 !treeb_member(itb_1,i_0) &&
+                                 (
+                                  !treeb_right(itb_0,u_0,i_0) &&
+                                  !treeb_parallel(itb_1,u_0,i_0)
+                                 )
+                                )
+                               )
+                              )
+                              (
+                               !treeb_left(itb_0,u_0,i_0) &&
+                               (ite treeb_right(itb_2,i_0,u_0)
+                                   (
+                                    treeb_parallel(itb_2,i_0,u_0) &&
+                                    (
+                                     !b_0 &&
+                                     (
+                                      !treeb_right(itb_1,i_0,u_0) &&
+                                      !treeb_right(itb_2,u_0,i_0)
+                                     )
+                                    )
+                                   )
+                                   (ite treeb_right(itb_0,u_0,i_0)
+                                       (ite treeb_parallel(itb_2,i_0,u_0)
+                                           !b_0
+                                           (treeb_right(itb_1,u_0,i_0) && treeb_parallel(itb_2,u_0,i_0)))
+                                       (ite treeb_parallel(itb_0,i_0,u_0)
+                                           (
+                                            !treeb_right(itb_1,u_0,i_0) &&
+                                            (ite treeb_parallel(itb_2,u_0,i_0)
+                                                b_0
+                                                (
+                                                 !b_0 &&
+                                                 (
+                                                  !treeb_left(itb_0,i_0,u_0) &&
+                                                  (
+                                                   !treeb_left(itb_1,i_0,u_0) &&
+                                                   (
+                                                    !treeb_left(itb_2,i_0,u_0) &&
+                                                    !treeb_parallel(itb_2,i_0,u_0)
+                                                   )
+                                                  )
+                                                 )
+                                                ))
+                                           )
+                                           (ite treeb_left(itb_1,u_0,i_0)
+                                               (
+                                                treeb_parallel(itb_2,i_0,u_0) &&
+                                                !treeb_parallel(itb_2,u_0,i_0)
+                                               )
+                                               (ite treeb_right(itb_2,u_0,i_0)
+                                                   (ite treeb_parallel(itb_2,i_0,u_0)
+                                                       !treeb_right(itb_0,i_0,u_0)
+                                                       (
+                                                        treeb_parallel(itb_2,u_0,i_0) &&
+                                                        !treeb_member(itb_1,i_0)
+                                                       ))
+                                                   (ite treeb_parallel(itb_2,u_0,i_0)
+                                                       (
+                                                        !treeb_member(itb_1,i_0) &&
+                                                        (
+                                                         treeb_left(itb_2,i_0,u_0) ||
+                                                         (
+                                                          b_0 &&
+                                                          (
+                                                           !treeb_left(itb_0,i_0,u_0) &&
+                                                           (
+                                                            treeb_right(itb_0,i_0,u_0) ||
+                                                            (
+                                                             treeb_right(itb_1,i_0,u_0) &&
+                                                             !treeb_right(itb_1,u_0,i_0)
+                                                            )
+                                                           )
+                                                          )
+                                                         )
+                                                        )
+                                                       )
+                                                       (ite treeb_left(itb_2,i_0,u_0)
+                                                           (u_0==i_0)
+                                                           (
+                                                            !treeb_parallel(itb_1,u_0,i_0) &&
+                                                            (ite treeb_left(itb_1,i_0,u_0)
+                                                                (
+                                                                 treeb_right(itb_1,i_0,u_0) ||
+                                                                 (
+                                                                  !b_0 ||
+                                                                  (
+                                                                   !treeb_right(itb_0,i_0,u_0) &&
+                                                                   !treeb_parallel(itb_2,i_0,u_0)
+                                                                  )
+                                                                 )
+                                                                )
+                                                                (
+                                                                 !(i_0==u_0) &&
+                                                                 (
+                                                                  !(u_0==i_0) &&
+                                                                  (ite treeb_member(itb_1,i_0)
+                                                                      (
+                                                                       !treeb_right(itb_0,i_0,u_0) ||
+                                                                       !b_0
+                                                                      )
+                                                                      (
+                                                                       !treeb_member(itb_0,u_0) &&
+                                                                       (ite treeb_right(itb_1,i_0,u_0)
+                                                                           (
+                                                                            !treeb_right(itb_0,i_0,u_0) ||
+                                                                            !b_0
+                                                                           )
+                                                                           (ite treeb_right(itb_1,u_0,i_0)
+                                                                               !treeb_parallel(itb_2,i_0,u_0)
+                                                                               (ite treeb_left(itb_0,i_0,u_0)
+                                                                                   !treeb_right(itb_0,i_0,u_0)
+                                                                                   (
+                                                                                    !b_0 ||
+                                                                                    (
+                                                                                     !treeb_right(itb_0,i_0,u_0) &&
+                                                                                     !treeb_parallel(itb_2,i_0,u_0)
+                                                                                    )
+                                                                                   ))))
+                                                                      ))
+                                                                 )
+                                                                ))
+                                                           ))))))))
+                              )))))
+             )
+             (ite treeb_left(itb_1,u_1,u_0)
+                 (
+                  !treeb_member(itb_1,u_1) &&
+                  (
+                   !treeb_left(itb_0,u_1,u_0) &&
+                   (
+                    !treeb_parallel(itb_2,u_1,u_0) &&
+                    (
+                     !treeb_parallel(itb_2,u_0,u_1) &&
+                     (
+                      !treeb_right(itb_0,u_0,u_1) &&
+                      (
+                       !treeb_parallel(itb_0,u_0,u_1) &&
+                       (
+                        treeb_right(itb_0,u_1,u_0) ||
+                        (
+                         treeb_left(itb_1,u_0,u_1) ||
+                         (
+                          b_0 &&
+                          (
+                           treeb_right(itb_2,u_1,u_0) ||
+                           (
+                            !(u_0==i_0) &&
+                            !treeb_left(itb_0,u_0,u_1)
+                           )
+                          )
+                         )
+                        )
+                       )
+                      )
+                     )
+                    )
+                   )
+                  )
+                 )
+                 (ite b_0
+                     (ite treeb_right(itb_1,u_1,u_0)
+                         (
+                          !treeb_right(itb_2,u_1,u_0) &&
+                          (ite treeb_member(itb_0,u_1)
+                              (
+                               !treeb_parallel(itb_0,u_0,u_1) &&
+                               (
+                                !treeb_right(itb_1,u_0,u_1) &&
+                                (
+                                 !treeb_parallel(itb_0,u_1,u_0) &&
+                                 (
+                                  !treeb_left(itb_1,u_0,u_1) &&
+                                  (
+                                   !treeb_parallel(itb_1,u_1,u_0) &&
+                                   (
+                                    !treeb_left(itb_2,u_0,u_1) &&
+                                    (
+                                     !treeb_right(itb_2,u_0,u_1) &&
+                                     !treeb_parallel(itb_2,u_0,u_1)
+                                    )
+                                   )
+                                  )
+                                 )
+                                )
+                               )
+                              )
+                              !treeb_right(itb_1,u_0,u_1))
+                         )
+                         (ite treeb_parallel(itb_2,u_1,u_0)
+                             (
+                              !treeb_member(itb_1,u_1) &&
+                              (
+                               !treeb_member(itb_0,u_0) &&
+                               (
+                                !treeb_left(itb_2,u_0,u_1) &&
+                                (
+                                 treeb_right(itb_1,u_0,u_1) ||
+                                 (
+                                  !treeb_left(itb_0,u_1,u_0) &&
+                                  (
+                                   !treeb_left(itb_0,u_0,u_1) &&
+                                   (
+                                    !treeb_parallel(itb_0,u_1,u_0) &&
+                                    (
+                                     !treeb_right(itb_2,u_0,u_1) &&
+                                     !treeb_parallel(itb_2,u_0,u_1)
+                                    )
+                                   )
+                                  )
+                                 )
+                                )
+                               )
+                              )
+                             )
+                             (
+                              !treeb_parallel(itb_0,u_1,u_0) &&
+                              (ite treeb_left(itb_0,u_1,u_0)
+                                  (
+                                   !treeb_member(itb_0,u_1) &&
+                                   !treeb_right(itb_1,u_0,u_1)
+                                  )
+                                  (ite treeb_parallel(itb_1,u_1,u_0)
+                                      (ite treeb_member(itb_0,u_1)
+                                          (
+                                           treeb_parallel(itb_1,u_0,u_1) &&
+                                           !treeb_right(itb_2,u_0,u_1)
+                                          )
+                                          (
+                                           treeb_left(itb_2,u_1,u_0) ||
+                                           (
+                                            !treeb_left(itb_0,u_0,u_1) &&
+                                            !treeb_right(itb_0,u_1,u_0)
+                                           )
+                                          ))
+                                      (ite treeb_right(itb_2,u_1,u_0)
+                                          (
+                                           treeb_member(itb_0,u_1) &&
+                                           (
+                                            !(u_0==i_0) &&
+                                            (
+                                             treeb_right(itb_0,u_1,u_0) ||
+                                             (
+                                              treeb_left(itb_1,u_0,u_1) ||
+                                              (
+                                               !treeb_member(itb_1,u_1) &&
+                                               !treeb_left(itb_2,u_0,u_1)
+                                              )
+                                             )
+                                            )
+                                           )
+                                          )
+                                          (ite treeb_member(itb_1,u_1)
+                                              (
+                                               !treeb_parallel(itb_0,u_0,u_1) &&
+                                               (
+                                                !treeb_right(itb_1,u_0,u_1) &&
+                                                (
+                                                 treeb_member(itb_0,u_1) ||
+                                                 (
+                                                  treeb_right(itb_0,u_0,u_1) ||
+                                                  (
+                                                   !treeb_left(itb_1,u_0,u_1) &&
+                                                   (
+                                                    !treeb_right(itb_2,u_0,u_1) ||
+                                                    (
+                                                     !treeb_left(itb_2,u_0,u_1) &&
+                                                     !treeb_parallel(itb_2,u_0,u_1)
+                                                    )
+                                                   )
+                                                  )
+                                                 )
+                                                )
+                                               )
+                                              )
+                                              (
+                                               treeb_parallel(itb_0,u_0,u_1) ||
+                                               (ite treeb_left(itb_2,u_1,u_0)
+                                                   (
+                                                    !(u_0==i_0) &&
+                                                    (
+                                                     !treeb_right(itb_0,u_0,u_1) &&
+                                                     (
+                                                      !treeb_member(itb_0,u_1) ||
+                                                      treeb_left(itb_0,u_0,u_1)
+                                                     )
+                                                    )
+                                                   )
+                                                   (
+                                                    treeb_right(itb_0,u_1,u_0) ||
+                                                    (ite treeb_member(itb_0,u_0)
+                                                        (u_0==i_0)
+                                                        (
+                                                         !(u_0==i_0) &&
+                                                         (
+                                                          treeb_right(itb_2,u_0,u_1) ||
+                                                          (ite treeb_left(itb_0,u_0,u_1)
+                                                              treeb_parallel(itb_2,u_0,u_1)
+                                                              (
+                                                               !treeb_member(itb_0,u_1) ||
+                                                               (ite treeb_left(itb_1,u_0,u_1)
+                                                                   (
+                                                                    !treeb_left(itb_2,u_0,u_1) &&
+                                                                    !treeb_parallel(itb_2,u_0,u_1)
+                                                                   )
+                                                                   (
+                                                                    !treeb_parallel(itb_2,u_0,u_1) ||
+                                                                    (
+                                                                     !treeb_right(itb_0,u_0,u_1) &&
+                                                                     !treeb_right(itb_1,u_0,u_1)
+                                                                    )
+                                                                   ))
+                                                              ))
+                                                         )
+                                                        ))
+                                                   ))
+                                              )))))
+                             )))
+                     (ite treeb_right(itb_2,u_0,u_1)
+                         (
+                          !treeb_right(itb_1,u_1,u_0) &&
+                          (
+                           !treeb_member(itb_0,u_1) &&
+                           !treeb_right(itb_0,u_0,u_1)
+                          )
+                         )
+                         (ite treeb_parallel(itb_0,u_1,u_0)
+                             (
+                              !treeb_member(itb_1,u_1) &&
+                              (
+                               treeb_left(itb_0,u_0,u_1) ||
+                               (ite treeb_member(itb_0,u_1)
+                                   (
+                                    !treeb_left(itb_0,u_1,u_0) &&
+                                    !treeb_parallel(itb_1,u_0,u_1)
+                                   )
+                                   (
+                                    !treeb_right(itb_1,u_0,u_1) ||
+                                    treeb_parallel(itb_1,u_0,u_1)
+                                   ))
+                              )
+                             )
+                             (
+                              (u_1==u_0) ||
+                              (ite treeb_member(itb_1,u_0)
+                                  !treeb_member(itb_0,u_0)
+                                  (ite treeb_parallel(itb_1,u_1,u_0)
+                                      (
+                                       treeb_parallel(itb_2,u_1,u_0) ||
+                                       (
+                                        (u_0==i_0) ||
+                                        (treeb_left(itb_2,u_0,u_1) || treeb_member(itb_0,u_1))
+                                       )
+                                      )
+                                      (ite (u_0==i_0)
+                                          (
+                                           !treeb_member(itb_1,u_1) ||
+                                           !treeb_parallel(itb_2,u_1,i_0)
+                                          )
+                                          (ite treeb_member(itb_0,u_0)
+                                              !treeb_right(itb_0,u_1,u_0)
+                                              (ite treeb_parallel(itb_1,u_0,u_1)
+                                                  (
+                                                   !treeb_member(itb_0,u_1) ||
+                                                   treeb_parallel(itb_2,u_0,u_1)
+                                                  )
+                                                  (ite treeb_right(itb_0,u_1,u_0)
+                                                      (
+                                                       treeb_right(itb_2,u_1,u_0) ||
+                                                       (
+                                                        !treeb_left(itb_2,u_1,u_0) &&
+                                                        (
+                                                         treeb_left(itb_0,u_0,u_1) ||
+                                                         (
+                                                          treeb_right(itb_0,u_0,u_1) ||
+                                                          (
+                                                           !treeb_left(itb_2,u_0,u_1) &&
+                                                           !treeb_parallel(itb_2,u_0,u_1)
+                                                          )
+                                                         )
+                                                        )
+                                                       )
+                                                      )
+                                                      (ite treeb_left(itb_0,u_0,u_1)
+                                                          (
+                                                           treeb_left(itb_2,u_0,u_1) ||
+                                                           (
+                                                            treeb_member(itb_0,u_1) ||
+                                                            (
+                                                             treeb_parallel(itb_2,u_1,u_0) ||
+                                                             (
+                                                              !treeb_left(itb_2,u_1,u_0) &&
+                                                              (
+                                                               !treeb_member(itb_1,u_1) ||
+                                                               !treeb_right(itb_1,u_0,u_1)
+                                                              )
+                                                             )
+                                                            )
+                                                           )
+                                                          )
+                                                          (ite treeb_parallel(itb_0,u_0,u_1)
+                                                              (
+                                                               treeb_left(itb_1,u_0,u_1) ||
+                                                               (
+                                                                treeb_member(itb_0,u_1) ||
+                                                                (
+                                                                 treeb_left(itb_2,u_0,u_1) ||
+                                                                 (
+                                                                  !treeb_right(itb_0,u_0,u_1) &&
+                                                                  !treeb_right(itb_1,u_0,u_1)
+                                                                 )
+                                                                )
+                                                               )
+                                                              )
+                                                              (
+                                                               treeb_right(itb_0,u_0,u_1) ||
+                                                               (ite treeb_left(itb_2,u_1,u_0)
+                                                                   (
+                                                                    treeb_parallel(itb_2,u_0,u_1) ||
+                                                                    (
+                                                                     !treeb_right(itb_2,u_1,u_0) &&
+                                                                     (
+                                                                      !treeb_parallel(itb_2,u_1,u_0) ||
+                                                                      treeb_right(itb_1,u_1,u_0)
+                                                                     )
+                                                                    )
+                                                                   )
+                                                                   (ite treeb_parallel(itb_2,u_0,u_1)
+                                                                       !treeb_right(itb_2,u_1,u_0)
+                                                                       (ite treeb_parallel(itb_2,u_1,u_0)
+                                                                           !treeb_left(itb_0,u_1,u_0)
+                                                                           (ite treeb_left(itb_1,u_0,u_1)
+                                                                               !treeb_right(itb_1,u_1,u_0)
+                                                                               (
+                                                                                treeb_left(itb_2,u_0,u_1) ||
+                                                                                (
+                                                                                 treeb_member(itb_0,u_1) ||
+                                                                                 (ite treeb_right(itb_1,u_0,u_1)
+                                                                                     (
+                                                                                      !treeb_right(itb_1,u_1,u_0) &&
+                                                                                      (
+                                                                                       !treeb_left(itb_0,u_1,u_0) &&
+                                                                                       !treeb_member(itb_1,u_1)
+                                                                                      )
+                                                                                     )
+                                                                                     (
+                                                                                      !treeb_right(itb_2,u_1,u_0) ||
+                                                                                      !treeb_member(itb_1,u_1)
+                                                                                     ))
+                                                                                )
+                                                                               )))))
+                                                              )))))))))
+                             ))))))
+         (ite (u_1==i_0)
+             (
+              !treeb_member(itb_0,i_0) &&
+              (
+               !treeb_left(itb_0,u_0,i_0) &&
+               (
+                !treeb_right(itb_0,u_0,i_0) &&
+                (ite treeb_member(itb_1,i_0)
+                    (
+                     !b_0 &&
+                     (
+                      treeb_right(itb_1,i_0,u_0) &&
+                      !treeb_right(itb_2,i_0,u_0)
+                     )
+                    )
+                    (
+                     treeb_member(itb_0,u_0) ||
+                     (ite (i_0==u_0)
+                         !(u_0==u_0)
+                         (
+                          (u_0==i_0) ||
+                          (
+                           !treeb_right(itb_2,i_0,u_0) &&
+                           (ite treeb_left(itb_1,i_0,u_0)
+                               (
+                                !b_0 ||
+                                (
+                                 !treeb_left(itb_1,u_0,i_0) &&
+                                 !treeb_right(itb_2,u_0,i_0)
+                                )
+                               )
+                               (
+                                treeb_member(itb_1,u_0) ||
+                                (
+                                 !treeb_left(itb_2,i_0,u_0) &&
+                                 (
+                                  !b_0 &&
+                                  (
+                                   !treeb_right(itb_2,u_0,i_0) &&
+                                   (ite treeb_right(itb_0,i_0,u_0)
+                                       !treeb_left(itb_0,i_0,u_0)
+                                       (ite treeb_left(itb_2,u_0,i_0)
+                                           treeb_left(itb_0,i_0,u_0)
+                                           (
+                                            treeb_left(itb_1,u_0,i_0) &&
+                                            (
+                                             treeb_right(itb_1,i_0,u_0) &&
+                                             !treeb_parallel(itb_2,u_0,i_0)
+                                            )
+                                           )))
+                                  )
+                                 )
+                                )
+                               ))
+                          )
+                         ))
+                    ))
+               )
+              )
+             )
+             (ite treeb_right(itb_1,u_0,u_1)
+                 (ite treeb_right(itb_0,u_0,u_1)
+                     (
+                      treeb_member(itb_1,u_0) &&
+                      (
+                       !b_0 &&
+                       (
+                        !treeb_right(itb_0,u_1,u_0) &&
+                        !treeb_left(itb_2,u_0,u_1)
+                       )
+                      )
+                     )
+                     (ite b_0
+                         (
+                          !(u_0==i_0) &&
+                          (
+                           !treeb_left(itb_1,u_1,u_0) &&
+                           (
+                            !treeb_left(itb_0,u_1,u_0) &&
+                            (
+                             !(u_1==u_0) &&
+                             (
+                              !treeb_right(itb_0,u_1,u_0) &&
+                              (
+                               !treeb_parallel(itb_0,u_0,u_1) &&
+                               (
+                                !treeb_parallel(itb_1,u_1,u_0) &&
+                                (
+                                 !treeb_left(itb_1,u_0,u_1) &&
+                                 (
+                                  !treeb_parallel(itb_2,u_0,u_1) &&
+                                  (
+                                   !treeb_parallel(itb_0,u_1,u_0) &&
+                                   (
+                                    !treeb_member(itb_1,u_1) &&
+                                    (ite treeb_right(itb_1,u_1,u_0)
+                                        (
+                                         !treeb_right(itb_2,u_1,u_0) &&
+                                         !treeb_parallel(itb_2,u_1,u_0)
+                                        )
+                                        (
+                                         treeb_member(itb_1,u_0) &&
+                                         (
+                                          treeb_left(itb_0,u_0,u_1) ||
+                                          (
+                                           !treeb_member(itb_0,u_0) &&
+                                           !treeb_left(itb_2,u_1,u_0)
+                                          )
+                                         )
+                                        ))
+                                   )
+                                  )
+                                 )
+                                )
+                               )
+                              )
+                             )
+                            )
+                           )
+                          )
+                         )
+                         (
+                          !treeb_left(itb_0,u_0,u_1) &&
+                          (ite treeb_left(itb_1,u_0,u_1)
+                              (
+                               treeb_left(itb_1,u_1,u_0) &&
+                               (
+                                !(u_1==u_0) &&
+                                !(u_0==i_0)
+                               )
+                              )
+                              (
+                               !treeb_parallel(itb_0,u_1,u_0) &&
+                               (
+                                treeb_left(itb_0,u_1,u_0) ||
+                                (
+                                 !treeb_member(itb_1,u_1) &&
+                                 (ite treeb_left(itb_2,u_1,u_0)
+                                     (
+                                      !treeb_member(itb_1,u_0) &&
+                                      (
+                                       !treeb_right(itb_1,u_1,u_0) &&
+                                       !treeb_right(itb_2,u_1,u_0)
+                                      )
+                                     )
+                                     (ite treeb_right(itb_2,u_0,u_1)
+                                         (
+                                          !(u_0==i_0) &&
+                                          (
+                                           !(u_1==u_0) &&
+                                           (
+                                            !treeb_member(itb_0,u_0) &&
+                                            !treeb_member(itb_1,u_0)
+                                           )
+                                          )
+                                         )
+                                         (
+                                          treeb_member(itb_0,u_0) ||
+                                          (ite treeb_member(itb_1,u_0)
+                                              !treeb_parallel(itb_2,u_1,u_0)
+                                              (ite treeb_right(itb_1,u_1,u_0)
+                                                  (
+                                                   treeb_left(itb_1,u_1,u_0) ||
+                                                   (
+                                                    !(u_1==u_0) &&
+                                                    (
+                                                     !treeb_member(itb_0,u_1) &&
+                                                     (
+                                                      !treeb_parallel(itb_1,u_0,u_1) &&
+                                                      (
+                                                       !treeb_parallel(itb_2,u_0,u_1) &&
+                                                       (ite (u_0==i_0)
+                                                           (treeb_left(itb_2,i_0,u_1) || treeb_parallel(itb_2,u_1,i_0))
+                                                           (
+                                                            treeb_right(itb_0,u_1,u_0) ||
+                                                            (
+                                                             !treeb_left(itb_2,u_0,u_1) &&
+                                                             !treeb_parallel(itb_2,u_1,u_0)
+                                                            )
+                                                           ))
+                                                      )
+                                                     )
+                                                    )
+                                                   )
+                                                  )
+                                                  (
+                                                   (u_0==i_0) &&
+                                                   (
+                                                    !treeb_left(itb_1,u_1,i_0) &&
+                                                    !treeb_left(itb_2,i_0,u_1)
+                                                   )
+                                                  )))
+                                         )))
+                                )
+                               )
+                              ))
+                         )))
+                 (
+                  !treeb_parallel(itb_1,u_1,u_0) &&
+                  (ite treeb_left(itb_1,u_1,u_0)
+                      (
+                       !treeb_left(itb_2,u_0,u_1) &&
+                       (ite treeb_right(itb_1,u_1,u_0)
+                           (
+                            !treeb_member(itb_0,u_0) &&
+                            (
+                             (u_0==i_0) ||
+                             (
+                              treeb_right(itb_0,u_1,u_0) ||
+                              (
+                               treeb_member(itb_1,u_0) ||
+                               (
+                                treeb_left(itb_2,u_1,u_0) &&
+                                (
+                                 !b_0 &&
+                                 !treeb_left(itb_0,u_0,u_1)
+                                )
+                               )
+                              )
+                             )
+                            )
+                           )
+                           (ite b_0
+                               (
+                                !treeb_left(itb_1,u_0,u_1) &&
+                                (
+                                 !treeb_member(itb_1,u_0) &&
+                                 (
+                                  !treeb_member(itb_0,u_1) &&
+                                  (
+                                   !treeb_left(itb_0,u_1,u_0) &&
+                                   (
+                                    !treeb_parallel(itb_0,u_1,u_0) &&
+                                    (
+                                     !(u_0==i_0) &&
+                                     (
+                                      !treeb_member(itb_0,u_0) &&
+                                      (
+                                       !treeb_right(itb_0,u_1,u_0) &&
+                                       (
+                                        !treeb_right(itb_2,u_1,u_0) &&
+                                        !treeb_parallel(itb_2,u_1,u_0)
+                                       )
+                                      )
+                                     )
+                                    )
+                                   )
+                                  )
+                                 )
+                                )
+                               )
+                               (
+                                treeb_member(itb_0,u_1) ||
+                                (
+                                 !treeb_right(itb_0,u_1,u_0) &&
+                                 (
+                                  !treeb_parallel(itb_2,u_1,u_0) &&
+                                  (ite treeb_member(itb_1,u_0)
+                                      !treeb_right(itb_2,u_1,u_0)
+                                      (ite treeb_right(itb_2,u_1,u_0)
+                                          (
+                                           (u_1==u_0) ||
+                                           (
+                                            treeb_left(itb_2,u_1,u_0) &&
+                                            !treeb_parallel(itb_2,u_0,u_1)
+                                           )
+                                          )
+                                          (
+                                           treeb_left(itb_1,u_0,u_1) &&
+                                           (
+                                            !(u_1==u_0) &&
+                                            (
+                                             !treeb_right(itb_0,u_0,u_1) &&
+                                             (
+                                              !treeb_parallel(itb_0,u_1,u_0) &&
+                                              !treeb_parallel(itb_1,u_0,u_1)
+                                             )
+                                            )
+                                           )
+                                          )))
+                                 )
+                                )
+                               )))
+                      )
+                      (ite treeb_member(itb_0,u_0)
+                          (
+                           !treeb_right(itb_0,u_1,u_0) &&
+                           (ite treeb_right(itb_1,u_1,u_0)
+                               (
+                                treeb_right(itb_0,u_0,u_1) ||
+                                (
+                                 !b_0 &&
+                                 !treeb_left(itb_0,u_1,u_0)
+                                )
+                               )
+                               (
+                                !(u_0==i_0) &&
+                                (
+                                 !(u_1==u_0) &&
+                                 (
+                                  !treeb_member(itb_1,u_1) &&
+                                  (
+                                   !treeb_right(itb_2,u_0,u_1) &&
+                                   (
+                                    !treeb_left(itb_2,u_0,u_1) &&
+                                    (
+                                     !b_0 ||
+                                     (
+                                      !treeb_left(itb_0,u_0,u_1) &&
+                                      (
+                                       treeb_member(itb_0,u_1) ||
+                                       (
+                                        !treeb_left(itb_1,u_0,u_1) &&
+                                        !treeb_parallel(itb_2,u_1,u_0)
+                                       )
+                                      )
+                                     )
+                                    )
+                                   )
+                                  )
+                                 )
+                                )
+                               ))
+                          )
+                          (
+                           !treeb_parallel(itb_0,u_1,u_0) &&
+                           (ite treeb_member(itb_1,u_0)
+                               treeb_member(itb_0,u_1)
+                               (ite treeb_parallel(itb_2,u_1,u_0)
+                                   (ite treeb_right(itb_1,u_1,u_0)
+                                       !treeb_right(itb_0,u_0,u_1)
+                                       (
+                                        !b_0 &&
+                                        (
+                                         !treeb_left(itb_2,u_0,u_1) &&
+                                         (
+                                          !treeb_right(itb_0,u_0,u_1) &&
+                                          (
+                                           !treeb_right(itb_2,u_1,u_0) &&
+                                           (
+                                            !(u_1==u_0) &&
+                                            (
+                                             !treeb_left(itb_0,u_1,u_0) &&
+                                             (
+                                              !treeb_right(itb_0,u_1,u_0) &&
+                                              (
+                                               treeb_parallel(itb_2,u_0,u_1) ||
+                                               (
+                                                !treeb_member(itb_1,u_1) &&
+                                                (
+                                                 !treeb_left(itb_2,u_1,u_0) &&
+                                                 !treeb_right(itb_2,u_0,u_1)
+                                                )
+                                               )
+                                              )
+                                             )
+                                            )
+                                           )
+                                          )
+                                         )
+                                        )
+                                       ))
+                                   (ite treeb_right(itb_2,u_1,u_0)
+                                       (ite (u_0==i_0)
+                                           (
+                                            !treeb_left(itb_0,i_0,u_1) &&
+                                            (b_0 || treeb_left(itb_2,u_1,i_0))
+                                           )
+                                           (ite treeb_right(itb_1,u_1,u_0)
+                                               (
+                                                !b_0 &&
+                                                (
+                                                 !treeb_member(itb_0,u_1) &&
+                                                 !treeb_member(itb_1,u_1)
+                                                )
+                                               )
+                                               (
+                                                !b_0 &&
+                                                (
+                                                 !treeb_right(itb_2,u_0,u_1) &&
+                                                 (
+                                                  (u_1==u_0) ||
+                                                  (
+                                                   treeb_right(itb_0,u_1,u_0) &&
+                                                   (
+                                                    !treeb_member(itb_0,u_1) &&
+                                                    (
+                                                     !treeb_left(itb_0,u_1,u_0) &&
+                                                     (
+                                                      !treeb_right(itb_0,u_0,u_1) &&
+                                                      (
+                                                       !treeb_parallel(itb_0,u_0,u_1) &&
+                                                       !treeb_left(itb_2,u_1,u_0)
+                                                      )
+                                                     )
+                                                    )
+                                                   )
+                                                  )
+                                                 )
+                                                )
+                                               )))
+                                       (ite treeb_left(itb_2,u_1,u_0)
+                                           (ite treeb_right(itb_1,u_1,u_0)
+                                               (
+                                                !treeb_member(itb_1,u_1) &&
+                                                (
+                                                 (u_1==u_0) ||
+                                                 (
+                                                  !treeb_left(itb_0,u_0,u_1) &&
+                                                  (
+                                                   (u_0==i_0) ||
+                                                   (
+                                                    !b_0 ||
+                                                    treeb_right(itb_0,u_1,u_0)
+                                                   )
+                                                  )
+                                                 )
+                                                )
+                                               )
+                                               (
+                                                !treeb_left(itb_2,u_0,u_1) &&
+                                                (
+                                                 !treeb_left(itb_0,u_1,u_0) &&
+                                                 (
+                                                  !treeb_right(itb_0,u_0,u_1) &&
+                                                  (
+                                                   !treeb_right(itb_2,u_0,u_1) &&
+                                                   (
+                                                    !treeb_left(itb_0,u_0,u_1) &&
+                                                    (
+                                                     !treeb_parallel(itb_0,u_0,u_1) &&
+                                                     (
+                                                      treeb_right(itb_0,u_1,u_0) ||
+                                                      (
+                                                       !treeb_member(itb_0,u_1) &&
+                                                       (
+                                                        !treeb_left(itb_1,u_0,u_1) &&
+                                                        !treeb_parallel(itb_2,u_0,u_1)
+                                                       )
+                                                      )
+                                                     )
+                                                    )
+                                                   )
+                                                  )
+                                                 )
+                                                )
+                                               ))
+                                           (ite treeb_right(itb_0,u_1,u_0)
+                                               (
+                                                !b_0 &&
+                                                (ite treeb_right(itb_0,u_0,u_1)
+                                                    (
+                                                     !treeb_left(itb_0,u_1,u_0) &&
+                                                     (
+                                                      !treeb_member(itb_0,u_1) &&
+                                                      (
+                                                       !treeb_left(itb_0,u_0,u_1) &&
+                                                       (
+                                                        !treeb_left(itb_1,u_0,u_1) &&
+                                                        (
+                                                         !treeb_left(itb_2,u_0,u_1) &&
+                                                         (
+                                                          !treeb_right(itb_2,u_0,u_1) &&
+                                                          !treeb_parallel(itb_2,u_0,u_1)
+                                                         )
+                                                        )
+                                                       )
+                                                      )
+                                                     )
+                                                    )
+                                                    (
+                                                     !treeb_left(itb_0,u_0,u_1) &&
+                                                     (
+                                                      !treeb_parallel(itb_0,u_0,u_1) &&
+                                                      (
+                                                       !treeb_left(itb_2,u_0,u_1) &&
+                                                       (
+                                                        treeb_member(itb_0,u_1) ||
+                                                        (
+                                                         treeb_left(itb_0,u_1,u_0) ||
+                                                         (
+                                                          treeb_right(itb_2,u_0,u_1) ||
+                                                          (
+                                                           treeb_parallel(itb_2,u_0,u_1) ||
+                                                           (
+                                                            !(u_1==u_0) &&
+                                                            (
+                                                             !(u_0==i_0) &&
+                                                             (ite treeb_member(itb_1,u_1)
+                                                                 !treeb_right(itb_1,u_1,u_0)
+                                                                 treeb_right(itb_1,u_1,u_0))
+                                                            )
+                                                           )
+                                                          )
+                                                         )
+                                                        )
+                                                       )
+                                                      )
+                                                     )
+                                                    ))
+                                               )
+                                               (ite treeb_member(itb_1,u_1)
+                                                   (
+                                                    treeb_left(itb_0,u_1,u_0) ||
+                                                    (
+                                                     !treeb_left(itb_1,u_0,u_1) &&
+                                                     (
+                                                      !treeb_right(itb_0,u_0,u_1) &&
+                                                      (
+                                                       !treeb_parallel(itb_1,u_0,u_1) &&
+                                                       (
+                                                        treeb_left(itb_0,u_0,u_1) ||
+                                                        (
+                                                         !(u_0==i_0) &&
+                                                         (
+                                                          !treeb_member(itb_0,u_1) &&
+                                                          (
+                                                           !treeb_left(itb_2,u_0,u_1) &&
+                                                           (
+                                                            !treeb_parallel(itb_2,u_0,u_1) &&
+                                                            (
+                                                             !(u_1==u_0) &&
+                                                             (ite b_0
+                                                                 treeb_right(itb_1,u_1,u_0)
+                                                                 !treeb_right(itb_1,u_1,u_0))
+                                                            )
+                                                           )
+                                                          )
+                                                         )
+                                                        )
+                                                       )
+                                                      )
+                                                     )
+                                                    )
+                                                   )
+                                                   (ite (u_0==i_0)
+                                                       (
+                                                        !b_0 &&
+                                                        (
+                                                         !treeb_left(itb_2,i_0,u_1) &&
+                                                         (
+                                                          !treeb_left(itb_0,i_0,u_1) &&
+                                                          (
+                                                           !treeb_left(itb_1,i_0,u_1) &&
+                                                           (
+                                                            treeb_left(itb_0,u_1,i_0) ||
+                                                            (
+                                                             !treeb_right(itb_2,i_0,u_1) &&
+                                                             !treeb_parallel(itb_2,i_0,u_1)
+                                                            )
+                                                           )
+                                                          )
+                                                         )
+                                                        )
+                                                       )
+                                                       (ite treeb_member(itb_0,u_1)
+                                                           (
+                                                            treeb_left(itb_0,u_0,u_1) ||
+                                                            (
+                                                             !treeb_left(itb_1,u_0,u_1) &&
+                                                             (
+                                                              !treeb_right(itb_0,u_0,u_1) &&
+                                                              (
+                                                               !treeb_parallel(itb_2,u_0,u_1) &&
+                                                               (
+                                                                !(u_1==u_0) &&
+                                                                (ite b_0
+                                                                    treeb_left(itb_0,u_1,u_0)
+                                                                    !treeb_left(itb_0,u_1,u_0))
+                                                               )
+                                                              )
+                                                             )
+                                                            )
+                                                           )
+                                                           (
+                                                            treeb_parallel(itb_1,u_0,u_1) ||
+                                                            (ite (u_1==u_0)
+                                                                !treeb_left(itb_0,u_0,u_0)
+                                                                (ite treeb_parallel(itb_0,u_0,u_1)
+                                                                    !treeb_right(itb_1,u_1,u_0)
+                                                                    (ite treeb_parallel(itb_2,u_0,u_1)
+                                                                        !treeb_right(itb_1,u_1,u_0)
+                                                                        (ite b_0
+                                                                            (
+                                                                             treeb_left(itb_2,u_0,u_1) ||
+                                                                             (
+                                                                              treeb_left(itb_1,u_0,u_1) ||
+                                                                              (
+                                                                               !treeb_left(itb_0,u_1,u_0) &&
+                                                                               !treeb_right(itb_1,u_1,u_0)
+                                                                              )
+                                                                             )
+                                                                            )
+                                                                            (ite treeb_left(itb_2,u_0,u_1)
+                                                                                (
+                                                                                 !treeb_left(itb_0,u_1,u_0) &&
+                                                                                 !treeb_right(itb_1,u_1,u_0)
+                                                                                )
+                                                                                (ite treeb_left(itb_0,u_0,u_1)
+                                                                                    !treeb_left(itb_0,u_1,u_0)
+                                                                                    (ite treeb_right(itb_0,u_0,u_1)
+                                                                                        (
+                                                                                         !treeb_right(itb_1,u_1,u_0) ||
+                                                                                         !treeb_right(itb_2,u_0,u_1)
+                                                                                        )
+                                                                                        (ite treeb_left(itb_0,u_1,u_0)
+                                                                                            !treeb_right(itb_2,u_0,u_1)
+                                                                                            (
+                                                                                             !treeb_right(itb_1,u_1,u_0) ||
+                                                                                             !treeb_left(itb_1,u_0,u_1)
+                                                                                            )))))))))
+                                                           )))))))))
+                          )))
+                 )))))
+)

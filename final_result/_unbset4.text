@@ -1,0 +1,24 @@
+program:
+
+let rec insert x tree3 =
+  match tree3 with
+  | e -> t (e, x, e)
+  | t (tree1, y, tree2) ->
+    if element.lt x y then t (insert x tree1, y, tree2)
+    else if element.lt y x then t (tree1, y, insert x tree2)
+    else t (tree1, y, tree2)
+
+F:
+e,t
+
+P:
+tree_member
+
+assertion:
+fun int:x,int tree:tree1,int tree:tree2 -> True
+=>
+fun int:x,int tree:tree1,int tree:tree2 -> forall int:u,(tree_member(tree2,u) <==> 
+ (tree_member(tree1,u) && (u==x)))
+
+result:
+cex: x -> 1,tree3 -> Leaf,nu -> 1

@@ -1,0 +1,1595 @@
+program:
+
+let rec merge tree1 tree2 =
+  match tree1, tree2 with
+  | tree1, e -> tree1
+  | e, tree2 -> tree2
+  | t (rank1, x, a1, b1), t (rank2, y, a2, b2) ->
+    if Elem.leq x y then makeT x a1 (merge b1 tree2)
+    else makeT y a2 (merge tree1 b2)
+
+F:
+e,maket,t
+
+P:
+treei_member,treei_ancestor
+
+assertion:
+fun int treei:tree1,int treei:tree2,int treei:tree3 -> forall int:u int:v,(
+ (treei_ancestor(tree1,u,v) ==> (u<=v)) &&
+ (treei_ancestor(tree2,u,v) ==> (u<=v))
+)
+=>
+fun int treei:tree1,int treei:tree2,int treei:tree3 -> forall int:u int:v,(
+ (treei_ancestor(tree3,u,v) ==> (u<=v)) &&
+ (treei_member(tree3,u) <==> 
+  (treei_member(tree1,u) || treei_member(tree2,u)))
+)
+
+result:
+e(int treei:iti_0):=
+forall int:u_0 int:u_1,(
+ (
+  !treei_member(iti_0,u_1) &&
+  !treei_member(iti_0,u_0)
+ ) ||
+ (
+  !(u_1==u_0) ||
+  !treei_member(iti_0,u_0)
+ )
+)
+maket(int:i_0,int treei:iti_0,int treei:iti_1,int treei:iti_2):=
+forall int:u_0 int:u_1,(
+ (ite treei_member(iti_2,u_1)
+     (ite treei_member(iti_0,u_1)
+         (ite treei_member(iti_2,u_0)
+             (ite treei_ancestor(iti_2,u_1,u_0)
+                 (
+                  (u_1==i_0) ||
+                  (ite treei_member(iti_0,u_0)
+                      (treei_ancestor(iti_0,u_1,u_0) || treei_ancestor(iti_1,u_1,u_0))
+                      (treei_ancestor(iti_1,u_1,u_0) && treei_member(iti_1,u_1)))
+                 )
+                 (
+                  !(u_1==i_0) &&
+                  !treei_ancestor(iti_0,u_1,u_0)
+                 ))
+             (
+              !treei_ancestor(iti_0,u_1,u_0) &&
+              (
+               !treei_member(iti_0,u_0) &&
+               !treei_ancestor(iti_2,u_1,u_0)
+              )
+             ))
+         (
+          !treei_ancestor(iti_0,u_1,u_0) &&
+          (ite treei_member(iti_1,u_1)
+              (ite treei_member(iti_1,u_0)
+                  (
+                   treei_member(iti_2,u_0) &&
+                   (ite treei_ancestor(iti_1,u_1,u_0)
+                       treei_ancestor(iti_2,u_1,u_0)
+                       (ite (u_1==i_0)
+                           treei_ancestor(iti_2,i_0,u_0)
+                           !treei_ancestor(iti_2,u_1,u_0)))
+                  )
+                  (ite treei_ancestor(iti_2,u_1,u_0)
+                      ((u_1==i_0) && treei_member(iti_0,u_0))
+                      (ite treei_member(iti_0,u_0)
+                          (
+                           treei_member(iti_2,u_0) &&
+                           !(u_1==i_0)
+                          )
+                          (
+                           !treei_member(iti_2,u_0) ||
+                           (u_0==i_0)
+                          ))))
+              (
+               (u_1==i_0) &&
+               (
+                !treei_ancestor(iti_1,i_0,u_0) &&
+                (ite treei_member(iti_2,u_0)
+                    (ite treei_ancestor(iti_2,i_0,u_0)
+                        !(i_0==u_0)
+                        (i_0==u_0))
+                    (
+                     !treei_member(iti_1,u_0) &&
+                     !treei_ancestor(iti_2,i_0,u_0)
+                    ))
+               )
+              ))
+         ))
+     (
+      !treei_ancestor(iti_0,u_1,u_0) &&
+      (
+       !(u_1==i_0) &&
+       (
+        !treei_ancestor(iti_2,u_1,u_0) &&
+        (ite treei_member(iti_2,u_0)
+            (
+             treei_member(iti_0,u_0) ||
+             (
+              !treei_member(iti_0,u_1) &&
+              !treei_member(iti_1,u_1)
+             )
+            )
+            (
+             !treei_member(iti_0,u_1) &&
+             (
+              !treei_member(iti_1,u_1) &&
+              (
+               (u_1==u_0) ||
+               (
+                !(u_0==i_0) &&
+                (
+                 !treei_member(iti_0,u_0) &&
+                 !treei_member(iti_1,u_0)
+                )
+               )
+              )
+             )
+            ))
+       )
+      )
+     )) ||
+ (ite treei_ancestor(iti_2,u_1,u_0)
+     (ite treei_ancestor(iti_0,u_1,u_0)
+         (
+          treei_member(iti_2,u_0) ||
+          (ite (u_1==i_0)
+              (ite (i_0==u_0)
+                  !(u_0==u_0)
+                  (
+                   !treei_member(iti_0,u_0) ||
+                   (
+                    !treei_member(iti_1,u_0) ||
+                    (
+                     !treei_member(iti_0,i_0) ||
+                     (
+                      !treei_member(iti_2,i_0) ||
+                      (u_0==i_0)
+                     )
+                    )
+                   )
+                  ))
+              (
+               !(u_1==u_0) ||
+               (
+                (u_0==i_0) ||
+                (ite treei_member(iti_1,u_0)
+                    treei_member(iti_0,u_0)
+                    !treei_member(iti_0,u_0))
+               )
+              ))
+         )
+         (ite treei_ancestor(iti_1,u_1,u_0)
+             (ite (u_1==u_0)
+                 (ite treei_member(iti_2,u_0)
+                     (
+                      (u_0==i_0) ||
+                      (treei_member(iti_0,u_0) || treei_member(iti_1,u_0))
+                     )
+                     (ite treei_member(iti_0,u_0)
+                         (ite (u_0==i_0)
+                             !(i_0==i_0)
+                             treei_member(iti_1,u_0))
+                         (ite (u_0==i_0)
+                             !(i_0==i_0)
+                             !treei_member(iti_1,u_0))))
+                 (
+                  !(u_1==i_0) ||
+                  (
+                   !treei_member(iti_0,u_0) ||
+                   (
+                    !treei_member(iti_0,i_0) ||
+                    (
+                     (u_0==i_0) ||
+                     (
+                      !treei_member(iti_1,u_0) ||
+                      (
+                       !treei_member(iti_2,i_0) ||
+                       treei_member(iti_2,u_0)
+                      )
+                     )
+                    )
+                   )
+                  )
+                 ))
+             (ite (u_1==i_0)
+                 (
+                  treei_member(iti_2,u_0) ||
+                  (ite (i_0==u_0)
+                      !(u_0==u_0)
+                      (
+                       !treei_member(iti_2,i_0) ||
+                       (
+                        (u_0==i_0) ||
+                        (ite treei_member(iti_0,i_0)
+                            (ite treei_member(iti_0,u_0)
+                                !treei_member(iti_1,u_0)
+                                treei_member(iti_1,u_0))
+                            (treei_member(iti_0,u_0) || treei_member(iti_1,u_0)))
+                       )
+                      ))
+                 )
+                 (ite treei_member(iti_0,u_1)
+                     (ite (u_0==i_0)
+                         (
+                          !treei_member(iti_2,i_0) ||
+                          (
+                           !treei_member(iti_2,u_1) &&
+                           (
+                            treei_member(iti_0,i_0) ||
+                            !treei_member(iti_1,u_1)
+                           )
+                          )
+                         )
+                         (ite treei_member(iti_1,u_1)
+                             (
+                              (u_1==u_0) ||
+                              (
+                               !treei_member(iti_2,u_1) ||
+                               (ite treei_member(iti_2,u_0)
+                                   (
+                                    !treei_member(iti_0,u_0) &&
+                                    !treei_member(iti_1,u_0)
+                                   )
+                                   (treei_member(iti_0,u_0) || treei_member(iti_1,u_0)))
+                              )
+                             )
+                             (ite treei_member(iti_0,u_0)
+                                 (ite treei_member(iti_1,u_0)
+                                     (
+                                      (u_1==u_0) ||
+                                      (
+                                       !treei_member(iti_2,u_1) ||
+                                       !treei_member(iti_2,u_0)
+                                      )
+                                     )
+                                     (ite (u_1==u_0)
+                                         treei_member(iti_2,u_0)
+                                         (
+                                          !treei_member(iti_2,u_1) ||
+                                          !treei_member(iti_2,u_0)
+                                         )))
+                                 (
+                                  (u_1==u_0) ||
+                                  (
+                                   !treei_member(iti_2,u_1) ||
+                                   (ite treei_member(iti_1,u_0)
+                                       !treei_member(iti_2,u_0)
+                                       treei_member(iti_2,u_0))
+                                  )
+                                 ))))
+                     (ite treei_member(iti_2,u_1)
+                         (ite treei_member(iti_1,u_0)
+                             (
+                              !treei_member(iti_1,u_1) ||
+                              (
+                               !treei_member(iti_2,u_0) ||
+                               (u_1==u_0)
+                              )
+                             )
+                             (ite (u_0==i_0)
+                                 (
+                                  !treei_member(iti_1,u_1) ||
+                                  !treei_member(iti_2,i_0)
+                                 )
+                                 (ite treei_member(iti_0,u_0)
+                                     (
+                                      (u_1==u_0) ||
+                                      (
+                                       !treei_member(iti_1,u_1) ||
+                                       !treei_member(iti_2,u_0)
+                                      )
+                                     )
+                                     (ite (u_1==u_0)
+                                         !treei_member(iti_2,u_0)
+                                         (
+                                          !treei_member(iti_1,u_1) ||
+                                          treei_member(iti_2,u_0)
+                                         )))))
+                         (ite (u_0==i_0)
+                             (
+                              !treei_member(iti_2,i_0) ||
+                              treei_member(iti_1,u_1)
+                             )
+                             (ite (u_1==u_0)
+                                 (
+                                  !treei_member(iti_1,u_0) ||
+                                  (treei_member(iti_0,u_0) || treei_member(iti_2,u_0))
+                                 )
+                                 (
+                                  treei_member(iti_1,u_1) ||
+                                  (ite treei_member(iti_2,u_0)
+                                      (
+                                       !treei_member(iti_0,u_0) &&
+                                       !treei_member(iti_1,u_0)
+                                      )
+                                      (treei_member(iti_0,u_0) || treei_member(iti_1,u_0)))
+                                 ))))))))
+     (ite treei_member(iti_2,u_0)
+         (
+          (u_1==i_0) ||
+          (
+           treei_member(iti_0,u_0) ||
+           (
+            treei_ancestor(iti_0,u_1,u_0) ||
+            (ite (u_1==u_0)
+                (treei_member(iti_1,u_0) || (u_0==i_0))
+                (
+                 !treei_member(iti_0,u_1) ||
+                 (
+                  !treei_member(iti_1,u_1) ||
+                  (
+                   !(u_0==i_0) ||
+                   (treei_ancestor(iti_1,u_1,i_0) || treei_member(iti_2,u_1))
+                  )
+                 )
+                ))
+           )
+          )
+         )
+         (ite (u_1==u_0)
+             (ite treei_member(iti_1,u_0)
+                 (ite (u_0==i_0)
+                     !(i_0==i_0)
+                     treei_member(iti_0,u_0))
+                 (ite treei_member(iti_0,u_0)
+                     (
+                      (u_0==i_0) &&
+                      !(i_0==i_0)
+                     )
+                     (
+                      !(u_0==i_0) ||
+                      (
+                       treei_member(iti_0,i_0) ||
+                       !(i_0==i_0)
+                      )
+                     )))
+             (
+              !(u_1==i_0) ||
+              (
+               !treei_member(iti_0,i_0) ||
+               (
+                !treei_member(iti_2,i_0) ||
+                (
+                 !treei_member(iti_1,u_0) ||
+                 (
+                  (u_0==i_0) ||
+                  !treei_member(iti_0,u_0)
+                 )
+                )
+               )
+              )
+             ))))
+)
+t(int:i_0,int:i_1,int treei:iti_0,int treei:iti_1,int treei:iti_2):=
+forall int:u_0 int:u_1,(
+ (ite treei_member(iti_2,u_1)
+     (ite treei_ancestor(iti_2,u_1,u_0)
+         (ite (u_0==i_1)
+             (ite (u_1==i_0)
+                 (
+                  treei_member(iti_1,i_1) ||
+                  !treei_ancestor(iti_1,i_0,i_1)
+                 )
+                 (ite (i_1==i_0)
+                     (
+                      treei_ancestor(iti_0,u_1,i_0) ||
+                      (
+                       !treei_member(iti_0,i_0) ||
+                       (treei_member(iti_1,i_0) && treei_ancestor(iti_1,u_1,i_0))
+                      )
+                     )
+                     (
+                      treei_member(iti_0,u_1) ||
+                      (
+                       treei_member(iti_1,u_1) &&
+                       !treei_ancestor(iti_0,u_1,i_1)
+                      )
+                     )))
+             (ite treei_ancestor(iti_0,u_1,u_0)
+                 (
+                  (i_1==i_0) ||
+                  (
+                   (u_0==i_0) ||
+                   (
+                    treei_member(iti_0,u_1) &&
+                    (
+                     (u_1==i_1) ||
+                     ((u_1==u_0) || (u_1==i_0))
+                    )
+                   )
+                  )
+                 )
+                 (ite treei_member(iti_0,u_1)
+                     (ite treei_member(iti_0,u_0)
+                         (
+                          treei_member(iti_2,u_0) &&
+                          (ite (u_0==i_0)
+                              (
+                               !(u_1==i_0) ||
+                               treei_member(iti_1,i_0)
+                              )
+                              (ite (u_1==i_0)
+                                  ((i_0==i_1) || treei_member(iti_1,u_0))
+                                  (ite (i_1==i_0)
+                                      treei_member(iti_1,u_1)
+                                      (
+                                       !treei_member(iti_1,u_0) ||
+                                       (ite (u_1==u_0)
+                                           treei_ancestor(iti_1,u_0,u_0)
+                                           (
+                                            treei_member(iti_1,u_1) ||
+                                            !treei_ancestor(iti_1,u_1,u_0)
+                                           ))
+                                      ))))
+                         )
+                         treei_member(iti_1,u_0))
+                     (
+                      treei_member(iti_0,u_0) ||
+                      (
+                       treei_member(iti_1,u_0) &&
+                       (
+                        !(i_1==i_0) ||
+                        ((u_1==i_0) || treei_ancestor(iti_1,u_1,u_0))
+                       )
+                      )
+                     ))))
+         (
+          !treei_ancestor(iti_1,u_1,u_0) &&
+          (
+           !treei_ancestor(iti_0,u_1,u_0) &&
+           (ite (u_1==i_1)
+               (
+                !treei_member(iti_0,u_0) &&
+                (
+                 !treei_member(iti_1,u_0) &&
+                 (
+                  !treei_member(iti_2,u_0) ||
+                  (i_1==u_0)
+                 )
+                )
+               )
+               (ite treei_member(iti_2,u_0)
+                   (ite (u_1==u_0)
+                       (treei_member(iti_0,u_0) || treei_member(iti_1,u_0))
+                       (ite (u_1==i_0)
+                           (treei_member(iti_0,i_0) || treei_member(iti_1,i_0))
+                           (ite (i_1==i_0)
+                               (ite (u_0==i_0)
+                                   (treei_member(iti_1,u_1) || treei_member(iti_0,u_1))
+                                   (treei_member(iti_0,u_0) || treei_member(iti_1,u_0)))
+                               (ite treei_member(iti_0,u_0)
+                                   ((u_0==i_1) || (u_0==i_0))
+                                   (ite treei_member(iti_1,u_1)
+                                       (
+                                        (u_0==i_1) ||
+                                        ((u_0==i_0) && treei_member(iti_1,i_0))
+                                       )
+                                       (
+                                        treei_member(iti_0,u_1) &&
+                                        ((u_0==i_1) || (u_0==i_0))
+                                       ))))))
+                   (
+                    !treei_member(iti_1,u_0) &&
+                    (
+                     (u_0==i_0) ||
+                     (
+                      !treei_member(iti_0,u_0) &&
+                      (treei_member(iti_0,u_1) || treei_member(iti_1,u_1))
+                     )
+                    )
+                   )))
+          )
+         ))
+     (
+      !treei_ancestor(iti_1,u_1,u_0) &&
+      (
+       !treei_member(iti_0,u_1) &&
+       (
+        !treei_member(iti_1,u_1) &&
+        (
+         !treei_ancestor(iti_2,u_1,u_0) &&
+         (
+          !(u_1==i_1) &&
+          (
+           !treei_ancestor(iti_0,u_1,u_0) &&
+           (
+            (u_1==u_0) ||
+            (ite (u_0==i_1)
+                treei_member(iti_2,i_1)
+                (
+                 (u_1==i_0) ||
+                 (ite treei_member(iti_2,u_0)
+                     (treei_member(iti_0,u_0) || treei_member(iti_1,u_0))
+                     (
+                      !treei_member(iti_0,u_0) &&
+                      !treei_member(iti_1,u_0)
+                     ))
+                ))
+           )
+          )
+         )
+        )
+       )
+      )
+     )) ||
+ (ite treei_ancestor(iti_0,u_1,u_0)
+     (ite treei_ancestor(iti_2,u_1,u_0)
+         (ite treei_member(iti_2,u_1)
+             (ite treei_member(iti_2,u_0)
+                 (ite (u_0==i_1)
+                     (ite (u_1==i_0)
+                         (
+                          !treei_ancestor(iti_1,i_0,i_1) ||
+                          treei_member(iti_1,i_0)
+                         )
+                         (
+                          treei_member(iti_0,u_1) ||
+                          (
+                           !treei_member(iti_1,u_1) &&
+                           !(u_1==i_1)
+                          )
+                         ))
+                     (
+                      (i_1==i_0) ||
+                      (
+                       (u_0==i_0) ||
+                       (ite treei_member(iti_0,u_1)
+                           (
+                            (u_1==i_1) ||
+                            (
+                             (u_1==u_0) ||
+                             (
+                              (u_1==i_0) ||
+                              (ite treei_member(iti_1,u_1)
+                                  (
+                                   !treei_ancestor(iti_1,u_1,u_0) &&
+                                   (
+                                    !treei_member(iti_0,u_0) &&
+                                    treei_member(iti_1,u_0)
+                                   )
+                                  )
+                                  (treei_member(iti_1,u_0) || treei_member(iti_0,u_0)))
+                             )
+                            )
+                           )
+                           (
+                            !treei_member(iti_1,u_0) &&
+                            !(u_1==u_0)
+                           ))
+                      )
+                     ))
+                 (
+                  (u_0==i_0) ||
+                  (
+                   (i_1==i_0) ||
+                   (ite (u_1==i_0)
+                       (u_0==i_1)
+                       (treei_member(iti_0,u_1) && (u_1==i_1)))
+                  )
+                 ))
+             (
+              !(u_0==i_0) &&
+              (ite (i_1==i_0)
+                  (
+                   !(u_1==u_0) &&
+                   treei_member(iti_1,u_0)
+                  )
+                  (ite treei_member(iti_0,u_1)
+                      !treei_member(iti_0,u_0)
+                      (ite (u_0==i_1)
+                          (
+                           !(u_1==i_1) &&
+                           (ite (u_1==i_0)
+                               (
+                                !treei_member(iti_0,i_1) &&
+                                !treei_member(iti_1,i_0)
+                               )
+                               (
+                                treei_member(iti_0,i_1) ||
+                                (
+                                 treei_member(iti_1,u_1) ||
+                                 (ite treei_member(iti_1,i_1)
+                                     !treei_member(iti_2,i_1)
+                                     treei_member(iti_2,i_1))
+                                )
+                               ))
+                          )
+                          (
+                           !treei_member(iti_2,u_0) &&
+                           (
+                            !(u_1==u_0) &&
+                            (
+                             treei_member(iti_1,u_0) ||
+                             (
+                              !treei_member(iti_1,u_1) &&
+                              (
+                               (u_1==i_1) ||
+                               !treei_ancestor(iti_1,u_1,u_0)
+                              )
+                             )
+                            )
+                           )
+                          ))))
+             ))
+         (ite treei_member(iti_2,u_1)
+             (ite (u_1==i_0)
+                 (ite (i_1==i_0)
+                     (
+                      !treei_member(iti_2,u_0) &&
+                      treei_member(iti_0,u_0)
+                     )
+                     (ite treei_member(iti_0,i_0)
+                         (
+                          !(u_0==i_1) &&
+                          (
+                           !treei_member(iti_1,u_0) &&
+                           (
+                            !treei_member(iti_0,u_0) &&
+                            treei_member(iti_2,u_0)
+                           )
+                          )
+                         )
+                         (
+                          !treei_member(iti_1,i_0) ||
+                          (
+                           (i_0==i_1) ||
+                           (
+                            !treei_member(iti_2,u_0) &&
+                            (u_0==i_1)
+                           )
+                          )
+                         )))
+                 (
+                  !treei_member(iti_1,u_1) &&
+                  (ite treei_member(iti_2,u_0)
+                      (
+                       !treei_member(iti_0,u_1) &&
+                       (
+                        !treei_member(iti_1,u_0) &&
+                        (
+                         !(i_1==i_0) &&
+                         (
+                          !treei_member(iti_0,u_0) &&
+                          (
+                           !(u_0==i_1) &&
+                           (
+                            (u_1==u_0) ||
+                            ((u_1==i_1) || (u_0==i_0))
+                           )
+                          )
+                         )
+                        )
+                       )
+                      )
+                      (
+                       !(u_0==i_0) &&
+                       (ite (u_1==i_1)
+                           (
+                            treei_member(iti_0,u_0) &&
+                            !treei_member(iti_0,i_1)
+                           )
+                           (
+                            !treei_member(iti_0,u_1) ||
+                            treei_member(iti_1,u_0)
+                           ))
+                      ))
+                 ))
+             (ite treei_ancestor(iti_1,u_1,u_0)
+                 (ite (u_1==i_1)
+                     (
+                      !(u_0==i_1) &&
+                      (
+                       !treei_member(iti_0,i_1) &&
+                       (
+                        !treei_member(iti_1,i_1) ||
+                        (i_1==u_0)
+                       )
+                      )
+                     )
+                     (
+                      !(u_1==u_0) &&
+                      (ite treei_member(iti_2,u_0)
+                          (
+                           treei_member(iti_0,u_1) &&
+                           !treei_member(iti_1,u_1)
+                          )
+                          (ite (u_1==i_0)
+                              ((u_0==i_1) || (i_1==i_0))
+                              (
+                               !treei_member(iti_1,u_1) &&
+                               (ite (u_0==i_1)
+                                   !treei_member(iti_0,i_1)
+                                   (ite (u_0==i_0)
+                                       (
+                                        treei_member(iti_0,i_0) &&
+                                        !treei_member(iti_1,i_0)
+                                       )
+                                       (
+                                        treei_member(iti_1,u_0) &&
+                                        !treei_member(iti_0,u_0)
+                                       )))
+                              )))
+                     ))
+                 (ite (u_0==i_0)
+                     (ite (i_1==i_0)
+                         !(i_0==i_0)
+                         (
+                          (i_0==i_1) ||
+                          (
+                           !treei_member(iti_0,u_1) &&
+                           (
+                            !treei_member(iti_2,i_0) &&
+                            (
+                             !treei_member(iti_1,u_1) &&
+                             (
+                              (u_1==i_1) ||
+                              (ite treei_member(iti_1,i_0)
+                                  !treei_member(iti_0,i_0)
+                                  treei_member(iti_0,i_0))
+                             )
+                            )
+                           )
+                          )
+                         ))
+                     (ite treei_member(iti_0,u_0)
+                         (
+                          !(u_1==u_0) &&
+                          (ite treei_member(iti_2,u_0)
+                              (
+                               treei_member(iti_0,u_1) &&
+                               !treei_member(iti_1,u_1)
+                              )
+                              (
+                               !(i_1==i_0) &&
+                               (
+                                (u_1==i_1) ||
+                                (ite treei_member(iti_1,u_0)
+                                    !treei_member(iti_0,u_1)
+                                    (ite treei_member(iti_0,u_1)
+                                        (u_0==i_1)
+                                        !(u_0==i_1)))
+                               )
+                              ))
+                         )
+                         (ite treei_member(iti_2,u_0)
+                             (ite treei_member(iti_0,u_1)
+                                 (
+                                  !(u_1==i_0) &&
+                                  (
+                                   !(i_1==i_0) ||
+                                   !treei_member(iti_1,u_1)
+                                  )
+                                 )
+                                 (
+                                  !treei_member(iti_1,u_0) &&
+                                  (
+                                   !(u_0==i_1) &&
+                                   (
+                                    (u_1==i_0) ||
+                                    (
+                                     !(i_1==i_0) &&
+                                     (
+                                      (u_1==u_0) ||
+                                      ((u_1==i_1) || treei_member(iti_1,u_1))
+                                     )
+                                    )
+                                   )
+                                  )
+                                 ))
+                             (ite (u_1==i_1)
+                                 (ite (i_1==i_0)
+                                     !(i_0==i_0)
+                                     (ite treei_member(iti_1,u_0)
+                                         !(u_0==i_1)
+                                         (
+                                          !treei_member(iti_1,i_1) &&
+                                          (
+                                           !(i_1==u_0) &&
+                                           !treei_member(iti_0,i_1)
+                                          )
+                                         )))
+                                 (ite (u_1==i_0)
+                                     (
+                                      (u_0==i_1) ||
+                                      ((i_1==i_0) || (i_0==u_0))
+                                     )
+                                     (
+                                      !(u_1==u_0) &&
+                                      (ite treei_member(iti_1,u_0)
+                                          (
+                                           (i_1==i_0) ||
+                                           (
+                                            !treei_member(iti_1,u_1) &&
+                                            (
+                                             (u_0==i_1) ||
+                                             !treei_member(iti_0,u_1)
+                                            )
+                                           )
+                                          )
+                                          (
+                                           treei_member(iti_1,u_1) ||
+                                           (
+                                            !(i_1==i_0) &&
+                                            (ite (u_0==i_1)
+                                                !treei_member(iti_0,u_1)
+                                                treei_member(iti_0,u_1))
+                                           )
+                                          ))
+                                     )))))))))
+     (ite treei_member(iti_0,u_0)
+         (ite treei_ancestor(iti_1,u_1,u_0)
+             (ite treei_ancestor(iti_2,u_1,u_0)
+                 (ite treei_member(iti_2,u_0)
+                     (ite (u_1==u_0)
+                         treei_member(iti_1,u_0)
+                         (ite (u_1==i_0)
+                             treei_member(iti_1,u_0)
+                             (ite treei_member(iti_0,u_1)
+                                 (ite (u_0==i_0)
+                                     treei_member(iti_1,i_0)
+                                     treei_member(iti_1,u_1))
+                                 (
+                                  treei_member(iti_2,u_1) ||
+                                  !(u_0==i_0)
+                                 ))))
+                     (
+                      treei_member(iti_2,u_1) ||
+                      (ite (u_1==i_1)
+                          (
+                           !(i_1==i_0) &&
+                           (u_0==i_0)
+                          )
+                          (ite (u_1==u_0)
+                              (
+                               (u_0==i_1) ||
+                               (
+                                (u_0==i_0) &&
+                                !(i_0==i_0)
+                               )
+                              )
+                              (ite (u_1==i_0)
+                                  ((i_1==i_0) || (u_0==i_1))
+                                  (
+                                   treei_member(iti_1,u_0) &&
+                                   (
+                                    !(u_0==i_1) ||
+                                    treei_member(iti_0,u_1)
+                                   )
+                                  ))))
+                     ))
+                 (ite treei_member(iti_2,u_0)
+                     (
+                      !treei_member(iti_1,u_1) &&
+                      (
+                       !(u_0==i_0) &&
+                       (
+                        !(u_1==u_0) &&
+                        (ite treei_member(iti_0,u_1)
+                            (
+                             !treei_member(iti_2,u_1) &&
+                             (
+                              treei_member(iti_1,u_0) ||
+                              (
+                               !(u_1==i_1) &&
+                               !(u_1==i_0)
+                              )
+                             )
+                            )
+                            (
+                             !(u_0==i_1) &&
+                             (
+                              treei_member(iti_2,u_1) &&
+                              (
+                               !(u_1==i_1) ||
+                               (
+                                (i_1==i_0) &&
+                                !(i_0==i_0)
+                               )
+                              )
+                             )
+                            ))
+                       )
+                      )
+                     )
+                     (ite (u_1==i_0)
+                         (
+                          !(i_0==i_1) &&
+                          !(i_0==u_0)
+                         )
+                         (ite treei_member(iti_1,u_0)
+                             (ite treei_member(iti_0,u_1)
+                                 (
+                                  !treei_member(iti_1,u_1) &&
+                                  !treei_member(iti_2,u_1)
+                                 )
+                                 treei_member(iti_1,u_1))
+                             (ite treei_member(iti_0,u_1)
+                                 (ite (u_1==u_0)
+                                     (
+                                      (u_0==i_1) &&
+                                      !(i_1==i_1)
+                                     )
+                                     !(i_1==i_0))
+                                 (
+                                  (u_1==u_0) ||
+                                  (
+                                   (i_1==i_0) ||
+                                   (ite (u_1==i_1)
+                                       !(u_0==i_0)
+                                       (
+                                        (u_0==i_0) ||
+                                        (ite (u_0==i_1)
+                                            treei_member(iti_2,u_1)
+                                            !treei_member(iti_2,u_1))
+                                       ))
+                                  )
+                                 ))))))
+             (ite (u_1==i_1)
+                 (ite treei_member(iti_0,i_1)
+                     (ite treei_ancestor(iti_2,i_1,u_0)
+                         (
+                          treei_member(iti_2,u_0) ||
+                          (
+                           (u_0==i_0) &&
+                           !(i_1==i_0)
+                          )
+                         )
+                         (ite treei_member(iti_1,u_0)
+                             (
+                              !treei_member(iti_1,i_1) &&
+                              (
+                               (i_1==i_0) &&
+                               !(i_0==i_0)
+                              )
+                             )
+                             (ite (i_1==i_0)
+                                 !(i_0==i_0)
+                                 (ite treei_member(iti_2,u_0)
+                                     !treei_member(iti_2,i_1)
+                                     !(i_1==u_0)))))
+                     (
+                      treei_ancestor(iti_2,i_1,u_0) ||
+                      (
+                       (u_0==i_1) ||
+                       (ite (i_1==i_0)
+                           (
+                            !(i_0==i_0) ||
+                            (
+                             (u_0==i_0) ||
+                             (
+                              !treei_member(iti_2,i_0) &&
+                              !treei_member(iti_1,i_0)
+                             )
+                            )
+                           )
+                           (
+                            !treei_member(iti_2,u_0) ||
+                            !treei_member(iti_2,i_1)
+                           ))
+                      )
+                     ))
+                 (ite (u_1==i_0)
+                     (
+                      (i_1==i_0) ||
+                      (ite (u_0==i_1)
+                          (
+                           treei_member(iti_2,i_0) ||
+                           (
+                            !treei_member(iti_1,i_0) &&
+                            (
+                             !treei_member(iti_1,i_1) ||
+                             treei_member(iti_2,i_1)
+                            )
+                           )
+                          )
+                          (ite treei_member(iti_0,i_0)
+                              (
+                               treei_member(iti_2,i_0) ||
+                               !(u_0==i_0)
+                              )
+                              (
+                               !treei_member(iti_1,u_0) ||
+                               (
+                                (u_0==i_0) ||
+                                (
+                                 !treei_member(iti_2,i_0) ||
+                                 (
+                                  !treei_member(iti_2,u_0) ||
+                                  treei_ancestor(iti_2,i_0,u_0)
+                                 )
+                                )
+                               )
+                              )))
+                     )
+                     (ite treei_ancestor(iti_2,u_1,u_0)
+                         (ite (u_0==i_1)
+                             (
+                              !(i_1==i_0) ||
+                              (
+                               !treei_member(iti_1,u_1) &&
+                               treei_member(iti_2,u_1)
+                              )
+                             )
+                             (
+                              !(u_1==u_0) ||
+                              (ite (i_1==i_0)
+                                  (treei_member(iti_1,u_0) && treei_member(iti_2,u_0))
+                                  treei_member(iti_2,u_0))
+                             ))
+                         (ite (u_1==u_0)
+                             (
+                              treei_member(iti_2,u_0) ||
+                              ((u_0==i_1) || (u_0==i_0))
+                             )
+                             (ite treei_member(iti_2,u_0)
+                                 (ite treei_member(iti_2,u_1)
+                                     (ite treei_member(iti_1,u_1)
+                                         (
+                                          (u_0==i_1) ||
+                                          ((i_1==i_0) || (u_0==i_0))
+                                         )
+                                         (ite (i_1==i_0)
+                                             (
+                                              treei_member(iti_0,u_1) ||
+                                              !(u_0==i_0)
+                                             )
+                                             (
+                                              (u_0==i_1) ||
+                                              (
+                                               (u_0==i_0) ||
+                                               !treei_member(iti_0,u_1)
+                                              )
+                                             )))
+                                     (ite (u_0==i_1)
+                                         (
+                                          !(i_1==i_0) ||
+                                          (
+                                           !treei_member(iti_0,u_1) &&
+                                           !treei_member(iti_1,u_1)
+                                          )
+                                         )
+                                         (
+                                          !treei_member(iti_1,u_1) ||
+                                          (
+                                           !treei_member(iti_0,u_1) ||
+                                           (
+                                            !(u_0==i_0) &&
+                                            !(i_1==i_0)
+                                           )
+                                          )
+                                         )))
+                                 (ite treei_member(iti_1,u_1)
+                                     (ite treei_member(iti_0,u_1)
+                                         (ite (u_0==i_1)
+                                             !(i_1==i_0)
+                                             (
+                                              !treei_member(iti_2,u_1) ||
+                                              (
+                                               !(i_1==i_0) &&
+                                               !treei_member(iti_1,u_0)
+                                              )
+                                             ))
+                                         (
+                                          !treei_member(iti_1,u_0) ||
+                                          !(u_0==i_1)
+                                         ))
+                                     (
+                                      !(i_1==i_0) ||
+                                      (ite (u_0==i_0)
+                                          (
+                                           treei_member(iti_2,u_1) &&
+                                           !treei_member(iti_0,u_1)
+                                          )
+                                          (
+                                           !treei_member(iti_0,u_1) ||
+                                           (
+                                            !treei_member(iti_1,u_0) ||
+                                            !treei_member(iti_2,u_1)
+                                           )
+                                          ))
+                                     ))))))))
+         (ite treei_member(iti_2,u_0)
+             (ite treei_ancestor(iti_2,u_1,u_0)
+                 (ite (u_0==i_1)
+                     (
+                      treei_member(iti_0,u_1) ||
+                      (ite treei_member(iti_2,u_1)
+                          (
+                           treei_member(iti_1,i_1) ||
+                           (
+                            !treei_ancestor(iti_1,u_1,i_1) &&
+                            (
+                             !(u_1==i_1) ||
+                             (i_1==i_0)
+                            )
+                           )
+                          )
+                          (
+                           !(u_1==i_0) &&
+                           (
+                            !(i_1==i_0) ||
+                            !(i_0==i_0)
+                           )
+                          ))
+                     )
+                     (ite (u_1==u_0)
+                         (
+                          !(i_1==i_0) ||
+                          (
+                           !treei_ancestor(iti_1,u_0,u_0) ||
+                           treei_member(iti_1,u_0)
+                          )
+                         )
+                         (ite (u_0==i_0)
+                             (
+                              treei_member(iti_0,u_1) ||
+                              (ite treei_ancestor(iti_1,u_1,i_0)
+                                  (
+                                   treei_member(iti_2,u_1) &&
+                                   (
+                                    treei_member(iti_1,i_0) ||
+                                    !treei_member(iti_1,u_1)
+                                   )
+                                  )
+                                  (
+                                   treei_member(iti_1,i_0) ||
+                                   (
+                                    !treei_member(iti_2,u_1) &&
+                                    (
+                                     (u_1==i_1) ||
+                                     ((u_1==i_0) || (i_1==i_0))
+                                    )
+                                   )
+                                  ))
+                             )
+                             (ite (i_1==i_0)
+                                 (ite treei_ancestor(iti_1,u_1,u_0)
+                                     (ite treei_member(iti_0,u_1)
+                                         (
+                                          !(u_1==i_0) ||
+                                          treei_member(iti_1,i_0)
+                                         )
+                                         (
+                                          (u_1==i_0) ||
+                                          (
+                                           treei_member(iti_1,u_0) ||
+                                           (
+                                            !treei_member(iti_1,u_1) &&
+                                            treei_member(iti_2,u_1)
+                                           )
+                                          )
+                                         ))
+                                     (
+                                      treei_member(iti_1,u_1) ||
+                                      (ite treei_member(iti_0,u_1)
+                                          (
+                                           !(u_1==i_0) ||
+                                           treei_member(iti_2,i_0)
+                                          )
+                                          (
+                                           treei_member(iti_1,u_0) ||
+                                           (ite (u_1==i_0)
+                                               !(i_0==i_0)
+                                               treei_member(iti_2,u_1))
+                                          ))
+                                     ))
+                                 (
+                                  treei_member(iti_1,u_0) ||
+                                  (
+                                   (u_1==i_0) ||
+                                   (ite treei_member(iti_0,u_1)
+                                       (
+                                        (u_1==i_1) ||
+                                        !treei_member(iti_2,u_1)
+                                       )
+                                       (ite (u_1==i_1)
+                                           !treei_member(iti_1,i_1)
+                                           (treei_member(iti_2,u_1) || treei_member(iti_1,u_1))))
+                                  )
+                                 )))))
+                 (ite treei_ancestor(iti_1,u_1,u_0)
+                     (ite treei_member(iti_1,u_0)
+                         (
+                          !(u_0==i_1) &&
+                          (
+                           (u_1==u_0) ||
+                           (ite treei_member(iti_2,u_1)
+                               (
+                                !treei_member(iti_1,u_1) &&
+                                (ite treei_member(iti_0,u_1)
+                                    (
+                                     (i_1==i_0) &&
+                                     (
+                                      (u_1==i_0) &&
+                                      !(i_0==i_0)
+                                     )
+                                    )
+                                    (
+                                     !(i_1==i_0) &&
+                                     (
+                                      (u_1==i_0) ||
+                                      (
+                                       !(u_1==i_1) &&
+                                       (u_0==i_0)
+                                      )
+                                     )
+                                    ))
+                               )
+                               (
+                                treei_member(iti_1,u_1) ||
+                                (
+                                 !(u_0==i_0) &&
+                                 (ite (u_1==i_1)
+                                     (
+                                      !(i_1==i_0) &&
+                                      !treei_member(iti_0,i_1)
+                                     )
+                                     (
+                                      (i_1==i_0) &&
+                                      ((u_1==i_0) || treei_member(iti_0,u_1))
+                                     ))
+                                )
+                               ))
+                          )
+                         )
+                         (ite (i_1==i_0)
+                             (
+                              !(u_1==i_0) &&
+                              (
+                               !(u_1==u_0) &&
+                               (
+                                (u_0==i_0) &&
+                                (
+                                 !(i_0==i_0) ||
+                                 (
+                                  treei_member(iti_1,u_1) &&
+                                  (
+                                   !treei_member(iti_0,u_1) &&
+                                   !treei_member(iti_2,u_1)
+                                  )
+                                 )
+                                )
+                               )
+                              )
+                             )
+                             (ite treei_member(iti_2,u_1)
+                                 (
+                                  !(u_0==i_1) &&
+                                  (
+                                   (u_1==i_1) ||
+                                   ((u_1==u_0) || (u_0==i_0))
+                                  )
+                                 )
+                                 (
+                                  treei_member(iti_1,u_1) ||
+                                  (
+                                   (u_1==i_1) ||
+                                   (
+                                    treei_member(iti_0,u_1) ||
+                                    (
+                                     (u_1==i_0) &&
+                                     !(u_0==i_1)
+                                    )
+                                   )
+                                  )
+                                 ))))
+                     (ite (u_1==i_1)
+                         (ite (i_1==u_0)
+                             (
+                              !(u_0==i_0) ||
+                              !treei_member(iti_1,i_0)
+                             )
+                             (
+                              (u_0==i_1) ||
+                              (ite (i_1==i_0)
+                                  (
+                                   !(i_0==i_0) ||
+                                   (
+                                    (u_0==i_0) ||
+                                    (ite treei_member(iti_1,u_0)
+                                        (
+                                         !treei_member(iti_1,i_0) &&
+                                         !treei_member(iti_2,i_0)
+                                        )
+                                        (
+                                         treei_member(iti_2,i_0) ||
+                                         !treei_member(iti_1,i_0)
+                                        ))
+                                   )
+                                  )
+                                  (
+                                   !treei_member(iti_1,u_0) ||
+                                   !treei_member(iti_2,i_1)
+                                  ))
+                             ))
+                         (
+                          (u_1==u_0) ||
+                          (ite treei_member(iti_1,u_1)
+                              (ite (i_1==i_0)
+                                  (
+                                   (u_1==i_0) ||
+                                   (ite (u_0==i_0)
+                                       treei_member(iti_2,u_1)
+                                       (
+                                        !treei_member(iti_2,u_1) ||
+                                        treei_member(iti_1,u_0)
+                                       ))
+                                  )
+                                  (
+                                   (u_0==i_0) ||
+                                   (ite treei_member(iti_0,u_1)
+                                       (ite (u_1==i_0)
+                                           treei_member(iti_2,i_0)
+                                           (
+                                            (u_0==i_1) ||
+                                            !treei_member(iti_2,u_1)
+                                           ))
+                                       (ite (u_1==i_0)
+                                           (treei_member(iti_1,u_0) || treei_member(iti_2,i_0))
+                                           (
+                                            (u_0==i_1) ||
+                                            !treei_member(iti_2,u_1)
+                                           )))
+                                  ))
+                              (ite treei_member(iti_0,u_1)
+                                  (
+                                   (u_0==i_0) ||
+                                   (ite (i_1==i_0)
+                                       (
+                                        treei_member(iti_1,u_0) ||
+                                        !treei_member(iti_2,u_1)
+                                       )
+                                       (ite (u_1==i_0)
+                                           (
+                                            treei_member(iti_2,i_0) ||
+                                            !treei_member(iti_1,u_0)
+                                           )
+                                           (
+                                            (u_0==i_1) ||
+                                            !treei_member(iti_2,u_1)
+                                           )))
+                                  )
+                                  (
+                                   (u_1==i_0) ||
+                                   (ite (u_0==i_0)
+                                       (ite treei_member(iti_1,i_0)
+                                           (
+                                            !(i_1==i_0) ||
+                                            !treei_member(iti_2,u_1)
+                                           )
+                                           (ite (i_0==i_1)
+                                               (
+                                                !(i_1==i_1) ||
+                                                !treei_member(iti_2,u_1)
+                                               )
+                                               ((i_1==i_0) || treei_member(iti_2,u_1))))
+                                       (
+                                        (u_0==i_1) ||
+                                        (
+                                         treei_member(iti_1,u_0) &&
+                                         (
+                                          (i_1==i_0) ||
+                                          !treei_member(iti_2,u_1)
+                                         )
+                                        )
+                                       ))
+                                  )))
+                         ))))
+             (ite (u_0==i_0)
+                 (ite treei_member(iti_1,i_0)
+                     (
+                      !(u_1==i_0) &&
+                      (
+                       !treei_member(iti_2,u_1) ||
+                       (
+                        !treei_ancestor(iti_1,u_1,i_0) &&
+                        (
+                         !treei_member(iti_0,u_1) ||
+                         !(u_1==i_1)
+                        )
+                       )
+                      )
+                     )
+                     (ite treei_member(iti_0,u_1)
+                         (
+                          !treei_ancestor(iti_1,u_1,i_0) ||
+                          (
+                           treei_ancestor(iti_2,u_1,i_0) ||
+                           (
+                            !treei_member(iti_2,u_1) &&
+                            !treei_member(iti_1,u_1)
+                           )
+                          )
+                         )
+                         (ite (u_1==i_0)
+                             (
+                              !(i_1==i_0) ||
+                              !(i_0==i_0)
+                             )
+                             (
+                              (i_1==i_0) ||
+                              (ite treei_ancestor(iti_2,u_1,i_0)
+                                  !(u_1==i_1)
+                                  (
+                                   !treei_ancestor(iti_1,u_1,i_0) ||
+                                   (
+                                    !treei_member(iti_1,u_1) &&
+                                    (ite (u_1==i_1)
+                                        !treei_member(iti_2,i_1)
+                                        treei_member(iti_2,u_1))
+                                   )
+                                  ))
+                             ))))
+                 (ite (i_1==i_0)
+                     (ite treei_member(iti_1,u_0)
+                         (ite treei_ancestor(iti_1,u_1,u_0)
+                             (
+                              !treei_member(iti_1,u_1) &&
+                              (
+                               (u_1==u_0) ||
+                               (
+                                treei_member(iti_0,u_1) ||
+                                !treei_member(iti_2,u_1)
+                               )
+                              )
+                             )
+                             (ite treei_member(iti_2,u_1)
+                                 (
+                                  !treei_member(iti_0,u_1) ||
+                                  treei_member(iti_1,u_1)
+                                 )
+                                 (
+                                  !treei_member(iti_1,u_1) ||
+                                  (
+                                   !treei_member(iti_0,u_1) &&
+                                   !(u_1==u_0)
+                                  )
+                                 )))
+                         (
+                          (u_1==u_0) ||
+                          (ite treei_member(iti_0,u_1)
+                              (ite treei_member(iti_2,u_1)
+                                  (
+                                   !treei_ancestor(iti_1,u_1,u_0) ||
+                                   (
+                                    !treei_member(iti_1,u_1) &&
+                                    (
+                                     (u_1==i_0) &&
+                                     !(i_0==i_0)
+                                    )
+                                   )
+                                  )
+                                  (ite treei_ancestor(iti_2,u_1,u_0)
+                                      !treei_member(iti_1,u_1)
+                                      (
+                                       !treei_ancestor(iti_1,u_1,u_0) ||
+                                       (
+                                        (u_1==i_0) &&
+                                        !(i_0==i_0)
+                                       )
+                                      )))
+                              (ite treei_ancestor(iti_2,u_1,u_0)
+                                  (
+                                   !(u_1==i_0) ||
+                                   (
+                                    !(i_0==i_0) ||
+                                    !treei_member(iti_2,i_0)
+                                   )
+                                  )
+                                  (ite treei_member(iti_2,u_1)
+                                      (
+                                       !treei_ancestor(iti_1,u_1,u_0) ||
+                                       (
+                                        !treei_member(iti_1,u_1) &&
+                                        (
+                                         !(u_1==i_0) ||
+                                         !(i_0==i_0)
+                                        )
+                                       )
+                                      )
+                                      (ite (u_1==i_0)
+                                          (
+                                           !treei_member(iti_1,i_0) ||
+                                           !(i_0==i_0)
+                                          )
+                                          (
+                                           treei_member(iti_1,u_1) ||
+                                           !treei_ancestor(iti_1,u_1,u_0)
+                                          )))))
+                         ))
+                     (ite treei_member(iti_2,u_1)
+                         (
+                          (u_1==u_0) ||
+                          (ite (u_0==i_1)
+                              (
+                               !treei_member(iti_0,u_1) ||
+                               treei_member(iti_1,u_1)
+                              )
+                              (
+                               treei_member(iti_1,u_0) ||
+                               (ite treei_member(iti_0,u_1)
+                                   (
+                                    !treei_ancestor(iti_1,u_1,u_0) ||
+                                    ((u_1==i_1) && treei_ancestor(iti_2,i_1,u_0))
+                                   )
+                                   (ite (u_1==i_1)
+                                       (
+                                        !treei_ancestor(iti_1,i_1,u_0) ||
+                                        treei_ancestor(iti_2,i_1,u_0)
+                                       )
+                                       (
+                                        !treei_member(iti_1,u_1) ||
+                                        (
+                                         !treei_ancestor(iti_1,u_1,u_0) &&
+                                         (
+                                          !(u_1==i_0) ||
+                                          !treei_ancestor(iti_2,i_0,u_0)
+                                         )
+                                        )
+                                       )))
+                              ))
+                         )
+                         (ite (u_1==i_0)
+                             (
+                              !treei_ancestor(iti_1,i_0,u_0) ||
+                              (
+                               (i_0==i_1) ||
+                               (
+                                treei_member(iti_1,i_0) ||
+                                (
+                                 (u_0==i_1) &&
+                                 !treei_member(iti_0,i_0)
+                                )
+                               )
+                              )
+                             )
+                             (ite (u_0==i_1)
+                                 (ite treei_ancestor(iti_2,u_1,i_1)
+                                     (
+                                      !(u_1==i_1) &&
+                                      !treei_member(iti_0,u_1)
+                                     )
+                                     (
+                                      !(u_1==i_1) ||
+                                      !(i_1==i_1)
+                                     ))
+                                 (ite (u_1==u_0)
+                                     !treei_member(iti_1,u_0)
+                                     (ite treei_member(iti_1,u_0)
+                                         (
+                                          treei_member(iti_0,u_1) ||
+                                          (
+                                           !treei_member(iti_1,u_1) ||
+                                           (
+                                            !treei_ancestor(iti_1,u_1,u_0) &&
+                                            !treei_ancestor(iti_2,u_1,u_0)
+                                           )
+                                          )
+                                         )
+                                         (ite (u_1==i_1)
+                                             (ite treei_member(iti_1,i_1)
+                                                 (
+                                                  !treei_ancestor(iti_2,i_1,u_0) ||
+                                                  (
+                                                   !treei_member(iti_0,i_1) &&
+                                                   !treei_ancestor(iti_1,i_1,u_0)
+                                                  )
+                                                 )
+                                                 (
+                                                  !treei_ancestor(iti_1,i_1,u_0) ||
+                                                  !treei_member(iti_0,i_1)
+                                                 ))
+                                             (
+                                              treei_member(iti_1,u_1) ||
+                                              (
+                                               !treei_ancestor(iti_1,u_1,u_0) ||
+                                               (ite treei_member(iti_0,u_1)
+                                                   !treei_ancestor(iti_2,u_1,u_0)
+                                                   treei_ancestor(iti_2,u_1,u_0))
+                                              )
+                                             ))))))))))))
+)
